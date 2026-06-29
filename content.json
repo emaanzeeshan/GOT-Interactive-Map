@@ -1,0 +1,323 @@
+{
+  "timeline": [
+    {
+      "id": "age-of-heroes",
+      "title": "Age of Heroes",
+      "years": "Before the Conquest",
+      "description": "Legends of Bran the Builder and the First Men define the early age of Westeros.",
+      "events": ["Construction of the Wall", "Rise of the First Men", "Founding of House Stark"],
+      "politicalShift": "Northern clans hold sway over the frozen lands."
+    },
+    {
+      "id": "the-long-night",
+      "title": "The Long Night",
+      "years": "8,000 years before the current era",
+      "description": "The White Walkers and the Others descend upon the world of men.",
+      "events": ["The Wall is raised", "The Night's Watch is founded", "The Last Hero stands"],
+      "politicalShift": "The realms unite against the dead."
+    },
+    {
+      "id": "aegons-conquest",
+      "title": "Aegon's Conquest",
+      "years": "2,000 years before the current era",
+      "description": "Aegon Targaryen unites the Seven Kingdoms with dragonfire.",
+      "events": ["The Field of Fire", "Dragonstone becomes the crown's seat", "The Iron Throne is forged"],
+      "politicalShift": "Targaryens rule from King's Landing."
+    },
+    {
+      "id": "dance-of-the-dragons",
+      "title": "Dance of the Dragons",
+      "years": "129 AC",
+      "description": "Sister against sister as dragons tear the realm apart.",
+      "events": ["Rhaenyra's claim", "Aemond and Vhagar", "The fall of Dragonstone"],
+      "politicalShift": "The dragonline fractures and the realm bleeds."
+    },
+    {
+      "id": "blackfyre-rebellions",
+      "title": "Blackfyre Rebellions",
+      "years": "220-260 AC",
+      "description": "The Blackfyres challenge the Targaryen line with swords and ambition.",
+      "events": ["Daemon Blackfyre's uprising", "Siege of Whitewalls", "The realm turns civil"],
+      "politicalShift": "The realm is unsettled by succession feuds."
+    },
+    {
+      "id": "roberts-rebellion",
+      "title": "Robert's Rebellion",
+      "years": "283 AC",
+      "description": "The last great rebellion breaks the Targaryen hold.",
+      "events": ["The Sack of King's Landing", "Lyanna and Rhaegar", "Robert Baratheon takes the throne"],
+      "politicalShift": "The Baratheons and Starks rise."
+    },
+    {
+      "id": "war-of-the-five-kings",
+      "title": "War of the Five Kings",
+      "years": "299 AC",
+      "description": "The realm fractures after the death of King Robert.",
+      "events": ["Battle of the Green Fork", "Siege of Riverrun", "The Battle of Blackwater"],
+      "politicalShift": "The Seven Kingdoms are divided and bloodied."
+    },
+    {
+      "id": "house-of-the-dragon",
+      "title": "Events of House of the Dragon",
+      "years": "120-131 AC",
+      "description": "The Targaryen civil war threatens the future of the Iron Throne.",
+      "events": ["The Great Council", "The dragonseeds", "The fall of King's Landing"],
+      "politicalShift": "A new dragon age begins."
+    },
+    {
+      "id": "game-of-thrones",
+      "title": "Events of Game of Thrones",
+      "years": "298-305 AC",
+      "description": "The final winter and the struggle for the throne reach their climax.",
+      "events": ["The Battle of Winterfell", "The Long Night", "The Great War"],
+      "politicalShift": "The realm is transformed by fire and ice."
+    }
+  ],
+  "houses": [
+    {
+      "name": "House Stark",
+      "words": "Winter is Coming",
+      "sigil": "S",
+      "territory": "The North",
+      "allies": ["House Arryn", "House Tully"],
+      "enemies": ["House Lannister", "House Bolton"],
+      "currentRuler": "Lord Edmure Stark",
+      "rulers": {
+        "age-of-heroes": "Bran the Builder",
+        "the-long-night": "The Winter Kings",
+        "aegons-conquest": "Kingdom of the North",
+        "dance-of-the-dragons": "Aegon the Conqueror's allies",
+        "roberts-rebellion": "Eddard Stark",
+        "war-of-the-five-kings": "Robb Stark",
+        "house-of-the-dragon": "Arya Stark",
+        "game-of-thrones": "Jon Snow"
+      }
+    },
+    {
+      "name": "House Lannister",
+      "words": "Hear Me Roar",
+      "sigil": "L",
+      "territory": "The Westerlands",
+      "allies": ["House Clegane", "House Tyrell"],
+      "enemies": ["House Stark", "House Baratheon"],
+      "currentRuler": "Tywin Lannister",
+      "rulers": {
+        "roberts-rebellion": "Tywin Lannister",
+        "war-of-the-five-kings": "Tyrion Lannister",
+        "house-of-the-dragon": "Jaime Lannister",
+        "game-of-thrones": "Cersei Lannister"
+      }
+    },
+    {
+      "name": "House Targaryen",
+      "words": "Fire and Blood",
+      "sigil": "T",
+      "territory": "Dragonstone and King's Landing",
+      "allies": ["House Velaryon", "House Celtigar"],
+      "enemies": ["House Stark", "House Baratheon"],
+      "currentRuler": "Daemon Targaryen",
+      "rulers": {
+        "aegons-conquest": "Aegon Targaryen",
+        "dance-of-the-dragons": "Rhaenyra Targaryen",
+        "house-of-the-dragon": "Aegon II Targaryen",
+        "game-of-thrones": "Daenerys Targaryen"
+      }
+    },
+    {
+      "name": "House Baratheon",
+      "words": "Ours is the Fury",
+      "sigil": "B",
+      "territory": "The Stormlands",
+      "allies": ["House Stark", "House Arryn"],
+      "enemies": ["House Lannister", "House Targaryen"],
+      "currentRuler": "Stannis Baratheon",
+      "rulers": {
+        "roberts-rebellion": "Robert Baratheon",
+        "war-of-the-five-kings": "Renly Baratheon",
+        "game-of-thrones": "Tommen Baratheon"
+      }
+    }
+  ],
+  "characters": [
+    {
+      "name": "Jon Snow",
+      "initials": "JS",
+      "house": "House Stark",
+      "bio": "The King in the North and a sworn defender of the realm.",
+      "weapon": "Longclaw",
+      "statusByEra": {
+        "war-of-the-five-kings": "Alive",
+        "house-of-the-dragon": "Alive",
+        "game-of-thrones": "Alive"
+      },
+      "path": "The Wall to Winterfell"
+    },
+    {
+      "name": "Daenerys Targaryen",
+      "initials": "DT",
+      "house": "House Targaryen",
+      "bio": "The dragon queen who sought to free the world from tyrants.",
+      "weapon": "Whip and dragonfire",
+      "statusByEra": {
+        "house-of-the-dragon": "Alive",
+        "game-of-thrones": "Deceased"
+      },
+      "path": "Dragonstone to Meereen"
+    },
+    {
+      "name": "Tyrion Lannister",
+      "initials": "TL",
+      "house": "House Lannister",
+      "bio": "The cleverest man in Westeros, master of strategy and wit.",
+      "weapon": "Crossbow and wit",
+      "statusByEra": {
+        "war-of-the-five-kings": "Alive",
+        "game-of-thrones": "Alive"
+      },
+      "path": "Casterly Rock to King's Landing"
+    },
+    {
+      "name": "Arya Stark",
+      "initials": "AS",
+      "house": "House Stark",
+      "bio": "A faceless assassin who journeys across the known world.",
+      "weapon": "Needle",
+      "statusByEra": {
+        "game-of-thrones": "Alive"
+      },
+      "path": "Winterfell to Braavos"
+    }
+  ],
+  "dragons": [
+    {
+      "name": "Drogon",
+      "breed": "Targaryen dragon",
+      "description": "The largest and most fearsome of Daenerys's dragons.",
+      "rider": "Daenerys Targaryen",
+      "size": "Massive",
+      "death": "Unknown"
+    },
+    {
+      "name": "Vhagar",
+      "breed": "Old Valyrian",
+      "description": "The oldest and largest dragon of the Dance of the Dragons.",
+      "rider": "Aemond Targaryen",
+      "size": "Colossal",
+      "death": "Killed in battle"
+    },
+    {
+      "name": "Syrax",
+      "breed": "Targaryen dragon",
+      "description": "The mount of Rhaenyra Targaryen, bright and swift.",
+      "rider": "Rhaenyra Targaryen",
+      "size": "Large",
+      "death": "Killed in battle"
+    }
+  ],
+  "battles": [
+    {
+      "name": "The Battle of the Trident",
+      "location": "The Riverlands",
+      "summary": "The decisive clash where Robert Baratheon defeats Rhaegar Targaryen.",
+      "commanders": ["Robert Baratheon", "Rhaegar Targaryen"],
+      "outcome": "Targaryen defeat",
+      "era": "Robert's Rebellion"
+    },
+    {
+      "name": "The Battle of Blackwater",
+      "location": "Blackwater Bay",
+      "summary": "The Lannister fleet and army defend King's Landing from Stannis.",
+      "commanders": ["Tyrion Lannister", "Stannis Baratheon"],
+      "outcome": "Lannister victory",
+      "era": "War of the Five Kings"
+    },
+    {
+      "name": "The Battle of Winterfell",
+      "location": "Winterfell",
+      "summary": "A turning point in the final war against the dead.",
+      "commanders": ["Jon Snow", "Daenerys Targaryen"],
+      "outcome": "Alliance victory",
+      "era": "Game of Thrones"
+    }
+  ],
+  "castles": [
+    {
+      "name": "Winterfell",
+      "region": "The North",
+      "description": "The ancient seat of House Stark, crowned by a massive keep.",
+      "house": "House Stark",
+      "notable": "The crypts and the godswood",
+      "feature": "A living history of the North"
+    },
+    {
+      "name": "Castle Black",
+      "region": "The Wall",
+      "description": "The fortress of the Night's Watch on the edge of the world.",
+      "house": "Night's Watch",
+      "notable": "The Wall and its defenders",
+      "feature": "Guarding the realm from the dead"
+    },
+    {
+      "name": "Dragonstone",
+      "region": "The Narrow Sea",
+      "description": "The ancient volcanic keep of House Targaryen.",
+      "house": "House Targaryen",
+      "notable": "The place of fire and birth of dragons",
+      "feature": "A fortress of black stone"
+    }
+  ],
+  "locations": [
+    {
+      "id": "winterfell",
+      "name": "Winterfell",
+      "x": 24,
+      "y": 34,
+      "type": "Castles",
+      "category": "event",
+      "description": "The ancestral seat of House Stark, rich in history and buried kings.",
+      "ruler": "Lord of Winterfell",
+      "events": ["The Long Night", "The War of the Five Kings"],
+      "characters": ["Jon Snow", "Arya Stark"],
+      "houses": ["House Stark"]
+    },
+    {
+      "id": "king's-landing",
+      "name": "King's Landing",
+      "x": 68,
+      "y": 54,
+      "type": "Cities",
+      "category": "coronation",
+      "description": "The capital of the Seven Kingdoms, where crowns are forged and broken.",
+      "ruler": "The King",
+      "events": ["Aegon's Conquest", "The Red Keep"],
+      "characters": ["Daenerys Targaryen", "Tyrion Lannister"],
+      "houses": ["House Lannister", "House Targaryen"]
+    },
+    {
+      "id": "dragonstone",
+      "name": "Dragonstone",
+      "x": 82,
+      "y": 42,
+      "type": "Dragons",
+      "category": "event",
+      "description": "A black volcanic fortress, cradle of dragons and Targaryen ambition.",
+      "ruler": "House Targaryen",
+      "events": ["Dance of the Dragons", "The birth of dragons"],
+      "characters": ["Daenerys Targaryen", "Rhaenyra Targaryen"],
+      "houses": ["House Targaryen"]
+    },
+    {
+      "id": "the-wall",
+      "name": "The Wall",
+      "x": 18,
+      "y": 14,
+      "type": "Battles",
+      "category": "event",
+      "description": "A colossal barrier built to keep the dead beyond the realm.",
+      "ruler": "The Night's Watch",
+      "events": ["The Long Night", "The White Walkers"],
+      "characters": ["Jon Snow"],
+      "houses": ["House Stark"]
+    }
+  ]
+}

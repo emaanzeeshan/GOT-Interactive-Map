@@ -161,3 +161,167 @@
     <script src="assets/js/app.js"></script>
   </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The History of Westeros</title>
+    <meta name="description" content="An immersive interactive archive of Westeros and Essos." />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loading-embers"></div>
+      <div class="fog fog-1"></div>
+      <div class="fog fog-2"></div>
+      <div class="dragon dragon-1"></div>
+      <div class="dragon dragon-2"></div>
+      <div class="torch torch-1"></div>
+      <div class="torch torch-2"></div>
+      <div class="loading-content">
+        <p class="loading-label">Ancient Chronicles</p>
+        <h1>The History of Westeros</h1>
+        <button id="startJourney" class="btn primary">Begin Your Journey</button>
+      </div>
+    </div>
+
+    <header class="top-nav">
+      <a class="brand" href="#home">The History of Westeros</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+      <nav class="nav-links" id="navMenu">
+        <a href="#home">Home</a>
+        <a href="#map">Interactive Map</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#houses">Great Houses</a>
+        <a href="#characters">Characters</a>
+        <a href="#dragons">Dragons</a>
+        <a href="#battles">Battles</a>
+        <a href="#castles">Castles</a>
+        <a href="#search">Search</a>
+      </nav>
+      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
+    </header>
+
+    <main id="mainContent">
+      <section class="hero section" id="home">
+        <div class="hero-backdrop"></div>
+        <div class="stars"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="dragon dragon-3"></div>
+        <div class="hero-content">
+          <p class="section-kicker">Ancient archive • Legend and lore</p>
+          <h1>The History of Westeros</h1>
+          <p class="hero-copy">
+            Enter the chronicles of kings, dragons, and the iron throne. Follow the age of heroes,
+            the reign of fire, and the wars that shaped the realm.
+          </p>
+          <div class="hero-actions">
+            <a href="#map" class="btn primary">Enter the Map</a>
+            <a href="#timeline" class="btn ghost">Read the Timeline</a>
+          </div>
+        </div>
+        <div class="hero-side-card">
+          <h3>Current Chronicle</h3>
+          <ul>
+            <li>Age of Heroes</li>
+            <li>Conquest of the Seven Kingdoms</li>
+            <li>Rise of the Dragons</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="map">
+        <div class="section-heading">
+          <p class="section-kicker">Interactive experience</p>
+          <h2>Interactive Map of Westeros and Essos</h2>
+          <p>Click each kingdom, city, and landmark to read its story.</p>
+        </div>
+        <div class="toolbar">
+          <div class="filter-list" id="filterList"></div>
+          <div class="map-controls">
+            <button data-zoom="out" class="icon-btn">−</button>
+            <button data-zoom="reset" class="icon-btn">⟲</button>
+            <button data-zoom="in" class="icon-btn">+</button>
+          </div>
+        </div>
+        <div class="map-layout">
+          <div class="map-stage" id="mapStage">
+            <img src="assets/images/map.svg" alt="Stylized map of Westeros and Essos" class="map-image" />
+            <div class="map-markers" id="mapMarkers"></div>
+          </div>
+          <aside class="info-panel" id="mapPanel"></aside>
+        </div>
+      </section>
+
+      <section class="section" id="timeline">
+        <div class="section-heading">
+          <p class="section-kicker">Chronicles</p>
+          <h2>Draggable Historical Timeline</h2>
+          <p>Move through the ages and watch noble houses, battles, dragons, and rulers shift.</p>
+        </div>
+        <div class="timeline-shell">
+          <input type="range" min="0" max="8" value="0" id="timelineSlider" />
+          <div class="timeline-labels" id="timelineLabels"></div>
+          <div class="timeline-panel" id="timelinePanel"></div>
+        </div>
+      </section>
+
+      <section class="section" id="houses">
+        <div class="section-heading">
+          <p class="section-kicker">Noble bloodlines</p>
+          <h2>Great Houses</h2>
+        </div>
+        <div class="cards-grid" id="housesGrid"></div>
+      </section>
+
+      <section class="section" id="characters">
+        <div class="section-heading">
+          <p class="section-kicker">Living legends</p>
+          <h2>Characters</h2>
+        </div>
+        <div class="cards-grid" id="charactersGrid"></div>
+      </section>
+
+      <section class="section" id="dragons">
+        <div class="section-heading">
+          <p class="section-kicker">Fire and blood</p>
+          <h2>Dragons</h2>
+        </div>
+        <div class="cards-grid" id="dragonsGrid"></div>
+      </section>
+
+      <section class="section" id="battles">
+        <div class="section-heading">
+          <p class="section-kicker">War and conquest</p>
+          <h2>Battles</h2>
+        </div>
+        <div class="cards-grid" id="battlesGrid"></div>
+      </section>
+
+      <section class="section" id="castles">
+        <div class="section-heading">
+          <p class="section-kicker">Stone and steel</p>
+          <h2>Castles</h2>
+        </div>
+        <div class="cards-grid" id="castlesGrid"></div>
+      </section>
+
+      <section class="section" id="search">
+        <div class="section-heading">
+          <p class="section-kicker">Seek the realm</p>
+          <h2>Search the Archive</h2>
+          <p>Search for characters, houses, dragons, battles, castles, and cities.</p>
+        </div>
+        <div class="search-shell">
+          <input type="search" id="searchInput" placeholder="Search the realm..." />
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
