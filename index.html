@@ -8,14 +8,23 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+
+    <!-- ═══ CINEMATIC FIXED BACKGROUND ═══ -->
+    <div class="cinematic-scene" id="cinematicScene" aria-hidden="true">
+        <div class="cinematic-bg"></div>
+        <canvas id="snowCanvas"></canvas>
+        <canvas id="dragonCanvas"></canvas>
+        <div class="wolf-left-img"></div>
+        <div class="cinematic-layer fog-layer" data-parallax="0.26"></div>
+        <div class="cinematic-layer fog-layer fog-layer-2" data-parallax="0.30"></div>
+        <div class="cinematic-layer overlay"></div>
+    </div>
+
+    <!-- ═══ LOADING / INTRO SCREEN ═══ -->
     <div class="loading-screen" id="loadingScreen">
       <div class="loading-embers"></div>
-      <div class="fog fog-1"></div>
-      <div class="fog fog-2"></div>
-      <div class="dragon dragon-1"></div>
-      <div class="dragon dragon-2"></div>
-      <div class="torch torch-1"></div>
-      <div class="torch torch-2"></div>
+      <div class="loading-dragon">🐉</div>
+      <div class="loading-dragon loading-dragon-2">🐉</div>
       <div class="loading-content">
         <p class="loading-label">Ancient Chronicles</p>
         <h1>The History of Westeros</h1>
@@ -23,14 +32,15 @@
       </div>
     </div>
 
+    <!-- ═══ NAV ═══ -->
     <header class="top-nav">
       <a class="brand" href="#home">The History of Westeros</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
       <nav class="nav-links" id="navMenu">
         <a href="#home">Home</a>
-        <a href="#map">Interactive Map</a>
+        <a href="#map">Map</a>
         <a href="#timeline">Timeline</a>
-        <a href="#houses">Great Houses</a>
+        <a href="#houses">Houses</a>
         <a href="#characters">Characters</a>
         <a href="#dragons">Dragons</a>
         <a href="#battles">Battles</a>
@@ -41,14 +51,15 @@
     </header>
 
     <main id="mainContent">
+
+      <!-- ── HERO ── -->
       <section class="hero section" id="home">
         <div class="hero-backdrop"></div>
         <div class="stars"></div>
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
-        <div class="dragon dragon-3"></div>
         <div class="hero-content">
-          <p class="section-kicker">Ancient archive • Legend and lore</p>
+          <p class="section-kicker">Ancient archive · Legend and lore</p>
           <h1>The History of Westeros</h1>
           <p class="hero-copy">
             Enter the chronicles of kings, dragons, and the iron throne. Follow the age of heroes,
@@ -69,11 +80,12 @@
         </div>
       </section>
 
+      <!-- ── MAP ── -->
       <section class="section" id="map">
         <div class="section-heading">
           <p class="section-kicker">Interactive experience</p>
-          <h2>Interactive Map of Westeros and Essos</h2>
-          <p>Click each kingdom, city, and landmark to read its story.</p>
+          <h2>Interactive Map of Westeros &amp; Essos</h2>
+          <p>Click each kingdom, city, and landmark to read its story — and hear the echoes of battle.</p>
         </div>
         <div class="toolbar">
           <div class="filter-list" id="filterList"></div>
@@ -85,18 +97,23 @@
         </div>
         <div class="map-layout">
           <div class="map-stage" id="mapStage">
-            <img src="assets/images/map.svg" alt="Stylized map of Westeros and Essos" class="map-image" />
+            <img src="assets/images/map.svg" alt="Stylised map of Westeros and Essos" class="map-image" />
             <div class="map-markers" id="mapMarkers"></div>
           </div>
-          <aside class="info-panel" id="mapPanel"></aside>
+          <aside class="info-panel" id="mapPanel">
+            <p style="color:var(--muted);font-size:0.9rem;margin:0">
+              Click a glowing marker on the map to read the lore of that location.
+            </p>
+          </aside>
         </div>
       </section>
 
+      <!-- ── TIMELINE ── -->
       <section class="section" id="timeline">
         <div class="section-heading">
           <p class="section-kicker">Chronicles</p>
-          <h2>Draggable Historical Timeline</h2>
-          <p>Move through the ages and watch noble houses, battles, dragons, and rulers shift.</p>
+          <h2>Historical Timeline</h2>
+          <p>Drag the slider through the ages — houses rise, dragons fall, and the realm transforms.</p>
         </div>
         <div class="timeline-shell">
           <input type="range" min="0" max="8" value="0" id="timelineSlider" />
@@ -105,14 +122,17 @@
         </div>
       </section>
 
+      <!-- ── HOUSES ── -->
       <section class="section" id="houses">
         <div class="section-heading">
           <p class="section-kicker">Noble bloodlines</p>
           <h2>Great Houses</h2>
+          <p>Rulers shift as you move through eras on the timeline above.</p>
         </div>
         <div class="cards-grid" id="housesGrid"></div>
       </section>
 
+      <!-- ── CHARACTERS ── -->
       <section class="section" id="characters">
         <div class="section-heading">
           <p class="section-kicker">Living legends</p>
@@ -121,6 +141,7 @@
         <div class="cards-grid" id="charactersGrid"></div>
       </section>
 
+      <!-- ── DRAGONS ── -->
       <section class="section" id="dragons">
         <div class="section-heading">
           <p class="section-kicker">Fire and blood</p>
@@ -129,6 +150,7 @@
         <div class="cards-grid" id="dragonsGrid"></div>
       </section>
 
+      <!-- ── BATTLES ── -->
       <section class="section" id="battles">
         <div class="section-heading">
           <p class="section-kicker">War and conquest</p>
@@ -137,6 +159,7 @@
         <div class="cards-grid" id="battlesGrid"></div>
       </section>
 
+      <!-- ── CASTLES ── -->
       <section class="section" id="castles">
         <div class="section-heading">
           <p class="section-kicker">Stone and steel</p>
@@ -145,6 +168,7 @@
         <div class="cards-grid" id="castlesGrid"></div>
       </section>
 
+      <!-- ── SEARCH ── -->
       <section class="section" id="search">
         <div class="section-heading">
           <p class="section-kicker">Seek the realm</p>
@@ -152,10 +176,11 @@
           <p>Search for characters, houses, dragons, battles, castles, and cities.</p>
         </div>
         <div class="search-shell">
-          <input type="search" id="searchInput" placeholder="Search the realm..." />
+          <input type="search" id="searchInput" placeholder="Search the realm — e.g. Stark, Drogon, Winterfell…" />
           <div class="search-results" id="searchResults"></div>
         </div>
       </section>
+
     </main>
 
     <script src="assets/js/app.js"></script>
