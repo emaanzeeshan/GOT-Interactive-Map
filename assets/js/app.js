@@ -15,15 +15,40 @@ const state = {
 
 const filterOptions = ['all', 'Battles', 'Houses', 'Dragons', 'Castles', 'Characters', 'Coronations', 'Events'];
 
+function getFallbackData() {
+  return {
+    timeline: [{ id: 'intro', title: 'The Realm', years: 'Ancient', description: 'The tale begins here.', events: [], politicalShift: 'The realm is awakening.' }],
+    houses: [],
+    characters: [],
+    dragons: [],
+    battles: [],
+    castles: [],
+    locations: [],
+  };
+}
+
 async function init() {
-  const response = await fetch('assets/data/content.json');
-  state.data = await response.json();
+  bindStartJourney();
+
+  try {
+    const response = await fetch('assets/data/content.json');
+    if (!response.ok) throw new Error('Data request failed');
+    state.data = await response.json();
+  } catch (error) {
+    console.warn('Using fallback content because the lore data could not be loaded.', error);
+    state.data = getFallbackData();
+  }
+
   renderFilters();
   renderTimeline();
   renderSections();
   bindEvents();
-  setActiveEra(0);
-  setActiveLocation(state.data.locations[0].id);
+  if (state.data.timeline?.length) {
+    setActiveEra(0);
+  }
+  if (state.data.locations?.length) {
+    setActiveLocation(state.data.locations[0].id);
+  }
   setSectionTheme('home');
 }
 
@@ -198,6 +223,21 @@ function setActiveLocation(id) {
   renderMapMarkers();
 }
 
+function bindStartJourney() {
+  const button = document.getElementById('startJourney');
+  if (!button) return;
+  button.addEventListener('click', handleJourneyStart);
+}
+
+function handleJourneyStart() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hidden');
+  }
+  playTheme('home');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function bindEvents() {
   document.querySelectorAll('.filter-chip').forEach((chip) => {
     chip.addEventListener('click', () => {
@@ -218,67 +258,75 @@ function bindEvents() {
         state.panY = 0;
       }
       const image = document.querySelector('.map-image');
-      image.style.transform = `scale(${state.zoom}) translate(${state.panX}px, ${state.panY}px)`;
+      if (image) {
+        image.style.transform = `scale(${state.zoom}) translate(${state.panX}px, ${state.panY}px)`;
+      }
     });
   });
 
-  document.getElementById('navToggle').addEventListener('click', () => {
-    document.getElementById('navMenu').classList.toggle('open');
-  });
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+    });
+  }
 
   document.querySelectorAll('.nav-links a').forEach((link) => {
     link.addEventListener('click', () => {
-      document.getElementById('navMenu').classList.remove('open');
+      if (navMenu) {
+        navMenu.classList.remove('open');
+      }
       setSectionTheme(link.getAttribute('href').slice(1));
     });
   });
 
-  document.getElementById('searchInput').addEventListener('input', (event) => {
-    const query = event.target.value.trim().toLowerCase();
-    if (!query) {
-      document.getElementById('searchResults').innerHTML = '';
-      return;
-    }
-    const results = [
-      ...state.data.characters.filter((item) => item.name.toLowerCase().includes(query)),
-      ...state.data.houses.filter((item) => item.name.toLowerCase().includes(query)),
-      ...state.data.dragons.filter((item) => item.name.toLowerCase().includes(query)),
-      ...state.data.battles.filter((item) => item.name.toLowerCase().includes(query)),
-      ...state.data.castles.filter((item) => item.name.toLowerCase().includes(query)),
-      ...state.data.locations.filter((item) => item.name.toLowerCase().includes(query)),
-    ];
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      if (!query) {
+        document.getElementById('searchResults').innerHTML = '';
+        return;
+      }
+      const results = [
+        ...state.data.characters.filter((item) => item.name.toLowerCase().includes(query)),
+        ...state.data.houses.filter((item) => item.name.toLowerCase().includes(query)),
+        ...state.data.dragons.filter((item) => item.name.toLowerCase().includes(query)),
+        ...state.data.battles.filter((item) => item.name.toLowerCase().includes(query)),
+        ...state.data.castles.filter((item) => item.name.toLowerCase().includes(query)),
+        ...state.data.locations.filter((item) => item.name.toLowerCase().includes(query)),
+      ];
 
-    document.getElementById('searchResults').innerHTML = results.slice(0, 10).map((item) => `
-      <div class="search-result" data-target="${item.type || 'search'}">
-        <strong>${item.name}</strong>
-        <p>${item.description || item.summary || item.territory || item.bio || ''}</p>
-      </div>
-    `).join('');
+      document.getElementById('searchResults').innerHTML = results.slice(0, 10).map((item) => `
+        <div class="search-result" data-target="${item.type || 'search'}">
+          <strong>${item.name}</strong>
+          <p>${item.description || item.summary || item.territory || item.bio || ''}</p>
+        </div>
+      `).join('');
 
-    document.querySelectorAll('.search-result').forEach((result) => {
-      result.addEventListener('click', () => {
-        document.getElementById('searchInput').value = result.querySelector('strong').textContent;
-        document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+      document.querySelectorAll('.search-result').forEach((result) => {
+        result.addEventListener('click', () => {
+          searchInput.value = result.querySelector('strong').textContent;
+          document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+        });
       });
     });
-  });
+  }
 
-  document.getElementById('startJourney').addEventListener('click', () => {
-    document.getElementById('loadingScreen').classList.add('hidden');
-    playTheme('home');
-  });
-
-  document.getElementById('audioToggle').addEventListener('click', () => {
-    state.audioEnabled = !state.audioEnabled;
-    const button = document.getElementById('audioToggle');
-    button.textContent = state.audioEnabled ? '🔊' : '🔈';
-    if (state.audioEnabled) {
-      if (!state.themeStarted) playTheme('home');
-      if (state.gain) state.gain.gain.value = 0.035;
-    } else if (state.gain) {
-      state.gain.gain.value = 0;
-    }
-  });
+  const audioToggle = document.getElementById('audioToggle');
+  if (audioToggle) {
+    audioToggle.addEventListener('click', () => {
+      state.audioEnabled = !state.audioEnabled;
+      audioToggle.textContent = state.audioEnabled ? '🔊' : '🔈';
+      if (state.audioEnabled) {
+        if (!state.themeStarted) playTheme('home');
+        if (state.gain) state.gain.gain.value = 0.035;
+      } else if (state.gain) {
+        state.gain.gain.value = 0;
+      }
+    });
+  }
 
   window.addEventListener('scroll', () => {
     const sections = Array.from(document.querySelectorAll('section'));
@@ -354,4 +402,8 @@ function playTheme(sectionId) {
   }, 600);
 }
 
-window.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
