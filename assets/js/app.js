@@ -1,5 +1,5 @@
 /* =====================================================================
-   THE HISTORY OF WESTEROS — app.js (full rewrite)
+   THE HISTORY OF WESTEROS — app.js
    ===================================================================== */
 
 const state = {
@@ -13,13 +13,11 @@ const state = {
   audioEnabled: true,
   themeTimer: null,
   themeStarted: false,
-  dragonAnimFrames: [],
   snowAnimId: null,
 };
 
 const filterOptions = ['all','Battles','Houses','Dragons','Castles','Characters','Coronations','Events'];
 
-/* ── Fallback data ── */
 function getFallbackData() {
   return {
     timeline:[{id:'intro',title:'The Realm',years:'Ancient',description:'The tale begins here.',events:[],politicalShift:'The realm is awakening.'}],
@@ -27,11 +25,11 @@ function getFallbackData() {
   };
 }
 
-/* ── Boot ── */
 async function init() {
   bindStartJourney();
   initCinematicBackground();
-  initDragons();
+  initDragonVideos();
+
   try {
     const r = await fetch('assets/data/content.json');
     if (!r.ok) throw new Error('fetch failed');
@@ -50,7 +48,25 @@ async function init() {
 }
 
 /* ====================================================================
-   CINEMATIC SNOW + PARALLAX BACKGROUND
+   DRAGON VIDEO LOOP
+   ==================================================================== */
+function initDragonVideos() {
+  document.querySelectorAll('.flying-dragon').forEach(video => {
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play();
+    });
+    video.addEventListener('pause', () => {
+      video.play();
+    });
+    video.play().catch(() => {
+      document.addEventListener('click', () => video.play(), { once: true });
+    });
+  });
+}
+
+/* ====================================================================
+   CINEMATIC SNOW + PARALLAX
    ==================================================================== */
 function initCinematicBackground() {
   const canvas = document.getElementById('snowCanvas');
@@ -84,7 +100,7 @@ function initCinematicBackground() {
     });
   }
 
-  function tick(t) {
+  function tick() {
     ctx.clearRect(0,0,W,H);
     flakes.forEach(f => {
       f.y += f.speed;
@@ -100,123 +116,9 @@ function initCinematicBackground() {
 
   resize();
   parallax();
-  tick(0);
+  tick();
   window.addEventListener('resize', resize);
   window.addEventListener('scroll', parallax, {passive:true});
-}
-
-/* ====================================================================
-   ANIMATED DRAGONS  (canvas-based silhouettes flying across the scene)
-   ==================================================================== */
-function initDragons() {
-  const canvas = document.getElementById('dragonCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W=0, H=0;
-
-  const dragons = [
-    { x:-200, y:0.18, speed:0.55, scale:1.1, opacity:0.75, color:'#c83c22', dir:1, phase:0 },
-    { x:-500, y:0.32, speed:0.38, scale:0.7, opacity:0.55, color:'#7b1a0f', dir:1, phase:1.4 },
-    { x:-900, y:0.12, speed:0.70, scale:1.4, opacity:0.60, color:'#a0280f', dir:1, phase:2.8 },
-  ];
-
-  function resize() {
-    const dpr = window.devicePixelRatio||1;
-    W = window.innerWidth; H = window.innerHeight;
-    canvas.width=W*dpr; canvas.height=H*dpr;
-    canvas.style.width=W+'px'; canvas.style.height=H+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-
-  /* Draw a stylised GOT dragon silhouette */
-  function drawDragon(ctx, t, scale, color, wingPhase) {
-    ctx.save();
-    ctx.scale(scale, scale);
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
-
-    const wingBeat = Math.sin(t * 3.5 + wingPhase);
-
-    /* body */
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 62, 18, -0.08, 0, Math.PI*2);
-    ctx.fill();
-
-    /* head & neck */
-    ctx.beginPath();
-    ctx.ellipse(72, -6, 22, 10, 0.35, 0, Math.PI*2);
-    ctx.fill();
-
-    /* snout */
-    ctx.beginPath();
-    ctx.moveTo(88,-2); ctx.lineTo(104,2); ctx.lineTo(88,8); ctx.closePath();
-    ctx.fill();
-
-    /* tail */
-    ctx.beginPath();
-    ctx.moveTo(-55,4); ctx.quadraticCurveTo(-90,22,-115,8);
-    ctx.quadraticCurveTo(-120,6,-115,2);
-    ctx.quadraticCurveTo(-90,14,-55,-4);
-    ctx.closePath();
-    ctx.fill();
-
-    /* left wing (up) */
-    const wL = wingBeat * 45;
-    ctx.save();
-    ctx.translate(-10,-10);
-    ctx.rotate((-0.6 + wingBeat*0.5) * (Math.PI/180) * 60);
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.quadraticCurveTo(-30,-80,-10,-120);
-    ctx.quadraticCurveTo(30,-70,55,-30);
-    ctx.quadraticCurveTo(30,-20,15,-10);
-    ctx.closePath();
-    ctx.globalAlpha = 0.85;
-    ctx.fill();
-    ctx.restore();
-
-    /* right wing (down mirror) */
-    ctx.save();
-    ctx.translate(-10, 10);
-    ctx.scale(1,-1);
-    ctx.rotate((-0.6 + wingBeat*0.5) * (Math.PI/180) * 48);
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.quadraticCurveTo(-30,-80,-10,-120);
-    ctx.quadraticCurveTo(30,-70,55,-30);
-    ctx.quadraticCurveTo(30,-20,15,-10);
-    ctx.closePath();
-    ctx.globalAlpha = 0.7;
-    ctx.fill();
-    ctx.restore();
-
-    ctx.restore();
-  }
-
-  let last = 0;
-  function tick(ts) {
-    const t = ts / 1000;
-    ctx.clearRect(0,0,W,H);
-
-    dragons.forEach(d => {
-      d.x += d.speed;
-      if (d.x > W + 300) d.x = -300;
-
-      const py = H * d.y + Math.sin(t*0.7 + d.phase)*22;
-      ctx.save();
-      ctx.globalAlpha = d.opacity;
-      ctx.translate(d.x, py);
-      if (d.dir === -1) ctx.scale(-1,1);
-      drawDragon(ctx, t, d.scale, d.color, d.phase);
-      ctx.restore();
-    });
-
-    requestAnimationFrame(tick);
-  }
-
-  resize();
-  tick(0);
-  window.addEventListener('resize', resize);
 }
 
 /* ====================================================================
@@ -241,7 +143,6 @@ function renderSections() {
   renderBattles(); renderCastles(); renderSearch(); renderMapMarkers();
 }
 
-/* ---- Houses ---- */
 function renderHouses() {
   const grid = document.getElementById('housesGrid');
   grid.innerHTML = state.data.houses.map(h => {
@@ -260,7 +161,6 @@ function renderHouses() {
   }).join('');
 }
 
-/* ---- Characters with CSS animations ---- */
 function renderCharacters() {
   const grid = document.getElementById('charactersGrid');
   grid.innerHTML = state.data.characters.map(c => {
@@ -286,13 +186,11 @@ function renderCharacters() {
     </article>`;
   }).join('');
 
-  /* stagger blink animation delays */
   document.querySelectorAll('.eye').forEach((el, i) => {
     el.style.animationDelay = `${(i*1.3)%4}s`;
   });
 }
 
-/* ---- Dragons ---- */
 function renderDragons() {
   const grid = document.getElementById('dragonsGrid');
   grid.innerHTML = state.data.dragons.map((d, i) => `
@@ -347,7 +245,6 @@ function renderSearch() {
   document.getElementById('searchResults').innerHTML = '';
 }
 
-/* ---- Map Markers ---- */
 function renderMapMarkers() {
   const container = document.getElementById('mapMarkers');
   container.innerHTML = state.data.locations.map(loc => {
@@ -375,7 +272,6 @@ function setActiveEra(idx) {
   const era = state.data.timeline[idx];
   document.getElementById('timelineSlider').value = idx;
 
-  /* animate the panel */
   const panel = document.getElementById('timelinePanel');
   panel.classList.add('era-fade');
   setTimeout(() => {
@@ -393,8 +289,6 @@ function setActiveEra(idx) {
   renderHouses();
   renderCharacters();
   playEraSound(era.id);
-
-  /* update map markers for time-gated locations */
   renderMapMarkers();
 }
 
@@ -418,8 +312,6 @@ function setActiveLocation(id) {
   }, 180);
 
   renderMapMarkers();
-
-  /* play location-specific sound theme */
   playLocationSound(loc);
 }
 
@@ -441,7 +333,6 @@ function clearTheme() {
   if (state.themeTimer) { clearInterval(state.themeTimer); state.themeTimer=null; }
 }
 
-/* Pentatonic melodic sequences per section */
 const THEMES = {
   home:       [523.25, 587.33, 659.25, 698.46, 783.99, 698.46, 659.25, 587.33],
   map:        [392, 440, 493.88, 523.25, 587.33, 523.25],
@@ -454,18 +345,17 @@ const THEMES = {
   search:     [392, 440, 493.88, 523.25, 440],
 };
 
-/* Location mood overrides */
 const LOCATION_THEMES = {
-  'winterfell':    THEMES.battles,
+  'winterfell':     THEMES.battles,
   "king's-landing": THEMES.home,
-  'dragonstone':   THEMES.dragons,
-  'the-wall':      THEMES.battles,
+  'dragonstone':    THEMES.dragons,
+  'the-wall':       THEMES.battles,
 };
 
 function playNote(freq, when, dur=0.45, wave='sine', vol=0.022) {
   if (!state.music || !state.audioEnabled) return;
-  const osc  = state.music.createOscillator();
-  const gn   = state.music.createGain();
+  const osc = state.music.createOscillator();
+  const gn  = state.music.createGain();
   osc.type = wave;
   osc.frequency.value = freq;
   gn.gain.setValueAtTime(0.0001, when);
@@ -478,40 +368,36 @@ function playNote(freq, when, dur=0.45, wave='sine', vol=0.022) {
 function playSequence(notes, bpm=72) {
   if (!ensureAudio() || !state.audioEnabled) return;
   clearTheme();
-  let beat = 0;
   const interval = 60/bpm;
   state.themeStarted = true;
   const loop = () => {
     const now = state.music.currentTime;
     notes.forEach((freq, i) => {
       playNote(freq, now + i*interval, interval*0.85);
-      /* quiet harmony a fifth below */
       playNote(freq*0.5, now + i*interval, interval*0.85, 'triangle', 0.008);
     });
-    const totalDur = notes.length * interval;
-    state.themeTimer = setTimeout(loop, (totalDur)*1000);
+    state.themeTimer = setTimeout(loop, notes.length * interval * 1000);
   };
   loop();
 }
 
 function playEraSound(eraId) {
   const eraMap = {
-    'age-of-heroes':      THEMES.castles,
-    'the-long-night':     THEMES.battles,
-    'aegons-conquest':    THEMES.dragons,
+    'age-of-heroes':        THEMES.castles,
+    'the-long-night':       THEMES.battles,
+    'aegons-conquest':      THEMES.dragons,
     'dance-of-the-dragons': THEMES.dragons,
     'blackfyre-rebellions': THEMES.battles,
-    'roberts-rebellion':  THEMES.battles,
-    'war-of-the-five-kings': THEMES.houses,
+    'roberts-rebellion':    THEMES.battles,
+    'war-of-the-five-kings':THEMES.houses,
     'house-of-the-dragon':  THEMES.dragons,
-    'game-of-thrones':    THEMES.home,
+    'game-of-thrones':      THEMES.home,
   };
   playSequence(eraMap[eraId] || THEMES.home, 66);
 }
 
 function playLocationSound(loc) {
-  const notes = LOCATION_THEMES[loc.id] || THEMES.map;
-  playSequence(notes, 80);
+  playSequence(LOCATION_THEMES[loc.id] || THEMES.map, 80);
 }
 
 function setSectionTheme(id) {
@@ -529,13 +415,13 @@ function bindStartJourney() {
   btn.addEventListener('click', () => {
     const screen = document.getElementById('loadingScreen');
     if (screen) screen.classList.add('hidden');
+    document.body.classList.remove('loading');
     playTheme('home');
     window.scrollTo({top:0,behavior:'smooth'});
   });
 }
 
 function bindEvents() {
-  /* filter chips */
   document.getElementById('filterList').addEventListener('click', e => {
     const chip = e.target.closest('.filter-chip');
     if (!chip) return;
@@ -544,19 +430,17 @@ function bindEvents() {
     renderMapMarkers();
   });
 
-  /* zoom controls */
   document.querySelectorAll('[data-zoom]').forEach(btn => {
     btn.addEventListener('click', () => {
       const a = btn.dataset.zoom;
-      if (a==='in')  state.zoom = Math.min(2.2, state.zoom+0.2);
-      if (a==='out') state.zoom = Math.max(0.6, state.zoom-0.2);
+      if (a==='in')    state.zoom = Math.min(2.2, state.zoom+0.2);
+      if (a==='out')   state.zoom = Math.max(0.6, state.zoom-0.2);
       if (a==='reset') state.zoom = 1;
       const img = document.querySelector('.map-image');
       if (img) img.style.transform = `scale(${state.zoom})`;
     });
   });
 
-  /* mobile nav */
   const toggle = document.getElementById('navToggle');
   const menu   = document.getElementById('navMenu');
   if (toggle && menu) toggle.addEventListener('click', () => menu.classList.toggle('open'));
@@ -568,7 +452,6 @@ function bindEvents() {
     });
   });
 
-  /* search */
   const searchInput = document.getElementById('searchInput');
   if (searchInput) {
     searchInput.addEventListener('input', e => {
@@ -594,7 +477,6 @@ function bindEvents() {
     });
   }
 
-  /* audio toggle */
   const audioBtn = document.getElementById('audioToggle');
   if (audioBtn) {
     audioBtn.addEventListener('click', () => {
@@ -609,7 +491,6 @@ function bindEvents() {
     });
   }
 
-  /* active nav on scroll */
   window.addEventListener('scroll', () => {
     const offset = window.scrollY + 130;
     document.querySelectorAll('section').forEach(sec => {

@@ -7,14 +7,21 @@
     <meta name="description" content="An immersive interactive archive of Westeros and Essos." />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body>
-
+  <body class="loading">
     <!-- ═══ CINEMATIC FIXED BACKGROUND ═══ -->
     <div class="cinematic-scene" id="cinematicScene" aria-hidden="true">
         <div class="cinematic-bg"></div>
         <canvas id="snowCanvas"></canvas>
-        <canvas id="dragonCanvas"></canvas>
         <div class="wolf-left-img"></div>
+        <video class="flying-dragon dragon-fly-1" autoplay loop muted playsinline>
+  <source src="assets/images/dragon1.mp4" type="video/mp4">
+</video>
+<video class="flying-dragon dragon-fly-2" autoplay loop muted playsinline>
+  <source src="assets/images/dragon2.mp4" type="video/mp4">
+</video>
+<video class="flying-dragon dragon-fly-3" autoplay loop muted playsinline>
+  <source src="assets/images/dragon3.mp4" type="video/mp4">
+</video>
         <div class="cinematic-layer fog-layer" data-parallax="0.26"></div>
         <div class="cinematic-layer fog-layer fog-layer-2" data-parallax="0.30"></div>
         <div class="cinematic-layer overlay"></div>
