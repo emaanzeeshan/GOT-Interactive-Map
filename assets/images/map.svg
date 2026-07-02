@@ -1,18 +1,276 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
-  <rect width="900" height="600" fill="#0d1220"/>
-  <path d="M102 180c54-55 121-76 173-72 30 2 72 27 110 42 40 16 74 30 141 30 59 0 104-11 154-35 44-21 72-27 122-28 29-1 72 7 120 37 36 23 89 71 96 112 5 30-6 65-30 108-26 47-64 85-103 106-41 22-95 36-148 39-44 2-96-1-136-24-72-40-97-120-154-149-59-29-131-24-184-18-51 6-98 25-141 56-24 18-45 37-68 47-13 6-41 11-54 2-14-10-22-33-16-58 9-36 34-75 60-103 31-34 61-74 82-116 17-35 23-70 22-86-1-10 1-22 7-31z" fill="#234634" stroke="#7b5e2b" stroke-width="3"/>
-  <path d="M345 200c35 14 102 52 154 71 37 13 80 18 115 12 42-8 58-33 100-51 35-15 67-17 98-13 31 4 61 15 75 37 23 37 20 94 9 130-10 34-43 76-79 101-34 24-92 37-145 41-65 4-112-6-146-29-53-36-71-104-121-150-27-25-63-46-88-58-11-5-22-6-33-2-14 5-16 17-15 32 4 41 22 84 37 117 12 25 16 43 29 63 8 13 17 27 30 31 10 3 24-2 31-8 13-11 18-27 21-42 6-23 10-54 20-82 12-34 37-69 59-93 22-24 54-46 74-64 23-21 40-49 61-66 13-10 45-26 60-24 16 2 23 18 21 32-3 20-19 41-38 54-28 19-67 30-97 35-79 12-142 7-211-1-57-7-111-22-151-56-7-6-15-15-24-12-10 4-9 18-4 30 9 20 34 38 59 45 20 6 55 2 67 19 12 16 4 53-7 82-9 24-23 45-41 62-15 15-39 23-53 15-15-8-20-29-16-45 6-23 23-48 35-69 10-18 18-34 21-52 4-19 5-41 1-62-5-22-20-43-34-59-10-12-25-19-39-20-17-1-25 13-24 31 0 15 2 29 6 46 7 28 14 68 1 89-12 20-35 37-56 42-25 5-51 4-73-7-15-8-29-21-39-35-15-21-22-55-13-80 5-13 16-22 28-27 9-3 19-4 28-4 16 0 33 7 44 18z" fill="#496f49"/>
-  <path d="M470 154c59 33 129 72 190 105 46 25 87 38 132 46 42 8 80 7 118 5 48-3 80-19 117-49 21-17 40-39 56-61 18-25 35-66 30-95-5-27-28-44-48-60-37-30-95-42-145-38-70 6-134 30-190 57-44 21-89 42-130 49-28 5-55 10-83 11-31 2-51-12-79-24-18-7-31-17-45-29-15-13-31-31-42-45-12-15-11-38 1-51 16-17 48-21 73-18 43 5 82 32 112 57 36 30 66 71 89 110 14 23 32 48 57 56 17 6 36 2 48-10 12-12 16-30 12-47-4-18-17-34-33-44-18-12-41-17-62-23-37-12-76-25-111-45-20-12-43-24-64-22-22 2-35 14-48 29-17 20-29 46-40 70-10 26-24 49-41 68-27 31-66 53-104 68-39 16-84 24-123 13-21-6-40-18-56-34-14-14-26-33-32-52-7-22-6-46 0-68 8-27 28-49 53-64 16-9 37-14 54-14 14 0 29 3 39 13 9 8 13 23 12 36-1 11-5 25-14 34-10 11-28 14-40 8-12-7-18-21-18-35 0-20 12-39 28-50 14-10 32-13 48-12 28 3 58 23 77 46 16 19 24 44 26 69 2 26-1 53-14 73-13 20-34 34-57 42-29 10-59 10-86 4-22-5-43-16-60-31-20-18-42-41-52-68-10-26-18-58-10-86 7-23 28-43 49-53 18-9 41-13 61-12 24 1 46 11 65 24 19 14 37 37 51 58z" fill="#3b5b3b" opacity="0.82"/>
-  <path d="M270 420c21-22 52-31 84-31 37 0 73 13 102 37 27 23 50 55 77 78 20 18 41 35 66 39 31 5 64-5 95-20 44-21 72-53 105-84 23-22 47-43 75-50 25-6 54-3 76 8 35 18 64 49 76 86 5 16 8 33 7 50-2 30-16 59-37 80-16 15-37 25-58 28-45 7-86-16-118-46-24-22-46-47-74-64-30-18-64-28-98-26-31 2-60 16-84 36-28 23-58 53-90 67-44 20-95 18-137-5-41-22-70-62-84-107-7-23-11-48-10-72 1-12 6-24 16-33 12-11 29-15 45-11 22 6 43 24 58 43z" fill="#223a2c" opacity="0.52"/>
-  <g fill="#e3c16b" font-family="Georgia, serif" font-size="20">
-    <text x="140" y="130">The North</text>
-    <text x="332" y="148">The Riverlands</text>
-    <text x="490" y="174">The Reach</text>
-    <text x="660" y="210">The Stormlands</text>
-    <text x="120" y="260">The Westerlands</text>
-    <text x="612" y="324">King's Landing</text>
-    <text x="730" y="410">Dragonstone</text>
-    <text x="150" y="465">The Wall</text>
-    <text x="300" y="390">Essos</text>
+<svg viewBox="0 0 2400 1600" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, 'Times New Roman', serif">
+<defs>
+  <radialGradient id="paper" cx="50%" cy="45%" r="75%">
+    <stop offset="0%" stop-color="#efe2c0"/>
+    <stop offset="55%" stop-color="#e6d4a8"/>
+    <stop offset="100%" stop-color="#c9a968"/>
+  </radialGradient>
+  <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#3a2f1c"/>
+    <stop offset="100%" stop-color="#2a2213"/>
+  </linearGradient>
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0 0.08  0 0 0 0.10 0"/>
+  </filter>
+  <filter id="roughPaper">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" result="t"/>
+    <feColorMatrix in="t" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0 0.20  0 0 0 0.18 0"/>
+  </filter>
+  <radialGradient id="vign" cx="50%" cy="45%" r="72%">
+    <stop offset="55%" stop-color="#5a4420" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#3a2a10" stop-opacity="0.55"/>
+  </radialGradient>
+</defs>
+
+<!-- ===== PARCHMENT BASE ===== -->
+<rect x="0" y="0" width="2400" height="1600" fill="url(#paper)"/>
+<rect x="0" y="0" width="2400" height="1600" filter="url(#roughPaper)"/>
+
+<!-- outer double border -->
+<rect x="30" y="30" width="2340" height="1540" fill="none" stroke="#2a2213" stroke-width="4"/>
+<rect x="44" y="44" width="2312" height="1512" fill="none" stroke="#2a2213" stroke-width="1.5"/>
+
+<!-- ===== TITLES ===== -->
+<text x="760" y="400" font-size="80" letter-spacing="10" fill="#241a0c" font-weight="600">WESTEROS</text>
+<text x="1720" y="640" font-size="72" letter-spacing="10" fill="#241a0c" font-weight="600">ESSOS</text>
+
+<!-- ===== COMPASS ROSE ===== -->
+<g transform="translate(2190,150)" stroke="#2a2213" fill="none" stroke-width="2">
+  <circle r="62"/>
+  <circle r="4" fill="#2a2213" stroke="none"/>
+  <path d="M0,-62 L0,62 M-62,0 L62,0" stroke-width="1.4"/>
+  <path d="M0,-62 L12,-30 L0,-40 L-12,-30 Z" fill="#2a2213" stroke="none"/>
+  <path d="M0,62 L12,30 L0,40 L-12,30 Z" fill="#2a2213" stroke="none"/>
+  <path d="M-62,0 L-30,12 L-40,0 L-30,-12 Z" fill="#2a2213" stroke="none"/>
+  <path d="M62,0 L30,12 L40,0 L30,-12 Z" fill="#2a2213" stroke="none"/>
+  <text x="0" y="-72" text-anchor="middle" font-size="22" fill="#2a2213" letter-spacing="2">N</text>
+</g>
+
+<!-- ================= HELPER SYMBOL DEFS ================= -->
+<defs>
+  <g id="mtn">
+    <path d="M0,0 l9,-16 l9,16 Z M14,3 l9,-16 l9,16 Z M28,0 l9,-16 l9,16 Z" fill="none" stroke="#2a2213" stroke-width="1.6"/>
   </g>
+  <g id="tree">
+    <path d="M0,0 l4,-7 l4,7 M2,-4 l4,-7 l4,7" fill="none" stroke="#2a2213" stroke-width="1.2"/>
+  </g>
+</defs>
+
+<!-- =========================================================
+     WESTEROS LANDMASS (original coastline)
+     ========================================================= -->
+<path fill="#efe0b8" stroke="#2a2213" stroke-width="3" d="
+  M 260,120
+  C 340,70 440,90 500,140
+  C 540,110 610,120 640,160
+  C 700,150 760,190 750,240
+  C 800,250 830,300 800,340
+  C 850,360 860,420 820,450
+  C 870,480 870,540 820,565
+  C 860,600 850,660 800,680
+  C 840,720 820,780 770,790
+  C 800,830 780,890 730,900
+  C 760,940 730,1000 680,1000
+  C 700,1050 660,1100 610,1090
+  C 620,1140 580,1190 530,1180
+  C 530,1230 480,1270 430,1250
+  C 420,1300 370,1330 320,1310
+  C 290,1350 230,1360 200,1320
+  C 150,1330 110,1290 130,1250
+  C 90,1240 70,1190 100,1155
+  C 60,1140 55,1090 90,1065
+  C 55,1040 60,985 100,965
+  C 65,940 75,885 115,865
+  C 80,845 90,790 130,775
+  C 95,750 110,695 150,680
+  C 115,655 130,600 175,590
+  C 145,565 165,510 210,505
+  C 180,475 200,420 245,415
+  C 215,385 235,330 280,325
+  C 250,295 270,240 315,235
+  C 285,205 300,150 350,145
+  C 320,130 285,145 260,120 Z" />
+
+<!-- inland detail: mountain spine along the north + spine of the mount., vale mountains -->
+<g>
+  <use href="#mtn" x="410" y="220"/>
+  <use href="#mtn" x="450" y="235"/>
+  <use href="#mtn" x="490" y="210"/>
+  <use href="#mtn" x="530" y="230"/>
+  <use href="#mtn" x="440" y="330"/>
+  <use href="#mtn" x="480" y="345"/>
+  <use href="#mtn" x="520" y="325"/>
+  <use href="#mtn" x="560" y="580"/>
+  <use href="#mtn" x="600" y="600"/>
+  <use href="#mtn" x="640" y="580"/>
+  <use href="#mtn" x="680" y="610"/>
+  <use href="#mtn" x="230" y="900"/>
+  <use href="#mtn" x="265" y="915"/>
+  <use href="#mtn" x="300" y="895"/>
+  <use href="#mtn" x="470" y="1150"/>
+  <use href="#mtn" x="505" y="1165"/>
+  <use href="#mtn" x="540" y="1145"/>
+</g>
+
+<!-- forests -->
+<g>
+  <use href="#tree" x="330" y="290"/><use href="#tree" x="345" y="300"/><use href="#tree" x="360" y="285"/><use href="#tree" x="375" y="298"/>
+  <use href="#tree" x="640" y="770"/><use href="#tree" x="655" y="780"/><use href="#tree" x="670" y="765"/><use href="#tree" x="685" y="778"/>
+  <use href="#tree" x="330" y="1070"/><use href="#tree" x="345" y="1080"/><use href="#tree" x="360" y="1065"/><use href="#tree" x="375" y="1078"/>
+  <use href="#tree" x="640" y="1000"/><use href="#tree" x="655" y="1010"/><use href="#tree" x="670" y="995"/>
+</g>
+
+<!-- The Wall -->
+<rect x="320" y="255" width="430" height="14" rx="6" fill="#7a6a45" stroke="#2a2213" stroke-width="2"/>
+<text x="535" y="250" text-anchor="middle" font-size="20" letter-spacing="3" fill="#241a0c">THE WALL</text>
+
+<!-- rivers -->
+<path d="M470,420 C450,480 500,540 480,610 C465,660 520,700 500,760" fill="none" stroke="#2a2213" stroke-width="2" opacity="0.55"/>
+<path d="M300,700 C340,740 320,800 360,840" fill="none" stroke="#2a2213" stroke-width="2" opacity="0.55"/>
+
+<!-- Iron Islands (small archipelago) -->
+<g>
+  <ellipse cx="150" cy="800" rx="18" ry="12" fill="#efe0b8" stroke="#2a2213" stroke-width="2"/>
+  <ellipse cx="130" cy="830" rx="10" ry="7" fill="#efe0b8" stroke="#2a2213" stroke-width="1.6"/>
+  <ellipse cx="175" cy="835" rx="9" ry="6" fill="#efe0b8" stroke="#2a2213" stroke-width="1.6"/>
+  <text x="150" y="775" text-anchor="middle" font-size="16" fill="#241a0c">Iron Islands</text>
+  <text x="150" y="805" text-anchor="middle" font-size="13" fill="#241a0c">Pyke</text>
+</g>
+
+<!-- Dragonstone island -->
+<ellipse cx="895" cy="905" rx="22" ry="16" fill="#efe0b8" stroke="#2a2213" stroke-width="2"/>
+<text x="895" y="945" text-anchor="middle" font-size="15" fill="#241a0c">Dragonstone</text>
+
+<!-- ===== WESTEROS PLACE LABELS ===== -->
+<g font-size="15" fill="#241a0c">
+  <text x="415" y="195">Castle Black</text>
+  <text x="480" y="180">Karhold</text>
+  <text x="380" y="240">Deepwood Motte</text>
+  <text x="470" y="410" font-style="italic" font-size="20" letter-spacing="2">THE NORTH</text>
+  <text x="425" y="410">Winterfell</text>
+  <text x="530" y="450">White Harbor</text>
+  <text x="330" y="470">Bear Island</text>
+  <text x="500" y="560">The Dreadfort</text>
+  <text x="380" y="620">Moat Cailin</text>
+  <text x="470" y="660">The Twins</text>
+  <text x="560" y="650" font-style="italic" font-size="18">THE VALE</text>
+  <text x="600" y="690">The Eyrie</text>
+  <text x="330" y="760">Riverrun</text>
+  <text x="430" y="770" font-style="italic" font-size="18">RIVERLANDS</text>
+  <text x="500" y="800">Harrenhal</text>
+  <text x="210" y="900">Casterly Rock</text>
+  <text x="260" y="930">Lannisport</text>
+  <text x="150" y="960" font-style="italic" font-size="18">WESTERLANDS</text>
+  <text x="700" y="870">King's Landing</text>
+  <text x="680" y="900" font-style="italic" font-size="16">CROWNLANDS</text>
+  <text x="600" y="960">Storm's End</text>
+  <text x="500" y="990" font-style="italic" font-size="16">STORMLANDS</text>
+  <text x="300" y="1030">Highgarden</text>
+  <text x="250" y="1060" font-style="italic" font-size="18">THE REACH</text>
+  <text x="230" y="1130">Oldtown</text>
+  <text x="380" y="1190">Sunspear</text>
+  <text x="330" y="1220" font-style="italic" font-size="18">DORNE</text>
+  <text x="260" y="1250">Starfall</text>
+</g>
+
+<!-- =========================================================
+     ESSOS LANDMASS (original coastline)
+     ========================================================= -->
+<path fill="#efe0b8" stroke="#2a2213" stroke-width="3" d="
+  M 1300,700
+  C 1360,660 1420,680 1440,730
+  C 1480,700 1540,720 1550,770
+  C 1600,750 1650,790 1640,840
+  C 1690,830 1730,870 1710,915
+  C 1760,910 1790,955 1760,995
+  C 1810,1000 1830,1050 1790,1080
+  C 1830,1100 1830,1150 1780,1165
+  C 1750,1220 1690,1230 1660,1195
+  C 1610,1210 1570,1180 1580,1140
+  C 1530,1150 1490,1110 1510,1070
+  C 1465,1075 1435,1035 1455,1000
+  C 1415,995 1395,955 1420,920
+  C 1385,905 1375,865 1405,840
+  C 1370,815 1370,770 1405,745
+  C 1370,725 1330,730 1300,700 Z" />
+
+<path fill="#efe0b8" stroke="#2a2213" stroke-width="3" d="
+  M 1720,650
+  C 1800,600 1900,610 1970,650
+  C 2040,610 2130,620 2190,660
+  C 2250,630 2320,650 2350,700
+  C 2310,730 2320,780 2280,800
+  C 2300,850 2260,890 2210,880
+  C 2220,930 2170,960 2120,940
+  C 2100,990 2040,1000 2000,970
+  C 1960,1010 1900,1000 1880,955
+  C 1830,970 1780,940 1790,895
+  C 1740,890 1710,850 1730,805
+  C 1690,790 1670,745 1700,710
+  C 1670,690 1690,660 1720,650 Z" />
+
+<!-- Dothraki sea / painted mountains -->
+<g>
+  <use href="#mtn" x="1900" y="820"/><use href="#mtn" x="1940" y="835"/><use href="#mtn" x="1980" y="815"/><use href="#mtn" x="2020" y="830"/>
+  <use href="#mtn" x="2150" y="800"/><use href="#mtn" x="2190" y="815"/><use href="#mtn" x="2230" y="795"/>
+  <use href="#mtn" x="1550" y="850"/><use href="#mtn" x="1585" y="865"/><use href="#mtn" x="1620" y="845"/>
+</g>
+
+<!-- forests essos -->
+<g>
+  <use href="#tree" x="1490" y="900"/><use href="#tree" x="1505" y="910"/><use href="#tree" x="1520" y="895"/><use href="#tree" x="1535" y="908"/>
+  <use href="#tree" x="2020" y="700"/><use href="#tree" x="2035" y="710"/><use href="#tree" x="2050" y="695"/><use href="#tree" x="2065" y="708"/>
+</g>
+
+<!-- rivers essos -->
+<path d="M1480,760 C1500,820 1470,880 1500,940 C1520,980 1490,1030 1520,1070" fill="none" stroke="#2a2213" stroke-width="2" opacity="0.55"/>
+
+<!-- Valyria peninsula (south) -->
+<path fill="#efe0b8" stroke="#2a2213" stroke-width="2.4" d="M1370,1300 C1400,1280 1430,1290 1430,1330 C1440,1370 1400,1410 1370,1400 C1340,1420 1310,1390 1330,1355 C1310,1330 1340,1300 1370,1300 Z"/>
+<text x="1380" y="1440" text-anchor="middle" font-size="15" fill="#241a0c">Valyria</text>
+
+<!-- Slaver's Bay islands -->
+<ellipse cx="2050" cy="1230" rx="14" ry="10" fill="#efe0b8" stroke="#2a2213" stroke-width="1.8"/>
+
+<!-- ===== ESSOS PLACE LABELS ===== -->
+<g font-size="15" fill="#241a0c">
+  <text x="1330" y="695">Braavos</text>
+  <text x="1460" y="760">Pentos</text>
+  <text x="1560" y="720" font-style="italic" font-size="16">ANDALOS</text>
+  <text x="1620" y="800">Norvos</text>
+  <text x="1700" y="870">Qohor</text>
+  <text x="1560" y="900">Myr</text>
+  <text x="1500" y="960">Tyrosh</text>
+  <text x="1460" y="1020">Lys</text>
+  <text x="1600" y="1030">Volantis</text>
+  <text x="1900" y="800" font-style="italic" font-size="17">KINGDOM OF SARNOR</text>
+  <text x="1950" y="870">Vaes Dothrak</text>
+  <text x="1970" y="920" font-style="italic" font-size="18">THE DOTHRAKI SEA</text>
+  <text x="1990" y="1150">Meereen</text>
+  <text x="1870" y="1180">Astapor</text>
+  <text x="2100" y="1170">Yunkai</text>
+  <text x="1980" y="1230" font-style="italic" font-size="16">SLAVER'S BAY</text>
+  <text x="2260" y="720">Ibben</text>
+</g>
+
+<!-- ===== SEA LABELS ===== -->
+<g font-size="24" fill="#3a3020" font-style="italic" letter-spacing="4">
+  <text x="1000" y="130" transform="rotate(-2 1000 130)">THE SHIVERING SEA</text>
+  <text x="920" y="720" transform="rotate(-6 920 720)">THE NARROW SEA</text>
+  <text x="470" y="1420" transform="rotate(1 470 1420)">THE SUMMER SEA</text>
+  <text x="100" y="750" transform="rotate(-90 100 750)">THE SUNSET SEA</text>
+  <text x="2330" y="1000" transform="rotate(90 2330 1000)">THE JADE SEA</text>
+  <text x="900" y="1000" transform="rotate(-2 900 1000)">THE SEA OF MYRTH</text>
+</g>
+
+<!-- ===== AGING / VIGNETTE OVERLAY ===== -->
+<rect x="0" y="0" width="2400" height="1600" fill="url(#vign)"/>
+<rect x="0" y="0" width="2400" height="1600" filter="url(#grain)" opacity="0.5"/>
+
+<!-- edge stains -->
+<ellipse cx="120" cy="1480" rx="220" ry="120" fill="#5a4420" opacity="0.10"/>
+<ellipse cx="2280" cy="120" rx="260" ry="140" fill="#5a4420" opacity="0.10"/>
+<ellipse cx="2300" cy="1500" rx="180" ry="140" fill="#5a4420" opacity="0.08"/>
+
 </svg>

@@ -14,6 +14,7 @@ const state = {
   themeTimer: null,
   themeStarted: false,
   snowAnimId: null,
+  activePopupEl: null,
 };
 
 const filterOptions = ['all','Battles','Houses','Dragons','Castles','Characters','Coronations','Events'];
@@ -21,7 +22,21 @@ const filterOptions = ['all','Battles','Houses','Dragons','Castles','Characters'
 function getFallbackData() {
   return {
     timeline:[{id:'intro',title:'The Realm',years:'Ancient',description:'The tale begins here.',events:[],politicalShift:'The realm is awakening.'}],
-    houses:[],characters:[],dragons:[],battles:[],castles:[],locations:[],
+    houses:[],characters:[],dragons:[],battles:[],castles:[],
+    locations:[
+      { id:'winterfell',    name:"Winterfell",     x:16.5, y:24.7, type:'Castles', description:"Ancient seat of House Stark, fortress of the North.", ruler:"House Stark", events:[], characters:[] },
+      { id:'the-wall',      name:"The Wall",        x:22.3, y:16.4, type:'Castles', description:"A colossal wall of ice guarding the realms of men.", ruler:"Night's Watch", events:[], characters:[] },
+      { id:"king's-landing",name:"King's Landing", x:28.3, y:53.8, type:'Castles', description:"Capital of the Seven Kingdoms and seat of the Iron Throne.", ruler:"House Baratheon / House Targaryen", events:[], characters:[] },
+      { id:'dragonstone',   name:"Dragonstone",     x:37.3, y:56.6, type:'Castles', description:"Ancestral island seat of House Targaryen.", ruler:"House Targaryen", events:[], characters:[] },
+      { id:'casterly-rock', name:"Casterly Rock",   x:8.1,  y:55.9, type:'Castles', description:"Stronghold of House Lannister, carved into the coastal rock.", ruler:"House Lannister", events:[], characters:[] },
+      { id:'highgarden',    name:"Highgarden",      x:12.1, y:63.8, type:'Castles', description:"Garden capital of the Reach, seat of House Tyrell.", ruler:"House Tyrell", events:[], characters:[] },
+      { id:'sunspear',      name:"Sunspear",        x:15.2, y:73.8, type:'Castles', description:"Sun-baked capital of Dorne, seat of House Martell.", ruler:"House Martell", events:[], characters:[] },
+      { id:'braavos',       name:"Braavos",         x:55.4, y:42.5, type:'Events',  description:"A proud free city across the narrow sea.", ruler:"The Sealord", events:[], characters:[] },
+      { id:'pentos',        name:"Pentos",          x:60.4, y:46.6, type:'Events',  description:"The free city closest to Westeros' shores.", ruler:"Magister", events:[], characters:[] },
+      { id:'volantis',      name:"Volantis",        x:66.7, y:63.4, type:'Events',  description:"Oldest and once-mightiest of the Free Cities.", ruler:"Triarchs", events:[], characters:[] },
+      { id:'meereen',       name:"Meereen",         x:82.7, y:71.6, type:'Events',  description:"A great city of Slaver's Bay.", ruler:"Varies", events:[], characters:[] },
+      { id:'vaes-dothrak',  name:"Vaes Dothrak",    x:81.0, y:53.4, type:'Events',  description:"The sacred city of the Dothraki horselords.", ruler:"Dosh khaleen", events:[], characters:[] },
+    ],
   };
 }
 
@@ -43,7 +58,7 @@ async function init() {
   renderSections();
   bindEvents();
   if (state.data.timeline?.length)    setActiveEra(0);
-  if (state.data.locations?.length)   setActiveLocation(state.data.locations[0].id);
+  if (state.data.locations?.length)   setActiveLocation(state.data.locations[0].id, { silent:true });
   setSectionTheme('home');
 }
 
@@ -245,23 +260,70 @@ function renderSearch() {
   document.getElementById('searchResults').innerHTML = '';
 }
 
+/* ---- MAP MARKERS (pin + hover label; click opens popup + sidebar) ---- */
 function renderMapMarkers() {
   const container = document.getElementById('mapMarkers');
-  container.innerHTML = state.data.locations.map(loc => {
+  container.innerHTML = '';
+  state.activePopupEl = null;
+
+  state.data.locations.forEach(loc => {
     const visible = state.currentFilter==='all'
       || loc.type===state.currentFilter
       || (state.currentFilter==='Events' && loc.category==='event')
       || (state.currentFilter==='Coronations' && loc.category==='coronation');
-    return `<button class="map-marker ${loc.id===state.currentLocation?'active':''}"
-      data-location="${loc.id}"
-      style="left:${loc.x}%;top:${loc.y}%;"
-      title="${loc.name}"
-      ${visible?'':'hidden'}></button>`;
-  }).join('');
 
-  container.querySelectorAll('.map-marker').forEach(m =>
-    m.addEventListener('click', () => setActiveLocation(m.dataset.location))
-  );
+    const marker = document.createElement('button');
+    marker.type = 'button';
+    marker.className = `map-marker ${loc.id===state.currentLocation?'active':''}`;
+    marker.style.left = `${loc.x}%`;
+    marker.style.top = `${loc.y}%`;
+    marker.title = loc.name;
+    if (!visible) marker.hidden = true;
+    marker.dataset.location = loc.id;
+    marker.innerHTML = `<span class="pin-dot"></span><span class="pin-label">${loc.name}</span>`;
+
+    marker.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setActiveLocation(loc.id);
+      showMapPopup(loc, marker);
+    });
+
+    container.appendChild(marker);
+  });
+}
+
+/* popup card that appears directly above the clicked marker */
+function showMapPopup(loc, markerEl) {
+  const container = document.getElementById('mapMarkers');
+  if (state.activePopupEl) { state.activePopupEl.remove(); state.activePopupEl = null; }
+
+  const popup = document.createElement('div');
+  popup.className = 'map-popup';
+  popup.style.left = `${loc.x}%`;
+  popup.style.top = `${loc.y}%`;
+  popup.innerHTML = `
+    <span class="popup-close">✕</span>
+    <h4>${loc.name}</h4>
+    <p>${loc.description}</p>
+  `;
+  popup.querySelector('.popup-close').addEventListener('click', (e) => {
+    e.stopPropagation();
+    popup.remove();
+    state.activePopupEl = null;
+    markerEl.classList.remove('active');
+  });
+
+  container.appendChild(popup);
+  state.activePopupEl = popup;
+  requestAnimationFrame(() => popup.classList.add('show'));
+}
+
+function closeMapPopup() {
+  if (state.activePopupEl) {
+    state.activePopupEl.remove();
+    state.activePopupEl = null;
+  }
+  document.querySelectorAll('.map-marker.active').forEach(m => m.classList.remove('active'));
 }
 
 /* ====================================================================
@@ -292,7 +354,7 @@ function setActiveEra(idx) {
   renderMapMarkers();
 }
 
-function setActiveLocation(id) {
+function setActiveLocation(id, opts = {}) {
   state.currentLocation = id;
   const loc = state.data.locations.find(l => l.id===id);
   if (!loc) return;
@@ -311,8 +373,11 @@ function setActiveLocation(id) {
     panel.classList.remove('era-fade');
   }, 180);
 
-  renderMapMarkers();
-  playLocationSound(loc);
+  document.querySelectorAll('.map-marker').forEach(m =>
+    m.classList.toggle('active', m.dataset.location === id)
+  );
+
+  if (!opts.silent) playLocationSound(loc);
 }
 
 /* ====================================================================
@@ -490,6 +555,9 @@ function bindEvents() {
       }
     });
   }
+
+  // clicking anywhere outside a marker/popup closes the open popup
+  document.addEventListener('click', () => closeMapPopup());
 
   window.addEventListener('scroll', () => {
     const offset = window.scrollY + 130;
