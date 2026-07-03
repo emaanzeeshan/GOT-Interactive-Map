@@ -6,6 +6,512 @@
    ===================================================================== */
 
 const mapData = {
+  houses: [
+    { id: 'house-stark', name: 'House Stark', words: 'Winter Is Coming', region: 'The North', seat: 'Winterfell', ruler: 'House Stark', allegiance: 'The North', description: 'A great northern house sworn to defending the realm against threats from beyond the Wall.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Stark', label:'View Image'}] },
+    { id: 'house-lannister', name: 'House Lannister', words: 'Hear Me Roar!', region: 'The Westerlands', seat: 'Casterly Rock', ruler: 'House Lannister', allegiance: 'The Iron Throne', description: 'A rich house known for wealth, politics, and cunning in the game of thrones.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Lannister', label:'View Image'}] },
+    { id: 'house-targaryen', name: 'House Targaryen', words: 'Fire and Blood', region: 'The Crownlands', seat: 'Dragonstone', ruler: 'House Targaryen', allegiance: 'The Iron Throne', description: 'A Valyrian dragonlord house whose legacy is bound to fire, blood, and the Iron Throne.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Targaryen', label:'View Image'}] },
+    { id: 'house-baratheon', name: 'House Baratheon', words: 'Ours is the Fury', region: 'The Stormlands', seat: 'Storm’s End', ruler: 'House Baratheon', allegiance: 'The Iron Throne', description: 'A proud stormland house that claimed the crown after rebellion toppled the Targaryens.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Baratheon', label:'View Image'}] },
+    { id: 'house-tyrell', name: 'House Tyrell', words: 'Growing Strong', region: 'The Reach', seat: 'Highgarden', ruler: 'House Tyrell', allegiance: 'The Iron Throne', description: 'A wealthy and influential house with vast food-producing lands and courtly power.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Tyrell', label:'View Image'}] },
+    { id: 'house-martell', name: 'House Martell', words: 'Unbowed, Unbent, Unbroken', region: 'Dorne', seat: 'Sunspear', ruler: 'House Martell', allegiance: 'Independent', description: 'A southern house famed for its stubborn pride and distinctive desert culture.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Martell', label:'View Image'}] },
+    { id: 'house-greyjoy', name: 'House Greyjoy', words: 'We Do Not Sow', region: 'The Iron Islands', seat: 'Pyke', ruler: 'House Greyjoy', allegiance: 'Independent', description: 'A harsh sea-faring house whose people live by raiding and the Old Way.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Greyjoy', label:'View Image'}] },
+    { id: 'house-arryn', name: 'House Arryn', words: 'As High as Honor', region: 'The Vale', seat: 'The Eyrie', ruler: 'House Arryn', allegiance: 'The Iron Throne', description: 'A secluded mountain house sworn to honor and the protection of the Vale.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Arryn', label:'View Image'}] },
+    { id: 'house-tully', name: 'House Tully', words: 'Family, Duty, Honor', region: 'The Riverlands', seat: 'Riverrun', ruler: 'House Tully', allegiance: 'The Iron Throne', description: 'A riverland house bound by honor and the protection of its people.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Tully', label:'View Image'}] },
+    { id: 'house-bolton', name: 'House Bolton', words: 'Our Blades Are Sharp', region: 'The North', seat: 'The Dreadfort', ruler: 'House Bolton', allegiance: 'The North', description: 'A cruel northern house infamous for flaying their enemies and seizing Winterfell.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Bolton', label:'View Image'}] },
+    { id: 'house-frey', name: 'House Frey', words: 'We Take Our Own', region: 'The Riverlands', seat: 'The Twins', ruler: 'House Frey', allegiance: 'The Iron Throne', description: 'A numerically vast house that controls the key river crossing known as the Twins.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Frey', label:'View Image'}] },
+    { id: 'house-mormont', name: 'House Mormont', words: 'Here We Stand', region: 'The North', seat: 'Bear Island', ruler: 'House Mormont', allegiance: 'House Stark', description: 'A hardy northern house known for fierce warriors and loyalty to the Starks.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Mormont', label:'View Image'}] },
+    { id: 'house-reed', name: 'House Reed', words: 'We Remember', region: 'The Neck', seat: 'Greywater Watch', ruler: 'House Reed', allegiance: 'House Stark', description: 'A mysterious swamp house serving the Starks and guardians of the Neck.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Reed', label:'View Image'}] },
+    { id: 'house-umber', name: 'House Umber', words: 'Iron Tillers', region: 'The North', seat: 'Last Hearth', ruler: 'House Umber', allegiance: 'House Stark', description: 'A northern house famous for size, strength, and loyalty to Winterfell.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Umber', label:'View Image'}] },
+    { id: 'house-karstark', name: 'House Karstark', words: 'The Sun of Winter', region: 'The North', seat: 'Karhold', ruler: 'House Karstark', allegiance: 'House Stark', description: 'A northern house descended from the Starks with a fierce reputation.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Karstark', label:'View Image'}] },
+    { id: 'house-dayne', name: 'House Dayne', words: 'Sword and Star', region: 'Dorne', seat: 'Starfall', ruler: 'House Dayne', allegiance: 'House Martell', description: 'A noble Dorne house renowned for its swordsmen and legendary blade, Dawn.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Dayne', label:'View Image'}] },
+    { id: 'house-blackwood', name: 'House Blackwood', words: 'Defenders of the Trident', region: 'The Riverlands', seat: 'Ravenswood', ruler: 'House Blackwood', allegiance: 'House Tully', description: 'A riverland house with strong old-god beliefs and rivalry with the Brackens.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Blackwood', label:'View Image'}] },
+    { id: 'house-bracken', name: 'House Bracken', words: 'As Strong as Stone', region: 'The Riverlands', seat: 'Stone Hedge', ruler: 'House Bracken', allegiance: 'House Tully', description: 'A quarrelsome riverland house often at odds with the Blackwoods.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Bracken', label:'View Image'}] },
+    { id: 'house-hightower', name: 'House Hightower', words: 'We Light the Way', region: 'The Reach', seat: 'Oldtown', ruler: 'House Hightower', allegiance: 'House Tyrell', description: 'A powerful house that rules Oldtown and guards the Hightower lighthouse.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Hightower', label:'View Image'}] },
+    { id: 'house-velaryon', name: 'House Velaryon', words: 'Sea is My Guide', region: 'The Crownlands', seat: 'Driftmark', ruler: 'House Velaryon', allegiance: 'House Targaryen', description: 'A Valyrian-descended house that commands the seas and supports the Targaryens.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Velaryon', label:'View Image'}] },
+    { id: 'house-celtigar', name: 'House Celtigar', words: 'The Thunderer', region: 'The Crownlands', seat: 'Claw Isle', ruler: 'House Celtigar', allegiance: 'House Targaryen', description: 'A small crownland house known for its naval strength and dragonrider heritage.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Celtigar', label:'View Image'}] },
+    { id: 'house-royce', name: 'House Royce', words: 'We Remember', region: 'The Vale', seat: 'Runestone', ruler: 'House Royce', allegiance: 'House Arryn', description: 'A proud vale house that keeps deep oaths and old memory.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Royce', label:'View Image'}] },
+    { id: 'house-payne', name: 'House Payne', words: 'Ready and Resolute', region: 'The Stormlands', seat: 'Stonedance', ruler: 'House Payne', allegiance: 'House Baratheon', description: 'A minor but loyal stormland house allied with the Baratheons.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Payne', label:'View Image'}] },
+    { id: 'house-clegane', name: 'House Clegane', words: 'Family, Duty, Honor', region: 'The Westerlands', seat: 'The Crag', ruler: 'House Clegane', allegiance: 'House Lannister', description: 'A brutal house known for fearsome fighters and service to the Lannisters.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Clegane', label:'View Image'}] }
+  ],
+  characters: [
+    { id: 'eddard-stark', name: 'Eddard Stark', house: 'Stark', titles: 'Lord of Winterfell, Warden of the North', allegiance: 'House Stark', status: 'Deceased', bio: 'The honorable lord who seeks justice in King’s Landing while protecting his family.', links:[{url:'https://awoiaf.westeros.org/index.php/Eddard_Stark', label:'View Image'}] },
+    { id: 'catelyn-stark', name: 'Catelyn Stark', house: 'Stark', titles: 'Lady of Winterfell', allegiance: 'House Stark', status: 'Deceased', bio: 'A fierce mother determined to protect her children and defend her family’s honor.', links:[{url:'https://awoiaf.westeros.org/index.php/Catelyn_Stark', label:'View Image'}] },
+    { id: 'robb-stark', name: 'Robb Stark', house: 'Stark', titles: 'King in the North', allegiance: 'House Stark', status: 'Deceased', bio: 'The young commander who leads the North into war after his father’s death.', links:[{url:'https://awoiaf.westeros.org/index.php/Robb_Stark', label:'View Image'}] },
+    { id: 'sansa-stark', name: 'Sansa Stark', house: 'Stark', titles: 'Lady of Winterfell', allegiance: 'House Stark', status: 'Alive', bio: 'A noblewoman who survives court intrigue and grows into a shrewd leader.', links:[{url:'https://awoiaf.westeros.org/index.php/Sansa_Stark', label:'View Image'}] },
+    { id: 'arya-stark', name: 'Arya Stark', house: 'Stark', titles: 'Faceless Assassin', allegiance: 'House Stark', status: 'Alive', bio: 'A fierce warrior who travels far from home and finds her own path.', links:[{url:'https://awoiaf.westeros.org/index.php/Arya_Stark', label:'View Image'}] },
+    { id: 'bran-stark', name: 'Bran Stark', house: 'Stark', titles: 'King of the Six Kingdoms', allegiance: 'House Stark', status: 'Alive', bio: 'A visionary whose connection to the old gods changes the fate of the realm.', links:[{url:'https://awoiaf.westeros.org/index.php/Bran_Stark', label:'View Image'}] },
+    { id: 'rickon-stark', name: 'Rickon Stark', house: 'Stark', titles: 'Young Stark Heir', allegiance: 'House Stark', status: 'Deceased', bio: 'The youngest Stark child caught in the violent struggle for the North.', links:[{url:'https://awoiaf.westeros.org/index.php/Rickon_Stark', label:'View Image'}] },
+    { id: 'benjen-stark', name: 'Benjen Stark', house: 'Stark', titles: 'First Ranger', allegiance: 'Night’s Watch', status: 'MIA', bio: 'A ranger of the Night’s Watch who vanishes beyond the Wall and returns changed.', links:[{url:'https://awoiaf.westeros.org/index.php/Benjen_Stark', label:'View Image'}] },
+    { id: 'lyanna-stark', name: 'Lyanna Stark', house: 'Stark', titles: 'Lady of Winterfell', allegiance: 'House Stark', status: 'Deceased', bio: 'A beloved Stark sister whose story ignites a rebellion and a hidden secret.', links:[{url:'https://awoiaf.westeros.org/index.php/Lyanna_Stark', label:'View Image'}] },
+    { id: 'tywin-lannister', name: 'Tywin Lannister', house: 'Lannister', titles: 'Lord of Casterly Rock', allegiance: 'House Lannister', status: 'Deceased', bio: 'A ruthless patriarch who controls the realm with wealth and force.', links:[{url:'https://awoiaf.westeros.org/index.php/Tywin_Lannister', label:'View Image'}] },
+    { id: 'cersei-lannister', name: 'Cersei Lannister', house: 'Lannister', titles: 'Queen of the Seven Kingdoms', allegiance: 'House Lannister', status: 'Deceased', bio: 'A queen whose obsession with power drives her to terrible choices.', links:[{url:'https://awoiaf.westeros.org/index.php/Cersei_Lannister', label:'View Image'}] },
+    { id: 'jaime-lannister', name: 'Jaime Lannister', house: 'Lannister', titles: 'Kingslayer', allegiance: 'House Lannister', status: 'Deceased', bio: 'A skilled knight whose honor is tested by love and duty.', links:[{url:'https://awoiaf.westeros.org/index.php/Jaime_Lannister', label:'View Image'}] },
+    { id: 'tyrion-lannister', name: 'Tyrion Lannister', house: 'Lannister', titles: 'Hand of the Queen', allegiance: 'House Targaryen', status: 'Alive', bio: 'A clever strategist who survives by outthinking opponents and relying on wit.', links:[{url:'https://awoiaf.westeros.org/index.php/Tyrion_Lannister', label:'View Image'}] },
+    { id: 'kevan-lannister', name: 'Kevan Lannister', house: 'Lannister', titles: 'Hand of the King', allegiance: 'House Lannister', status: 'Deceased', bio: 'A loyal brother who seeks to restore order after his family’s chaos.', links:[{url:'https://awoiaf.westeros.org/index.php/Kevan_Lannister', label:'View Image'}] },
+    { id: 'lancel-lannister', name: 'Lancel Lannister', house: 'Lannister', titles: 'Squire of the Kingsguard', allegiance: 'Faith Militant', status: 'Deceased', bio: 'A knight who moves from court intrigue to religious fanaticism.', links:[{url:'https://awoiaf.westeros.org/index.php/Lancel_Lannister', label:'View Image'}] },
+    { id: 'robert-baratheon', name: 'Robert Baratheon', house: 'Baratheon', titles: 'King of the Seven Kingdoms', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A warrior king whose reign degenerates into excess and weakness.', links:[{url:'https://awoiaf.westeros.org/index.php/Robert_Baratheon', label:'View Image'}] },
+    { id: 'stannis-baratheon', name: 'Stannis Baratheon', house: 'Baratheon', titles: 'Lord of Dragonstone', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A stern claimant who seeks the throne with rigid justice and fire magic.', links:[{url:'https://awoiaf.westeros.org/index.php/Stannis_Baratheon', label:'View Image'}] },
+    { id: 'renly-baratheon', name: 'Renly Baratheon', house: 'Baratheon', titles: 'Lord of Storm’s End', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A charismatic leader whose challenge weakens the Baratheon cause.', links:[{url:'https://awoiaf.westeros.org/index.php/Renly_Baratheon', label:'View Image'}] },
+    { id: 'gendry', name: 'Gendry', house: 'Baratheon', titles: 'Master of Ships', allegiance: 'House Baratheon', status: 'Alive', bio: 'A skilled blacksmith and bastard son of Robert Baratheon who finds a place in the war.', links:[{url:'https://awoiaf.westeros.org/index.php/Gendry', label:'View Image'}] },
+    { id: 'shireen-baratheon', name: 'Shireen Baratheon', house: 'Baratheon', titles: 'Princess of Dragonstone', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A gentle princess whose fate becomes a tragic sacrifice.', links:[{url:'https://awoiaf.westeros.org/index.php/Shireen_Baratheon', label:'View Image'}] },
+    { id: 'daenerys-targaryen', name: 'Daenerys Targaryen', house: 'Targaryen', titles: 'Queen of Meereen, Mother of Dragons', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A dragonqueen who rises from exile to challenge the Iron Throne.', links:[{url:'https://awoiaf.westeros.org/index.php/Daenerys_Targaryen', label:'View Image'}] },
+    { id: 'viserys-targaryen', name: 'Viserys Targaryen', house: 'Targaryen', titles: 'Prince of Dragonstone', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A desperate claimant whose arrogance leads to a brutal end.', links:[{url:'https://awoiaf.westeros.org/index.php/Viserys_Targaryen', label:'View Image'}] },
+    { id: 'aerys-ii-targaryen', name: 'Aerys II Targaryen', house: 'Targaryen', titles: 'The Mad King', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A tyrant king whose madness triggers rebellion and ruin.', links:[{url:'https://awoiaf.westeros.org/index.php/Aerys_II_Targaryen', label:'View Image'}] },
+    { id: 'rhaegar-targaryen', name: 'Rhaegar Targaryen', house: 'Targaryen', titles: 'Prince of Dragonstone', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A tragic prince whose choices reshape the realm’s future.', links:[{url:'https://awoiaf.westeros.org/index.php/Rhaegar_Targaryen', label:'View Image'}] },
+    { id: 'jon-snow', name: 'Jon Snow', house: 'Targaryen', titles: 'Lord Commander of the Night’s Watch', allegiance: 'House Stark', status: 'Alive', bio: 'A hero of the living who is secretly the true heir of the Iron Throne.', links:[{url:'https://awoiaf.westeros.org/index.php/Jon_Snow', label:'View Image'}] },
+    { id: 'olenna-tyrell', name: 'Olenna Tyrell', house: 'Tyrell', titles: 'Queen of Thorns', allegiance: 'House Tyrell', status: 'Deceased', bio: 'A sharp-tongued matriarch who controls much of the Reach’s politics.', links:[{url:'https://awoiaf.westeros.org/index.php/Olenna_Tyrell', label:'View Image'}] },
+    { id: 'margaery-tyrell', name: 'Margaery Tyrell', house: 'Tyrell', titles: 'Queen of the Seven Kingdoms', allegiance: 'House Tyrell', status: 'Deceased', bio: 'A charismatic queen who uses charm and strategy to survive the court.', links:[{url:'https://awoiaf.westeros.org/index.php/Margaery_Tyrell', label:'View Image'}] },
+    { id: 'loras-tyrell', name: 'Loras Tyrell', house: 'Tyrell', titles: 'The Knight of Flowers', allegiance: 'House Tyrell', status: 'Deceased', bio: 'A celebrated knight whose romance and skill are crushed by religion.', links:[{url:'https://awoiaf.westeros.org/index.php/Loras_Tyrell', label:'View Image'}] },
+    { id: 'mace-tyrell', name: 'Mace Tyrell', house: 'Tyrell', titles: 'Lord of Highgarden', allegiance: 'House Tyrell', status: 'Deceased', bio: 'A boastful lord whose poor leadership weakens his house.', links:[{url:'https://awoiaf.westeros.org/index.php/Mace_Tyrell', label:'View Image'}] },
+    { id: 'balon-greyjoy', name: 'Balon Greyjoy', house: 'Greyjoy', titles: 'King of the Iron Islands', allegiance: 'House Greyjoy', status: 'Deceased', bio: 'A stubborn leader who declares independence from the Iron Throne.', links:[{url:'https://awoiaf.westeros.org/index.php/Balon_Greyjoy', label:'View Image'}] },
+    { id: 'yara-greyjoy', name: 'Yara Greyjoy', house: 'Greyjoy', titles: 'Captain of the Iron Fleet', allegiance: 'House Greyjoy', status: 'Alive', bio: 'A bold sea lord who fights to save her people and her claim.', links:[{url:'https://awoiaf.westeros.org/index.php/Asha_Yezzan', label:'View Image'}] },
+    { id: 'theon-greyjoy', name: 'Theon Greyjoy', house: 'Greyjoy', titles: 'Prince of the Iron Islands', allegiance: 'House Stark', status: 'Deceased', bio: 'A broken man seeking redemption after betraying the Starks.', links:[{url:'https://awoiaf.westeros.org/index.php/Theon_Greyjoy', label:'View Image'}] },
+    { id: 'euron-greyjoy', name: 'Euron Greyjoy', house: 'Greyjoy', titles: 'King of the Iron Islands', allegiance: 'House Greyjoy', status: 'Deceased', bio: 'A ruthless raider who seeks chaos on sea and land.', links:[{url:'https://awoiaf.westeros.org/index.php/Euron_Greyjoy', label:'View Image'}] },
+    { id: 'oberyn-martell', name: 'Oberyn Martell', house: 'Martell', titles: 'The Red Viper of Dorne', allegiance: 'House Martell', status: 'Deceased', bio: 'A dangerous swordsman with a hunger for vengeance.', links:[{url:'https://awoiaf.westeros.org/index.php/Oberyn_Martell', label:'View Image'}] },
+    { id: 'doran-martell', name: 'Doran Martell', house: 'Martell', titles: 'Prince of Dorne', allegiance: 'House Martell', status: 'Deceased', bio: 'A patient ruler who plots slowly to protect his people.', links:[{url:'https://awoiaf.westeros.org/index.php/Doran_Martell', label:'View Image'}] },
+    { id: 'ellaria-sand', name: 'Ellaria Sand', house: 'Martell', titles: 'Paramour of Oberyn', allegiance: 'House Martell', status: 'Alive', bio: 'A vengeful noblewoman who embraces violence after her lover is killed.', links:[{url:'https://awoiaf.westeros.org/index.php/Ellaria_Sand', label:'View Image'}] },
+    { id: 'trystane-martell', name: 'Trystane Martell', house: 'Martell', titles: 'Prince of Dorne', allegiance: 'House Martell', status: 'Deceased', bio: 'A young prince used as a pawn in Dorne’s politics.', links:[{url:'https://awoiaf.westeros.org/index.php/Trystane_Martell', label:'View Image'}] },
+    { id: 'jon-arryn', name: 'Jon Arryn', house: 'Arryn', titles: 'Hand of the King', allegiance: 'House Arryn', status: 'Deceased', bio: 'A respected lord whose death sparks a chain of war.', links:[{url:'https://awoiaf.westeros.org/index.php/Jon_Arryn', label:'View Image'}] },
+    { id: 'robin-arryn', name: 'Robin Arryn', house: 'Arryn', titles: 'Lord of the Eyrie', allegiance: 'House Arryn', status: 'Alive', bio: 'A sickly boy lord raised high above the world in the Eyrie.', links:[{url:'https://awoiaf.westeros.org/index.php/Robin_Arryn', label:'View Image'}] },
+    { id: 'lysa-arryn', name: 'Lysa Arryn', house: 'Arryn', titles: 'Lady Regent of the Vale', allegiance: 'House Arryn', status: 'Deceased', bio: 'A fragile woman driven by fear and her love for Petyr Baelish.', links:[{url:'https://awoiaf.westeros.org/index.php/Lysa_Arryn', label:'View Image'}] },
+    { id: 'hoster-tully', name: 'Hoster Tully', house: 'Tully', titles: 'Lord of Riverrun', allegiance: 'House Tully', status: 'Deceased', bio: 'A traditional lord who values family, duty, and alliances.', links:[{url:'https://awoiaf.westeros.org/index.php/Hoster_Tully', label:'View Image'}] },
+    { id: 'edmure-tully', name: 'Edmure Tully', house: 'Tully', titles: 'Lord of Riverrun', allegiance: 'House Tully', status: 'Alive', bio: 'A nobleman often used by his family in the war for the Riverlands.', links:[{url:'https://awoiaf.westeros.org/index.php/Edmure_Tully', label:'View Image'}] },
+    { id: 'brynden-tully', name: 'Brynden Tully', house: 'Tully', titles: 'The Blackfish', allegiance: 'House Tully', status: 'Deceased', bio: 'A cunning warrior who defends Riverrun with unmatched skill.', links:[{url:'https://awoiaf.westeros.org/index.php/Brynden_Tully', label:'View Image'}] },
+    { id: 'roose-bolton', name: 'Roose Bolton', house: 'Bolton', titles: 'Lord of the Dreadfort', allegiance: 'House Bolton', status: 'Deceased', bio: 'A cold strategist who betrays the Starks to seize power.', links:[{url:'https://awoiaf.westeros.org/index.php/Roose_Bolton', label:'View Image'}] },
+    { id: 'ramsay-bolton', name: 'Ramsay Bolton', house: 'Bolton', titles: 'Warden of the North', allegiance: 'House Bolton', status: 'Deceased', bio: 'A sadistic lord whose cruelty terrorizes the North.', links:[{url:'https://awoiaf.westeros.org/index.php/Ramsay_Bolton', label:'View Image'}] },
+    { id: 'walder-frey', name: 'Walder Frey', house: 'Frey', titles: 'Lord of the Crossing', allegiance: 'House Frey', status: 'Deceased', bio: 'A treacherous lord whose massacre changes the Riverlands forever.', links:[{url:'https://awoiaf.westeros.org/index.php/Walder_Frey', label:'View Image'}] },
+    { id: 'petyr-baelish', name: 'Petyr Baelish', house: 'Baelish', titles: 'Master of Coin', allegiance: 'House Baelish', status: 'Deceased', bio: 'A manipulative schemer who plays the great houses against one another.', links:[{url:'https://awoiaf.westeros.org/index.php/Petyr_Baelish', label:'View Image'}] },
+    { id: 'varys', name: 'Varys', house: 'None', titles: 'Master of Whisperers', allegiance: 'The Realm', status: 'Deceased', bio: 'A spymaster who uses secrets to shape the balance of power.', links:[{url:'https://awoiaf.westeros.org/index.php/Varys', label:'View Image'}] },
+    { id: 'sandor-clegane', name: 'Sandor Clegane', house: 'Clegane', titles: 'The Hound', allegiance: 'House Lannister', status: 'Deceased', bio: 'A brutal fighter scarred by fire who is haunted by his past.', links:[{url:'https://awoiaf.westeros.org/index.php/Sandor_Clegane', label:'View Image'}] },
+    { id: 'gregor-clegane', name: 'Gregor Clegane', house: 'Clegane', titles: 'The Mountain', allegiance: 'House Lannister', status: 'Deceased', bio: 'A monstrous knight whose size and violence make him feared across Westeros.', links:[{url:'https://awoiaf.westeros.org/index.php/Gregor_Clegane', label:'View Image'}] },
+    { id: 'brienne-of-tarth', name: 'Brienne of Tarth', house: 'Tarth', titles: 'Lady Brienne', allegiance: 'House Stark', status: 'Alive', bio: 'A loyal warrior devoted to honor and the protection of her vows.', links:[{url:'https://awoiaf.westeros.org/index.php/Brienne_of_Tarth', label:'View Image'}] },
+    { id: 'samwell-tarly', name: 'Samwell Tarly', house: 'Tarly', titles: 'Maester-in-training', allegiance: 'House Tarly', status: 'Alive', bio: 'A scholar of the Night’s Watch who uncovers vital knowledge about the enemy.', links:[{url:'https://awoiaf.westeros.org/index.php/Samwell_Tarly', label:'View Image'}] },
+    { id: 'gilly', name: 'Gilly', house: 'None', titles: 'Wildling Woman', allegiance: 'Samwell Tarly', status: 'Alive', bio: 'A resilient wildling who survives the harsh North and builds a new life.', links:[{url:'https://awoiaf.westeros.org/index.php/Gilly', label:'View Image'}] },
+    { id: 'jeor-mormont', name: 'Jeor Mormont', house: 'Mormont', titles: 'Lord Commander of the Night’s Watch', allegiance: 'Night’s Watch', status: 'Deceased', bio: 'A veteran leader whose honor guides the Watch through danger.', links:[{url:'https://awoiaf.westeros.org/index.php/Jeor_Mormont', label:'View Image'}] },
+    { id: 'jorah-mormont', name: 'Jorah Mormont', house: 'Mormont', titles: 'Knight of the Queensguard', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A conflicted exile who serves Daenerys with loyalty and love.', links:[{url:'https://awoiaf.westeros.org/index.php/Jorah_Mormont', label:'View Image'}] },
+    { id: 'lyanna-mormont', name: 'Lyanna Mormont', house: 'Mormont', titles: 'Lady of Bear Island', allegiance: 'House Stark', status: 'Deceased', bio: 'A fearless young leader with a fierce voice in the North.', links:[{url:'https://awoiaf.westeros.org/index.php/Lyanna_Mormont', label:'View Image'}] },
+    { id: 'tormund-giantsbane', name: 'Tormund Giantsbane', house: 'None', titles: 'Free Folk Chieftain', allegiance: 'The Free Folk', status: 'Alive', bio: 'A wildling warrior who becomes a trusted ally of the Starks.', links:[{url:'https://awoiaf.westeros.org/index.php/Tormund_Giantsbane', label:'View Image'}] },
+    { id: 'ygritte', name: 'Ygritte', house: 'None', titles: 'Wildling Archer', allegiance: 'The Free Folk', status: 'Deceased', bio: 'A fierce wildling whose romance with Jon Snow changes both their paths.', links:[{url:'https://awoiaf.westeros.org/index.php/Ygritte', label:'View Image'}] },
+    { id: 'grey-worm', name: 'Grey Worm', house: 'None', titles: 'Commander of the Unsullied', allegiance: 'House Targaryen', status: 'Alive', bio: 'The disciplined leader of Daenerys’s Unsullied army.', links:[{url:'https://awoiaf.westeros.org/index.php/Grey_Worm', label:'View Image'}] },
+    { id: 'missandei', name: 'Missandei', house: 'None', titles: 'Advisor', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A translator and trusted friend of Daenerys.', links:[{url:'https://awoiaf.westeros.org/index.php/Missandei', label:'View Image'}] },
+    { id: 'daario-naharis', name: 'Daario Naharis', house: 'None', titles: 'Captain of the Second Sons', allegiance: 'House Targaryen', status: 'Alive', bio: 'A flamboyant mercenary whose loyalty becomes personal.', links:[{url:'https://awoiaf.westeros.org/index.php/Daario_Naharis', label:'View Image'}] },
+    { id: 'melisandre', name: 'Melisandre', house: 'None', titles: 'Red Priestess', allegiance: 'R’hllor', status: 'Deceased', bio: 'A priestess of fire whose prophecies and magic alter the war.', links:[{url:'https://awoiaf.westeros.org/index.php/Melisandre', label:'View Image'}] },
+    { id: 'thoros-of-myr', name: 'Thoros of Myr', house: 'None', titles: 'Red Priest', allegiance: 'Brotherhood Without Banners', status: 'Deceased', bio: 'A priest who brings Beric Dondarrion back to life.', links:[{url:'https://awoiaf.westeros.org/index.php/Thoros_of_Myr', label:'View Image'}] },
+    { id: 'beric-dondarrion', name: 'Beric Dondarrion', house: 'None', titles: 'Leader of the Brotherhood Without Banners', allegiance: 'The Living', status: 'Deceased', bio: 'A resurrected warrior who fights for justice and the living.', links:[{url:'https://awoiaf.westeros.org/index.php/Beric_Dondarrion', label:'View Image'}] },
+    { id: 'high-sparrow', name: 'The High Sparrow', house: 'None', titles: 'High Septon', allegiance: 'The Faith', status: 'Deceased', bio: 'A religious leader whose movement seizes power in King’s Landing.', links:[{url:'https://awoiaf.westeros.org/index.php/The_High_Sparrow', label:'View Image'}] },
+    { id: 'night-king', name: 'The Night King', house: 'None', titles: 'Lord of the Dead', allegiance: 'The White Walkers', status: 'Deceased', bio: 'A supernatural enemy who leads the army of the dead.', links:[{url:'https://awoiaf.westeros.org/index.php/Night_King', label:'View Image'}] },
+    { id: 'three-eyed-raven', name: 'Three-Eyed Raven', house: 'None', titles: 'Greenseer', allegiance: 'The Old Gods', status: 'Deceased', bio: 'A mystic guide with the ability to see past, present, and future.', links:[{url:'https://awoiaf.westeros.org/index.php/Three-Eyed_Raven', label:'View Image'}] },
+    { id: 'hodor', name: 'Hodor', house: 'None', titles: 'Stableboy', allegiance: 'House Stark', status: 'Deceased', bio: 'A gentle giant whose loyalty and sacrifice are remembered by all.', links:[{url:'https://awoiaf.westeros.org/index.php/Hodor', label:'View Image'}] },
+    { id: 'podrick-payne', name: 'Podrick Payne', house: 'Payne', titles: 'Squire', allegiance: 'House Tully', status: 'Alive', bio: 'A loyal squire who grows into a respected knight.', links:[{url:'https://awoiaf.westeros.org/index.php/Podrick_Payne', label:'View Image'}] },
+    { id: 'davos-seaworth', name: 'Davos Seaworth', house: 'Seaworth', titles: 'Hand of the King', allegiance: 'House Baratheon', status: 'Alive', bio: 'A common-born smuggler turned honest adviser to kings.', links:[{url:'https://awoiaf.westeros.org/index.php/Davos_Seaworth', label:'View Image'}] },
+    { id: 'syrio-forel', name: 'Syrio Forel', house: 'None', titles: 'First Sword of Braavos', allegiance: 'House Stark', status: 'MIA', bio: 'A master swordsman who trains Arya in the art of water dancing.', links:[{url:'https://awoiaf.westeros.org/index.php/Syrio_Forel', label:'View Image'}] },
+    { id: 'jaqen-hghar', name: 'Jaqen H’ghar', house: 'None', titles: 'Faceless Man', allegiance: 'The Many-Faced God', status: 'Alive', bio: 'A mysterious assassin who teaches Arya the power of identity.', links:[{url:'https://awoiaf.westeros.org/index.php/Jaqen_Hghar', label:'View Image'}] },
+    { id: 'hot-pie', name: 'Hot Pie', house: 'None', titles: 'Baker', allegiance: 'House Stark', status: 'Alive', bio: 'A good-hearted youth who survives the war and keeps simple hopes.', links:[{url:'https://awoiaf.westeros.org/index.php/Hot_Pie', label:'View Image'}] },
+    { id: 'maester-aemon', name: 'Maester Aemon', house: 'Targaryen', titles: 'Maester of the Night’s Watch', allegiance: 'Night’s Watch', status: 'Deceased', bio: 'A wise maester who gives counsel to Jon Snow and the Watch.', links:[{url:'https://awoiaf.westeros.org/index.php/Maester_Aemon', label:'View Image'}] },
+    { id: 'qyburn', name: 'Qyburn', house: 'None', titles: 'Maester', allegiance: 'House Lannister', status: 'Alive', bio: 'A disgraced healer who uses forbidden knowledge for power.', links:[{url:'https://awoiaf.westeros.org/index.php/Qyburn', label:'View Image'}] },
+    { id: 'pycelle', name: 'Pycelle', house: 'None', titles: 'Grand Maester', allegiance: 'The Iron Throne', status: 'Deceased', bio: 'A court maester whose loyalty shifts with the crown’s favor.', links:[{url:'https://awoiaf.westeros.org/index.php/Pycelle', label:'View Image'}] },
+    { id: 'barristan-selmy', name: 'Barristan Selmy', house: 'Selmy', titles: 'Lord Commander of the Kingsguard', allegiance: 'House Targaryen', status: 'Deceased', bio: 'A legendary knight known for honor and service to the crown.', links:[{url:'https://awoiaf.westeros.org/index.php/Barristan_Selmy', label:'View Image'}] },
+    { id: 'mance-rayder', name: 'Mance Rayder', house: 'None', titles: 'King-Beyond-the-Wall', allegiance: 'The Free Folk', status: 'Deceased', bio: 'A wildling leader who unites clans against the coming darkness.', links:[{url:'https://awoiaf.westeros.org/index.php/Mance_Rayder', label:'View Image'}] },
+    { id: 'khal-drogo', name: 'Khal Drogo', house: 'None', titles: 'Khal', allegiance: 'Dothraki', status: 'Deceased', bio: 'A powerful Dothraki warlord and husband to Daenerys Targaryen.', links:[{url:'https://awoiaf.westeros.org/index.php/Khal_Drogo', label:'View Image'}] },
+    { id: 'talisa-stark', name: 'Talisa Stark', house: 'None', titles: 'Lady of Winterfell', allegiance: 'House Stark', status: 'Deceased', bio: 'A healer who becomes Robb Stark’s wife and a tragic figure of war.', links:[{url:'https://awoiaf.westeros.org/index.php/Talisa_Stark', label:'View Image'}] },
+    { id: 'ros', name: 'Ros', house: 'None', titles: 'Courtesan', allegiance: 'None', status: 'Deceased', bio: 'A streetwise woman who survives long enough to witness the courts of King’s Landing.', links:[{url:'https://awoiaf.westeros.org/index.php/Ros', label:'View Image'}] },
+    { id: 'myrcella-baratheon', name: 'Myrcella Baratheon', house: 'Baratheon', titles: 'Princess of the Seven Kingdoms', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A royal princess caught in the deadly politics of King’s Landing.', links:[{url:'https://awoiaf.westeros.org/index.php/Myrcella_Baratheon', label:'View Image'}] },
+    { id: 'tommen-baratheon', name: 'Tommen Baratheon', house: 'Baratheon', titles: 'King of the Seven Kingdoms', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A kind but weak young king manipulated by those around him.', links:[{url:'https://awoiaf.westeros.org/index.php/Tommen_Baratheon', label:'View Image'}] },
+    { id: 'joffrey-baratheon', name: 'Joffrey Baratheon', house: 'Baratheon', titles: 'King of the Seven Kingdoms', allegiance: 'House Baratheon', status: 'Deceased', bio: 'A cruel adolescent king whose reign spreads fear across the realm.', links:[{url:'https://awoiaf.westeros.org/index.php/Joffrey_Baratheon', label:'View Image'}] }
+  ],
+  dragons: [
+    { id: 'drogon', name: 'Drogon', colour: 'Black', rider: 'Daenerys Targaryen', size: 'Massive', status: 'Alive', description: 'The largest and fiercest of Daenerys’s dragons, named for Khal Drogo.', links:[{url:'https://awoiaf.westeros.org/index.php/Drogon', label:'View Image'}] },
+    { id: 'rhaegal', name: 'Rhaegal', colour: 'Green', rider: 'Daenerys Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon named for Rhaegar Targaryen, known for his speed and cunning.', links:[{url:'https://awoiaf.westeros.org/index.php/Rhaegal', label:'View Image'}] },
+    { id: 'viserion', name: 'Viserion', colour: 'Cream and gold', rider: 'Daenerys Targaryen', size: 'Large', status: 'Deceased', description: 'A beautiful dragon who becomes an undead mount of the Night King.', links:[{url:'https://awoiaf.westeros.org/index.php/Viserion', label:'View Image'}] },
+    { id: 'balerion', name: 'Balerion', colour: 'Black', rider: 'Aegon I Targaryen', size: 'Colossal', status: 'Deceased', description: 'The Black Dread, the largest dragon to ever live in Westeros.', links:[{url:'https://awoiaf.westeros.org/index.php/Balerion', label:'View Image'}] },
+    { id: 'vhagar', name: 'Vhagar', colour: 'Bronze', rider: 'Aemond Targaryen', size: 'Huge', status: 'Deceased', description: 'One of the three dragons of Aegon’s conquest and the last surviving dragon for many years.', links:[{url:'https://awoiaf.westeros.org/index.php/Vhagar', label:'View Image'}] },
+    { id: 'meraxes', name: 'Meraxes', colour: 'Black and red', rider: 'Rhaenys Targaryen', size: 'Large', status: 'Deceased', description: 'A fearsome dragon ridden by the Queen Who Never Was.', links:[{url:'https://awoiaf.westeros.org/index.php/Meraxes', label:'View Image'}] },
+    { id: 'caraxes', name: 'Caraxes', colour: 'Red', rider: 'Daemon Targaryen', size: 'Large', status: 'Deceased', description: 'A fierce dragon known as the Blood Wyrm.', links:[{url:'https://awoiaf.westeros.org/index.php/Caraxes', label:'View Image'}] },
+    { id: 'syrax', name: 'Syrax', colour: 'Golden', rider: 'Rhaenyra Targaryen', size: 'Large', status: 'Deceased', description: 'Rhaenyra’s dragon and a symbol of her claim.', links:[{url:'https://awoiaf.westeros.org/index.php/Syrax', label:'View Image'}] },
+    { id: 'sunfyre', name: 'Sunfyre', colour: 'Gold', rider: 'Aegon II Targaryen', size: 'Large', status: 'Deceased', description: 'One of the brightest dragons ever born, famed for its golden scales.', links:[{url:'https://awoiaf.westeros.org/index.php/Sunfyre', label:'View Image'}] },
+    { id: 'dreamfyre', name: 'Dreamfyre', colour: 'Silver', rider: 'Helaena Targaryen', size: 'Large', status: 'Deceased', description: 'A graceful dragon ridden by the gentle Helaena.', links:[{url:'https://awoiaf.westeros.org/index.php/Dreamfyre', label:'View Image'}] },
+    { id: 'meleys', name: 'Meleys', colour: 'Red and white', rider: 'Rhaenys Targaryen', size: 'Large', status: 'Deceased', description: 'A beautiful dragon known as the Red Queen.', links:[{url:'https://awoiaf.westeros.org/index.php/Meleys', label:'View Image'}] },
+    { id: 'vermithor', name: 'Vermithor', colour: 'Bronze', rider: 'Jaehaerys I Targaryen', size: 'Huge', status: 'Deceased', description: 'A veteran dragon known as the Bronze Fury.', links:[{url:'https://awoiaf.westeros.org/index.php/Vermithor', label:'View Image'}] },
+    { id: 'silverwing', name: 'Silverwing', colour: 'Silver', rider: 'Alysanne Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon with shimmering silver scales.', links:[{url:'https://awoiaf.westeros.org/index.php/Silverwing', label:'View Image'}] },
+    { id: 'seasmoke', name: 'Seasmoke', colour: 'Sea-grey', rider: 'Daemon Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon famed for commanding the seas and storms.', links:[{url:'https://awoiaf.westeros.org/index.php/Seasmoke', label:'View Image'}] },
+    { id: 'tessarion', name: 'Tessarion', colour: 'Blue', rider: 'Lucerys Velaryon', size: 'Large', status: 'Deceased', description: 'A dragon known for its speed and blue flame.', links:[{url:'https://awoiaf.westeros.org/index.php/Tessarion', label:'View Image'}] },
+    { id: 'arrax', name: 'Arrax', colour: 'Blue-green', rider: 'Alyn Velaryon', size: 'Large', status: 'Deceased', description: 'A dragon ridden by a Velaryon prince during the Dance of the Dragons.', links:[{url:'https://awoiaf.westeros.org/index.php/Arrax', label:'View Image'}] },
+    { id: 'vermax', name: 'Vermax', colour: 'Green', rider: 'Jacaerys Velaryon', size: 'Large', status: 'Deceased', description: 'A dragon flown by Rhaenyra’s heir and a potent war beast.', links:[{url:'https://awoiaf.westeros.org/index.php/Vermax', label:'View Image'}] },
+    { id: 'tyraxes', name: 'Tyraxes', colour: 'Yellow', rider: 'Aegon III Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon that serves the boy king Aegon III.', links:[{url:'https://awoiaf.westeros.org/index.php/Tyraxes', label:'View Image'}] },
+    { id: 'stormcloud', name: 'Stormcloud', colour: 'Dark grey', rider: 'Laena Velaryon', size: 'Large', status: 'Deceased', description: 'A dragon associated with storms and swift flight.', links:[{url:'https://awoiaf.westeros.org/index.php/Stormcloud', label:'View Image'}] },
+    { id: 'morning', name: 'Morning', colour: 'Pale gold', rider: 'Rhaena Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon whose colors recall dawn light.', links:[{url:'https://awoiaf.westeros.org/index.php/Morning', label:'View Image'}] },
+    { id: 'moondancer', name: 'Moondancer', colour: 'Silver', rider: 'Baela Targaryen', size: 'Large', status: 'Deceased', description: 'A small, swift dragon beloved for its grace.', links:[{url:'https://awoiaf.westeros.org/index.php/Moondancer', label:'View Image'}] },
+    { id: 'sheepstealer', name: 'Sheepstealer', colour: 'Green', rider: 'Nettles', size: 'Small', status: 'Deceased', description: 'A wild dragon tamed by a common girl from the Dornish Marches.', links:[{url:'https://awoiaf.westeros.org/index.php/Sheepstealer', label:'View Image'}] },
+    { id: 'grey-ghost', name: 'Grey Ghost', colour: 'Grey', rider: 'An unnamed dragonrider', size: 'Large', status: 'Deceased', description: 'A mysterious dragon that appears only rarely in the histories.', links:[{url:'https://awoiaf.westeros.org/index.php/Grey-Ghost', label:'View Image'}] },
+    { id: 'cannibal', name: 'Cannibal', colour: 'Black', rider: 'Alyn Velaryon', size: 'Large', status: 'Deceased', description: 'A fierce dragon known for devouring weaker dragons in battle.', links:[{url:'https://awoiaf.westeros.org/index.php/Cannibal', label:'View Image'}] },
+    { id: 'shrykos', name: 'Shrykos', colour: 'Black', rider: 'Jaehaerys II Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon ridden during the later years of the Targaryen dynasty.', links:[{url:'https://awoiaf.westeros.org/index.php/Shrykos', label:'View Image'}] },
+    { id: 'morghul', name: 'Morghul', colour: 'Black', rider: 'Alyssa Velaryon', size: 'Large', status: 'Deceased', description: 'A dark dragon used in the Targaryen civil wars.', links:[{url:'https://awoiaf.westeros.org/index.php/Morghul', label:'View Image'}] },
+    { id: 'quicksilver', name: 'Quicksilver', colour: 'Silver', rider: 'Rhaenys Targaryen', size: 'Large', status: 'Deceased', description: 'A dragon prized for its speed and agility.', links:[{url:'https://awoiaf.westeros.org/index.php/Quicksilver', label:'View Image'}] }
+  ],
+  battles: [
+    { id: 'battle-blackwater', name: 'Battle of the Blackwater', location: 'King’s Landing', summary: 'A royalist defense of the capital against Stannis Baratheon’s fleet and army.', participants: ['House Lannister', 'House Baratheon', 'House Targaryen'], winner: 'House Lannister', consequences: 'The throne remains with the Lannisters and Stannis retreats.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Blackwater', label:'View Image'}] },
+    { id: 'battle-bastards', name: 'Battle of the Bastards', location: 'The North', summary: 'Jon Snow and Sansa Stark face Ramsay Bolton to reclaim Winterfell.', participants: ['House Stark', 'House Bolton'], winner: 'House Stark', consequences: 'Winterfell is retaken and Ramsay is defeated.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Bastards', label:'View Image'}] },
+    { id: 'battle-winterfell', name: 'Battle of Winterfell', location: 'Winterfell', summary: 'The living battle the Night King’s army of the dead in the North.', participants: ['The Living', 'The Dead'], winner: 'The Living', consequences: 'The Night King is destroyed, ending the greatest horror of the long night.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_Winterfell', label:'View Image'}] },
+    { id: 'loot-train', name: 'Loot Train Attack', location: 'The Reach', summary: 'Daenerys ambushes the Lannister army as they transport loot from King’s Landing.', participants: ['House Targaryen', 'House Lannister'], winner: 'House Targaryen', consequences: 'The Lannisters suffer a crushing defeat and lose supply lines.', links:[{url:'https://awoiaf.westeros.org/index.php/Loot_Train_Attack', label:'View Image'}] },
+    { id: 'battle-castle-black', name: 'Battle of Castle Black', location: 'The Wall', summary: 'The Night’s Watch defends Castle Black from a wildling attack.', participants: ['Night’s Watch', 'Free Folk'], winner: 'Night’s Watch', consequences: 'The Night’s Watch holds the Wall but suffers heavy losses.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_Castle_Black', label:'View Image'}] },
+    { id: 'battle-at-wall', name: 'Battle at the Wall', location: 'The Wall', summary: 'The Night King’s forces attack the Wall itself in a major assault.', participants: ['The Dead', 'The Living'], winner: 'The Living', consequences: 'The Wall is breached but the army of the dead is delayed.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_at_the_Wall', label:'View Image'}] },
+    { id: 'battle-beyond-wall', name: 'Battle Beyond the Wall', location: 'Beyond the Wall', summary: 'Jon leads a raid to capture a wight and is trapped by the Night King.', participants: ['The Living', 'The Dead'], winner: 'The Living', consequences: 'A wight is captured and the greater threat is revealed.', links:[{url:'https://awoiaf.westeros.org/index.php/Beyond_the_Wall', label:'View Image'}] },
+    { id: 'battle-whispering-wood', name: 'Battle of the Whispering Wood', location: 'The Riverlands', summary: 'Robb Stark defeats Jaime Lannister in a daring northern victory.', participants: ['House Stark', 'House Lannister'], winner: 'House Stark', consequences: 'Jaime is captured and northern momentum grows.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Whispering_Wood', label:'View Image'}] },
+    { id: 'battle-camps', name: 'Battle of the Camps', location: 'The Riverlands', summary: 'The northern army attacks the Lannister supply camp and wins a decisive skirmish.', participants: ['House Stark', 'House Lannister'], winner: 'House Stark', consequences: 'The Lannister army is weakened before the Green Fork.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Camps', label:'View Image'}] },
+    { id: 'battle-oxcross', name: 'Battle of Oxcross', location: 'The Riverlands', summary: 'Robb Stark defeats the Lannister army led by Jaime Lannister.', participants: ['House Stark', 'House Lannister'], winner: 'House Stark', consequences: 'Robb captures Jaime and gains control of the river crossing.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_Oxcross', label:'View Image'}] },
+    { id: 'battle-green-fork', name: 'Battle of the Green Fork', location: 'The Riverlands', summary: 'A brutal battle in the Tully campaign where the Lannisters score a bloody success.', participants: ['House Lannister', 'House Stark'], winner: 'House Lannister', consequences: 'The Lannisters slow Robb’s advance and reinforce the Trident.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Green_Fork', label:'View Image'}] },
+    { id: 'battle-trident', name: 'Battle of the Trident', location: 'The Riverlands', summary: 'Aegon Targaryen defeats Rhaegar and turns the tide of his conquest.', participants: ['House Targaryen', 'House Targaryen'], winner: 'House Targaryen', consequences: 'The Targaryen claim is secured and Rhaegar falls.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Trident', label:'View Image'}] },
+    { id: 'sack-kings-landing', name: 'Sack of King’s Landing', location: 'King’s Landing', summary: 'Aegon’s forces sack the capital after the city refuses to surrender.', participants: ['House Targaryen', 'King’s Landing'], winner: 'House Targaryen', consequences: 'The Iron Throne is won and the city falls.', links:[{url:'https://awoiaf.westeros.org/index.php/Sack_of_King%27s_Landing', label:'View Image'}] },
+    { id: 'field-of-fire', name: 'Field of Fire', location: 'The Crownlands', summary: 'Aegon’s dragons burn the rival armies of the Reach and the Rock.', participants: ['House Targaryen', 'House Gardener', 'House Lannister'], winner: 'House Targaryen', consequences: 'Aegon consolidates control over the realm.', links:[{url:'https://awoiaf.westeros.org/index.php/Field_of_Fire', label:'View Image'}] },
+    { id: 'battle-goldroad', name: 'Battle of the Goldroad', location: 'The Reach', summary: 'Daenerys ambushes the Lannister army on the road to Highgarden.', participants: ['House Targaryen', 'House Lannister'], winner: 'House Targaryen', consequences: 'The Reach falls and the Lannisters are routed.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Goldroad', label:'View Image'}] },
+    { id: 'battle-of-bells', name: 'Battle of the Bells', location: 'King’s Landing', summary: 'Daenerys attacks the central city after Cersei refuses to surrender.', participants: ['House Targaryen', 'House Lannister'], winner: 'House Targaryen', consequences: 'King’s Landing is destroyed and Cersei is defeated.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_the_Bells', label:'View Image'}] },
+    { id: 'battle-ashford', name: 'Battle of Ashford', location: 'The Reach', summary: 'A hunt escalates into a major battle between two rival city-states.', participants: ['House Tully', 'House Hightower'], winner: 'House Hightower', consequences: 'Highgarden’s strength is demonstrated in war.', links:[{url:'https://awoiaf.westeros.org/index.php/Battle_of_Ashford', label:'View Image'}] },
+    { id: 'siege-riverrun', name: 'Siege of Riverrun', location: 'The Riverlands', summary: 'A prolonged siege tests the loyalties of northern and riverland houses.', participants: ['House Lannister', 'House Tully'], winner: 'House Lannister', consequences: 'Riverrun falls and the riverlands remain contested.', links:[{url:'https://awoiaf.westeros.org/index.php/Siege_of_Riverrun', label:'View Image'}] },
+    { id: 'red-wedding', name: 'Red Wedding', location: 'The Riverlands', summary: 'A brutal massacre ends Robb Stark’s campaign and destroys his army.', participants: ['House Frey', 'House Bolton', 'House Lannister'], winner: 'House Lannister', consequences: 'The northern rebellion collapses and the Stark cause is shattered.', links:[{url:'https://awoiaf.westeros.org/index.php/Red_Wedding', label:'View Image'}] },
+    { id: 'purple-wedding', name: 'Purple Wedding', location: 'King’s Landing', summary: 'King Joffrey is poisoned during his wedding feast.', participants: ['House Lannister', 'House Tyrell'], winner: 'House Lannister', consequences: 'Tyrion is accused and the power balance shifts.', links:[{url:'https://awoiaf.westeros.org/index.php/Purple_Wedding', label:'View Image'}] },
+    { id: 'hardhome', name: 'Hardhome', location: 'Beyond the Wall', summary: 'The Night King attacks a wildling settlement, causing massive slaughter.', participants: ['Night’s Watch', 'Free Folk', 'The Dead'], winner: 'The Dead', consequences: 'The enemy grows stronger and the living are warned of the threat.', links:[{url:'https://awoiaf.westeros.org/index.php/Hardhome', label:'View Image'}] }
+  ],
+  castles: [
+    { id: 'winterfell', name: 'Winterfell', region: 'The North', house: 'Stark', architecture: 'Stone keep with hot springs and ancient crypts.', importance: 'The ancestral seat of House Stark and heart of the North.', links:[{url:'https://awoiaf.westeros.org/index.php/Winterfell', label:'View Image'}] },
+    { id: 'castle-black', name: 'Castle Black', region: 'The North', house: 'Night’s Watch', architecture: 'Ice wall fortification with towers.', importance: 'The main stronghold of the Night’s Watch on the Wall.', links:[{url:'https://awoiaf.westeros.org/index.php/Castle_Black', label:'View Image'}] },
+    { id: 'the-wall', name: 'The Wall', region: 'The North', house: 'Night’s Watch', architecture: 'Gigantic ice fortification', importance: 'A colossal barrier protecting the realms of men.', links:[{url:'https://awoiaf.westeros.org/index.php/The_Wall', label:'View Image'}] },
+    { id: 'kings-landing', name: 'King’s Landing', region: 'The Crownlands', house: 'Baratheon', architecture: 'Walled coastal city', importance: 'The capital of the Seven Kingdoms and seat of the Iron Throne.', links:[{url:'https://awoiaf.westeros.org/index.php/King%27s_Landing', label:'View Image'}] },
+    { id: 'red-keep', name: 'The Red Keep', region: 'The Crownlands', house: 'Baratheon', architecture: 'High stone fortress', importance: 'The royal castle within King’s Landing.', links:[{url:'https://awoiaf.westeros.org/index.php/The_Red_Keep', label:'View Image'}] },
+    { id: 'dragonstone', name: 'Dragonstone', region: 'The Crownlands', house: 'Targaryen', architecture: 'Volcanic island fortress', importance: 'Ancestral seat of House Targaryen in Westeros.', links:[{url:'https://awoiaf.westeros.org/index.php/Dragonstone', label:'View Image'}] },
+    { id: 'storms-end', name: 'Storm’s End', region: 'The Stormlands', house: 'Baratheon', architecture: 'Massive stone fortress', importance: 'The ancient seat of House Baratheon.', links:[{url:'https://awoiaf.westeros.org/index.php/Storm%27s_End', label:'View Image'}] },
+    { id: 'casterly-rock', name: 'Casterly Rock', region: 'The Westerlands', house: 'Lannister', architecture: 'Cliffside fortress', importance: 'The wealthy stronghold of House Lannister.', links:[{url:'https://awoiaf.westeros.org/index.php/Casterly_Rock', label:'View Image'}] },
+    { id: 'riverrun', name: 'Riverrun', region: 'The Riverlands', house: 'Tully', architecture: 'Island castle surrounded by the Tumblestone', importance: 'The ancestral seat of House Tully and riverland power.', links:[{url:'https://awoiaf.westeros.org/index.php/Riverrun', label:'View Image'}] },
+    { id: 'the-eyrie', name: 'The Eyrie', region: 'The Vale', house: 'Arryn', architecture: 'Sky castle atop the Mountains of the Moon', importance: 'A virtually impregnable stronghold of House Arryn.', links:[{url:'https://awoiaf.westeros.org/index.php/The_Eyrie', label:'View Image'}] },
+    { id: 'highgarden', name: 'Highgarden', region: 'The Reach', house: 'Tyrell', architecture: 'Luxurious castle with gardens', importance: 'The lush seat of House Tyrell.', links:[{url:'https://awoiaf.westeros.org/index.php/Highgarden', label:'View Image'}] },
+    { id: 'sunspear', name: 'Sunspear', region: 'Dorne', house: 'Martell', architecture: 'Desert palace with water gardens', importance: 'The seat of the ruling house of Dorne.', links:[{url:'https://awoiaf.westeros.org/index.php/Sunspear', label:'View Image'}] },
+    { id: 'pyke', name: 'Pyke', region: 'The Iron Islands', house: 'Greyjoy', architecture: 'Sea castle with towers on rock pillars', importance: 'The rugged stronghold of House Greyjoy.', links:[{url:'https://awoiaf.westeros.org/index.php/Pyke', label:'View Image'}] },
+    { id: 'harrenhal', name: 'Harrenhal', region: 'The Riverlands', house: 'None', architecture: 'Massive ruined castle', importance: 'A cursed castle whose history is marked by ruin and failure.', links:[{url:'https://awoiaf.westeros.org/index.php/Harrenhal', label:'View Image'}] },
+    { id: 'the-twins', name: 'The Twins', region: 'The Riverlands', house: 'Frey', architecture: 'Twin castles linked by a bridge', importance: 'A strategic crossing and the seat of House Frey.', links:[{url:'https://awoiaf.westeros.org/index.php/The_Twins', label:'View Image'}] },
+    { id: 'bear-island', name: 'Bear Island', region: 'The North', house: 'Mormont', architecture: 'Stone keep on a stark island', importance: 'A remote castle and stronghold of House Mormont.', links:[{url:'https://awoiaf.westeros.org/index.php/Bear_Island', label:'View Image'}] },
+    { id: 'moat-cailin', name: 'Moat Cailin', region: 'The North', house: 'None', architecture: 'Swamp castle with defensive tracks', importance: 'A key northern fortress controlling the Neck.', links:[{url:'https://awoiaf.westeros.org/index.php/Moat_Cailin', label:'View Image'}] },
+    { id: 'white-harbor', name: 'White Harbor', region: 'The North', house: 'Manderly', architecture: 'Harbor city with castle keep', importance: 'The major port and seat of House Manderly.', links:[{url:'https://awoiaf.westeros.org/index.php/White_Harbor', label:'View Image'}] },
+    { id: 'last-hearth', name: 'Last Hearth', region: 'The North', house: 'Umber', architecture: 'Stone hall with high walls', importance: 'A northern castle guarding the Last Hearth of the North.', links:[{url:'https://awoiaf.westeros.org/index.php/Last_Hearth', label:'View Image'}] },
+    { id: 'horn-hill', name: 'Horn Hill', region: 'The Reach', house: 'Tarly', architecture: 'Great keep with horned gate', importance: 'The ancestral seat of House Tarly.', links:[{url:'https://awoiaf.westeros.org/index.php/Horn_Hill', label:'View Image'}] },
+    { id: 'dreadfort', name: 'The Dreadfort', region: 'The North', house: 'Bolton', architecture: 'Dark keep with sharp towers', importance: 'A brutal northern castle synonymous with terror.', links:[{url:'https://awoiaf.westeros.org/index.php/The_Dreadfort', label:'View Image'}] },
+    { id: 'oldtown', name: 'Oldtown', region: 'The Reach', house: 'Hightower', architecture: 'City castle with the Hightower', importance: 'The oldest city in Westeros and home of the Citadel.', links:[{url:'https://awoiaf.westeros.org/index.php/Oldtown', label:'View Image'}] },
+    { id: 'driftmark', name: 'Driftmark', region: 'The Crownlands', house: 'Velaryon', architecture: 'Island castle with tidal causeways', importance: 'The naval seat of House Velaryon.', links:[{url:'https://awoiaf.westeros.org/index.php/Driftmark', label:'View Image'}] }
+  ],
+  timeline: [
+    {
+      id: 'age-of-heroes',
+      title: 'Age of Heroes',
+      years: 'Ancient',
+      description: 'The earliest era of Westeros, when legendary houses were founded and the Wall was raised to hold back the long night.',
+      events: ['Founding of Winterfell', 'Construction of the Wall'],
+      politicalShift: 'The realm coalesces around the first great houses and the old gods retain their power.',
+      houses: [
+        {
+          id: 'house-stark',
+          name: 'House Stark',
+          words: 'Winter Is Coming',
+          region: 'The North',
+          seat: 'Winterfell',
+          ruler: 'Bran the Builder',
+          allegiance: 'Old Gods',
+          description: 'An ancient northern house known for endurance, honor, and the three-eyed raven legacy.'
+        }
+      ],
+      characters: [
+        {
+          id: 'bran-builder',
+          name: 'Bran the Builder',
+          initials: 'BB',
+          house: 'Stark',
+          titles: 'King in the North',
+          allegiance: 'The North',
+          status: 'Legendary',
+          bio: 'A giant among builders, credited with raising the Wall and shaping the early North.',
+          weapons: 'Warhammer',
+          relationships: 'Founder of House Stark'
+        }
+      ],
+      dragons: [
+        {
+          id: 'balerion',
+          name: 'Balerion',
+          colour: 'Black',
+          rider: 'Aegon the Conqueror',
+          size: 'Towering',
+          status: 'Ancient',
+          description: 'A dragon of unmatched size whose shadow fell across the newly united realms.'
+        }
+      ],
+      battles: [
+        {
+          id: 'battle-of-the-beb',
+          name: 'Battle of the Long Night',
+          location: 'The Wall',
+          commanders: ['Bran the Builder'],
+          winner: 'The Wall',
+          consequences: 'The Wall holds and the first alliance of the great houses forms.',
+          summary: 'A legendary conflict that shaped the earliest order of Westeros.'
+        }
+      ],
+      castles: [
+        {
+          id: 'winterfell-castle',
+          name: 'Winterfell',
+          region: 'The North',
+          house: 'Stark',
+          description: 'A deep, cold fortress built over hot springs and ancient crypts.',
+          architecture: 'Stone keep with wide gates and godswood.',
+          importance: 'Heart of the North and symbol of northern resilience.'
+        }
+      ]
+    },
+    {
+      id: 'aegons-conquest',
+      title: "Aegon’s Conquest",
+      years: '1-60 AC',
+      description: 'Aegon Targaryen conquers the Seven Kingdoms with dragons, binding disparate kingdoms under a single crown.',
+      events: ['Aegon lands at Dragonstone', 'The Field of Fire'],
+      politicalShift: 'Westeros is united under the Iron Throne and royal houses define the realm.',
+      houses: [
+        {
+          id: 'house-targaryen',
+          name: 'House Targaryen',
+          words: 'Fire and Blood',
+          region: 'The Crownlands',
+          seat: 'Dragonstone',
+          ruler: 'Aegon I',
+          allegiance: 'The Iron Throne',
+          description: 'A house forged in dragonfire, setting the tone for the first royal dynasty.'
+        }
+      ],
+      characters: [
+        {
+          id: 'aegon-targaryen',
+          name: 'Aegon Targaryen',
+          initials: 'AT',
+          house: 'Targaryen',
+          titles: 'King of the Andals and the First Men',
+          allegiance: 'The Iron Throne',
+          status: 'Ruler',
+          bio: 'The conqueror whose dragons brought the Seven Kingdoms together under one ruler.',
+          weapons: 'Sword',
+          relationships: 'Husband of Visenya and Rhaenys'
+        }
+      ],
+      dragons: [
+        {
+          id: 'balerion-conquest',
+          name: 'Balerion',
+          colour: 'Black',
+          rider: 'Aegon I',
+          size: 'Colossal',
+          status: 'Legendary',
+          description: 'The dragon whose fire won the first battles of the conquest.'
+        }
+      ],
+      battles: [
+        {
+          id: 'field-of-fire',
+          name: 'Field of Fire',
+          location: 'The Crownlands',
+          commanders: ['Aegon I', 'Orys Baratheon'],
+          winner: 'Targaryen forces',
+          consequences: 'The last major resistance to Aegon is broken.',
+          summary: 'A decisive battle where dragonfire shredded the enemy lines.'
+        }
+      ],
+      castles: [
+        {
+          id: 'dragonstone-castle',
+          name: 'Dragonstone',
+          region: 'The Crownlands',
+          house: 'Targaryen',
+          description: 'A volcanic island fortress and the launch point for the conquest.',
+          architecture: 'Black stone keep with dragon motifs.',
+          importance: 'The first Targaryen seat in Westeros.'
+        }
+      ]
+    },
+    {
+      id: 'roberts-rebellion',
+      title: "Robert's Rebellion",
+      years: '282-283 AC',
+      description: 'A rebellion ignites after the fall of a king, reshaping the ruling houses and setting the stage for a new throne.',
+      events: ['Battle of the Trident', 'Sack of King’s Landing'],
+      politicalShift: 'The Targaryen dynasty ends and House Baratheon takes the crown.',
+      houses: [
+        {
+          id: 'house-baratheon',
+          name: 'House Baratheon',
+          words: 'Ours is the Fury',
+          region: 'The Stormlands',
+          seat: 'Storm’s End',
+          ruler: 'Robert Baratheon',
+          allegiance: 'The Iron Throne',
+          description: 'A warlike house whose leader rose to claim the crown by force.'
+        }
+      ],
+      characters: [
+        {
+          id: 'robert-baratheon',
+          name: 'Robert Baratheon',
+          initials: 'RB',
+          house: 'Baratheon',
+          titles: 'King of the Seven Kingdoms',
+          allegiance: 'House Baratheon',
+          status: 'King',
+          bio: 'A broad-shouldered warrior who led the rebellion against the Targaryens.',
+          weapons: 'Warhammer',
+          relationships: 'Friend of Eddard Stark'
+        }
+      ],
+      dragons: [],
+      battles: [
+        {
+          id: 'battle-of-the-trident',
+          name: 'Battle of the Trident',
+          location: 'The Riverlands',
+          commanders: ['Robert Baratheon', 'Rhaegar Targaryen'],
+          winner: 'Rebel army',
+          consequences: 'The Targaryen heir falls and the rebellion turns in favor of Robert.',
+          summary: 'A single decisive clash that decided the fate of the old dynasty.'
+        }
+      ],
+      castles: [
+        {
+          id: 'storms-end',
+          name: 'Storm’s End',
+          region: 'The Stormlands',
+          house: 'Baratheon',
+          description: 'A near-impregnable stronghold with a legendary shield that holds back the sea.',
+          architecture: 'Massive stone walls and a deep moat.',
+          importance: 'A key seat of Baratheon power during the rebellion.'
+        }
+      ]
+    },
+    {
+      id: 'war-of-the-five-kings',
+      title: 'War of the Five Kings',
+      years: '298-300 AC',
+      description: 'Noble houses battle for control of the throne, plunging Westeros into widespread chaos and betrayal.',
+      events: ['Red Wedding', 'Battle of the Bastards'],
+      politicalShift: 'The realm fractures as claimants rise and the old order begins to crumble.',
+      houses: [
+        {
+          id: 'house-lannister',
+          name: 'House Lannister',
+          words: 'Hear Me Roar!',
+          region: 'The Westerlands',
+          seat: 'Casterly Rock',
+          ruler: 'Tywin Lannister',
+          allegiance: 'The Iron Throne',
+          description: 'A wealthy and ruthless house whose coins and armies shape the war.'
+        }
+      ],
+      characters: [
+        {
+          id: 'tywin-lannister',
+          name: 'Tywin Lannister',
+          initials: 'TL',
+          house: 'Lannister',
+          titles: 'Hand of the King',
+          allegiance: 'House Lannister',
+          status: 'Ruthless',
+          bio: 'A cold strategist whose ambition ensures his family holds the strongest position.',
+          weapons: 'Sword',
+          relationships: 'Father of Jaime, Cersei, and Tyrion'
+        }
+      ],
+      dragons: [],
+      battles: [
+        {
+          id: 'battle-of-the-bastards',
+          name: 'Battle of the Bastards',
+          location: 'The North',
+          commanders: ['Jon Snow', 'Ramsay Bolton'],
+          winner: 'Jon Snow',
+          consequences: 'The Stark banner is restored in the North.',
+          summary: 'A brutal siege and clash of armies fought over control of Winterfell.'
+        }
+      ],
+      castles: [
+        {
+          id: 'casterly-rock',
+          name: 'Casterly Rock',
+          region: 'The Westerlands',
+          house: 'Lannister',
+          description: 'A vast fortress carved into the western coast, rich in gold and power.',
+          architecture: 'Rock-cut halls and glittering citadels.',
+          importance: 'The strongest fortress in Westeros and source of Lannister wealth.'
+        }
+      ]
+    },
+    {
+      id: 'game-of-thrones',
+      title: 'Game of Thrones',
+      years: '300-305 AC',
+      description: 'The final struggle for power concludes with dragonfire, betrayal, and the birth of a new political order.',
+      events: ['Battle of Winterfell', 'Fall of King’s Landing'],
+      politicalShift: 'A new council is formed and the surviving kingdoms seek a fragile peace.',
+      houses: [
+        {
+          id: 'house-targaryen-late',
+          name: 'House Targaryen',
+          words: 'Fire and Blood',
+          region: 'The Crownlands',
+          seat: 'The Red Keep',
+          ruler: 'Daenerys Targaryen',
+          allegiance: 'The West and the East',
+          description: 'A once-exiled house returning with dragons to reclaim the throne.'
+        }
+      ],
+      characters: [
+        {
+          id: 'daenerys-targaryen',
+          name: 'Daenerys Targaryen',
+          initials: 'DT',
+          house: 'Targaryen',
+          titles: 'Queen of Meereen',
+          allegiance: 'The Mother of Dragons',
+          status: 'Victorious',
+          bio: 'A determined ruler who builds an army to challenge the throne and free the oppressed.',
+          weapons: 'Dragonfire',
+          relationships: 'Mother of Dragons'
+        }
+      ],
+      dragons: [
+        {
+          id: 'drogon',
+          name: 'Drogon',
+          colour: 'Black and red',
+          rider: 'Daenerys Targaryen',
+          size: 'Enormous',
+          status: 'Alive',
+          description: 'The fiercest of Daenerys’s dragons, feared across the battlefields of Westeros.'
+        }
+      ],
+      battles: [
+        {
+          id: 'battle-of-winterfell',
+          name: 'Battle of Winterfell',
+          location: 'Winterfell',
+          commanders: ['Jon Snow', 'The Night King'],
+          winner: 'The living',
+          consequences: 'The army of the dead is defeated and the path to the throne remains open.',
+          summary: 'A desperate defense against an undead horde that ends the long night.'
+        }
+      ],
+      castles: [
+        {
+          id: 'red-keep',
+          name: 'The Red Keep',
+          region: 'The Crownlands',
+          house: 'Targaryen',
+          description: 'The royal castle at King’s Landing and the center of the last great conflict.',
+          architecture: 'A tall keep with dragon towers and hidden passageways.',
+          importance: 'The final seat of the Iron Throne.'
+        }
+      ]
+    }
+  ],
   locations: [
     /* ────────────────────────────── WINTERFELL ────────────────────────────── */
     {

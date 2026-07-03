@@ -15,6 +15,13 @@ const state = {
   themeStarted: false,
   snowAnimId: null,
   activePopupEl: null,
+  bgMusic: null,
+  bgVolume: 0.4,
+  bgPlaying: false,
+  bgReady: false,
+  bgMuted: false,
+  bgFadeTimer: null,
+  bgAutoplayAttempted: false,
 };
 
 const filterOptions = ['all','Battles','Houses','Dragons','Castles','Characters','Coronations','Events'];
@@ -48,15 +55,23 @@ async function init() {
   try {
     const r = await fetch('assets/data/content.json');
     if (!r.ok) throw new Error('fetch failed');
-    state.data = await r.json();
+    const fetched = await r.json();
+    state.data = {
+      ...getFallbackData(),
+      ...(typeof mapData !== 'undefined' ? mapData : {}),
+      ...fetched,
+    };
   } catch(e) {
     console.warn('Using fallback data.', e);
-    state.data = getFallbackData();
+    state.data = typeof mapData !== 'undefined' ? mapData : getFallbackData();
   }
   renderFilters();
   renderTimeline();
+  ensureEncyclopediaData();
   renderSections();
   bindEvents();
+  bindSectionSearch();
+  bindBackgroundMusic();
   if (state.data.timeline?.length)    setActiveEra(0);
   if (state.data.locations?.length)   setActiveLocation(state.data.locations[0].id, { silent:true });
   setSectionTheme('home');
@@ -145,12 +160,67 @@ function renderFilters() {
   ).join('');
 }
 
+function createSourceButton(links = []) {
+  const link = Array.isArray(links) ? links[0] : null;
+  if (link && link.url) {
+    return `<div class="card-footer"><a class="btn ghost card-button" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label || 'View Image'}</a></div>`;
+  }
+  return `<div class="card-footer"><button class="btn ghost card-button disabled" disabled>View Image</button></div>`;
+}
+
+function createSourceLinks(links = []) {
+  if (!links.length) return '';
+  return `<div class="card-footer">${links.map(link =>
+    `<a class="info-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`
+  ).join('')}</div>`;
+}
+
+function ensureEncyclopediaData() {
+  ['houses', 'characters', 'dragons', 'battles', 'castles'].forEach(key => {
+    if (!Array.isArray(state.data[key])) {
+      state.data[key] = [];
+    }
+  });
+}
+
+function filterEncyclopediaCards(query) {
+  const cards = document.querySelectorAll('#housesGrid article, #charactersGrid article, #dragonsGrid article, #battlesGrid article, #castlesGrid article');
+  const terms = query.trim().toLowerCase();
+  cards.forEach(card => {
+    if (!terms) {
+      card.hidden = false;
+      return;
+    }
+    const text = card.textContent.toLowerCase();
+    card.hidden = !text.includes(terms);
+  });
+}
+
 function renderTimeline() {
+  const timeline = Array.isArray(state.data.timeline) ? state.data.timeline : [];
   const labels = document.getElementById('timelineLabels');
-  labels.innerHTML = state.data.timeline.map(era => `<span>${era.title}</span>`).join('');
   const slider = document.getElementById('timelineSlider');
-  slider.max = state.data.timeline.length - 1;
-  slider.addEventListener('input', e => setActiveEra(Number(e.target.value)));
+
+  if (!timeline.length) {
+    labels.innerHTML = '<span>No timeline data available.</span>';
+    if (slider) {
+      slider.max = 0;
+      slider.value = 0;
+      slider.disabled = true;
+    }
+    return;
+  }
+
+  labels.innerHTML = timeline.map(era => `<span>${era.title}</span>`).join('');
+  if (slider) {
+    slider.max = Math.max(timeline.length - 1, 0);
+    slider.disabled = false;
+    slider.value = Math.min(state.currentEra, timeline.length - 1);
+    if (!slider._timelineListenerAdded) {
+      slider.addEventListener('input', e => setActiveEra(Number(e.target.value)));
+      slider._timelineListenerAdded = true;
+    }
+  }
 }
 
 function renderSections() {
@@ -158,46 +228,81 @@ function renderSections() {
   renderBattles(); renderCastles(); renderSearch(); renderMapMarkers();
 }
 
+function filterSectionCards(section, query) {
+  const grid = document.getElementById(`${section}Grid`);
+  if (!grid) return;
+  const terms = query.trim().toLowerCase();
+  grid.querySelectorAll('article').forEach(card => {
+    if (!terms) {
+      card.hidden = false;
+      return;
+    }
+    const text = card.textContent.toLowerCase();
+    card.hidden = !text.includes(terms);
+  });
+}
+
+function bindSectionSearch() {
+  document.querySelectorAll('.section-search-input').forEach(input => {
+    input.addEventListener('input', e => {
+      const section = e.target.dataset.section;
+      filterSectionCards(section, e.target.value);
+    });
+  });
+}
+
 function renderHouses() {
   const grid = document.getElementById('housesGrid');
-  grid.innerHTML = state.data.houses.map(h => {
-    const ruler = h.rulers[state.data.timeline[state.currentEra].id] || h.currentRuler;
-    return `<article class="card">
-      <div class="sigil">${h.sigil}</div>
-      <span class="badge">${h.words}</span>
+  const houses = Array.isArray(state.data.houses) ? state.data.houses : [];
+  if (!houses.length) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = houses.map(h => `
+    <article class="card">
+      <div class="card-image"></div>
+      <span class="badge">${h.words || ''}</span>
       <h3>${h.name}</h3>
-      <p>${h.territory}</p>
+      <p>${h.region || ''}</p>
       <ul class="list">
-        <li><strong>Ruler:</strong> ${ruler}</li>
-        <li><strong>Allies:</strong> ${h.allies.join(', ')}</li>
-        <li><strong>Enemies:</strong> ${h.enemies.join(', ')}</li>
+        <li><strong>Seat:</strong> ${h.seat || 'Unknown'}</li>
+        <li><strong>Ruler:</strong> ${h.ruler || 'Unknown'}</li>
+        <li><strong>Allegiance:</strong> ${h.allegiance || 'Unknown'}</li>
       </ul>
-    </article>`;
-  }).join('');
+      ${createSourceButton(h.links || [])}
+    </article>
+  `).join('');
 }
 
 function renderCharacters() {
   const grid = document.getElementById('charactersGrid');
-  grid.innerHTML = state.data.characters.map(c => {
-    const status = c.statusByEra[state.data.timeline[state.currentEra].id] || c.status || 'Unknown';
-    const alive = status.toLowerCase().includes('alive');
-    return `<article class="card char-card" data-char="${c.name}">
+  const characters = Array.isArray(state.data.characters) ? state.data.characters : [];
+  if (!characters.length) {
+    grid.innerHTML = '';
+    return;
+  }
+  grid.innerHTML = characters.map(c => {
+    const alive = typeof c.status === 'string' && c.status.toLowerCase().includes('alive');
+    return `<article class="card char-card">
+      <div class="card-image"></div>
       <div class="avatar-wrap">
-        <div class="avatar avatar-breathe">${c.initials}</div>
+        <div class="avatar avatar-breathe">${c.initials || ''}</div>
         <div class="avatar-eyes">
           <span class="eye eye-left"></span>
           <span class="eye eye-right"></span>
         </div>
-        <div class="status-dot ${alive?'alive':'dead'}"></div>
+        <div class="status-dot ${alive ? 'alive' : 'dead'}"></div>
       </div>
-      <span class="badge">${c.house}</span>
+      <span class="badge">${c.house || ''}</span>
       <h3>${c.name}</h3>
-      <p>${c.bio}</p>
+      <p>${c.bio || ''}</p>
       <ul class="list">
-        <li><strong>Status:</strong> <span class="status-text ${alive?'alive':'dead'}">${status}</span></li>
-        <li><strong>Weapon:</strong> ${c.weapon}</li>
-        <li><strong>Path:</strong> ${c.path}</li>
+        <li><strong>Titles:</strong> ${c.titles || 'Unknown'}</li>
+        <li><strong>Allegiance:</strong> ${c.allegiance || 'Unknown'}</li>
+        <li><strong>Status:</strong> <span class="status-text ${alive ? 'alive' : 'dead'}">${c.status || 'Unknown'}</span></li>
       </ul>
+      ${createSourceButton(c.links || [])}
     </article>`;
   }).join('');
 
@@ -208,50 +313,76 @@ function renderCharacters() {
 
 function renderDragons() {
   const grid = document.getElementById('dragonsGrid');
-  grid.innerHTML = state.data.dragons.map((d, i) => `
+  const dragons = Array.isArray(state.data.dragons) ? state.data.dragons : [];
+  if (!dragons.length) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = dragons.map((d, i) => `
     <article class="card dragon-card">
+      <div class="card-image"></div>
       <div class="dragon-icon-wrap">
         <div class="dragon-icon dragon-icon-${i%3}">🐉</div>
         <div class="dragon-fire"></div>
       </div>
-      <span class="badge">${d.breed}</span>
+      <span class="badge">${d.colour || ''}</span>
       <h3>${d.name}</h3>
-      <p>${d.description}</p>
+      <p>${d.description || ''}</p>
       <ul class="list">
-        <li><strong>Rider:</strong> ${d.rider}</li>
-        <li><strong>Size:</strong> ${d.size}</li>
-        <li><strong>Fate:</strong> ${d.death}</li>
+        <li><strong>Rider:</strong> ${d.rider || 'Unknown'}</li>
+        <li><strong>Size:</strong> ${d.size || 'Unknown'}</li>
+        <li><strong>Status:</strong> ${d.status || 'Unknown'}</li>
       </ul>
+      ${createSourceButton(d.links || [])}
     </article>
   `).join('');
 }
 
 function renderBattles() {
-  document.getElementById('battlesGrid').innerHTML = state.data.battles.map(b => `
+  const grid = document.getElementById('battlesGrid');
+  const battles = Array.isArray(state.data.battles) ? state.data.battles : [];
+  if (!battles.length) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = battles.map(b => `
     <article class="card">
-      <span class="badge">${b.location}</span>
+      <div class="card-image"></div>
+      <span class="badge">${b.location || ''}</span>
       <h3>${b.name}</h3>
-      <p>${b.summary}</p>
+      <p>${b.summary || ''}</p>
       <ul class="list">
-        <li><strong>Commanders:</strong> ${b.commanders.join(', ')}</li>
-        <li><strong>Outcome:</strong> ${b.outcome}</li>
-        <li><strong>Era:</strong> ${b.era}</li>
+        <li><strong>Participants:</strong> ${(b.participants || b.commanders || []).join(', ')}</li>
+        <li><strong>Winner:</strong> ${b.winner || 'Unknown'}</li>
+        <li><strong>Consequences:</strong> ${b.consequences || 'Unknown'}</li>
       </ul>
+      ${createSourceButton(b.links || [])}
     </article>
   `).join('');
 }
 
 function renderCastles() {
-  document.getElementById('castlesGrid').innerHTML = state.data.castles.map(c => `
+  const grid = document.getElementById('castlesGrid');
+  const castles = Array.isArray(state.data.castles) ? state.data.castles : [];
+  if (!castles.length) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = castles.map(c => `
     <article class="card">
-      <span class="badge">${c.region}</span>
+      <div class="card-image"></div>
+      <span class="badge">${c.region || ''}</span>
       <h3>${c.name}</h3>
-      <p>${c.description}</p>
+      <p>${c.description || ''}</p>
       <ul class="list">
-        <li><strong>House:</strong> ${c.house}</li>
-        <li><strong>Notable:</strong> ${c.notable}</li>
-        <li><strong>Feature:</strong> ${c.feature}</li>
+        <li><strong>House:</strong> ${c.house || 'Unknown'}</li>
+        <li><strong>Architecture:</strong> ${c.architecture || 'Unknown'}</li>
+        <li><strong>Importance:</strong> ${c.importance || 'Unknown'}</li>
       </ul>
+      ${createSourceButton(c.links || [])}
     </article>
   `).join('');
 }
@@ -348,10 +479,7 @@ function setActiveEra(idx) {
     panel.classList.remove('era-fade');
   }, 200);
 
-  renderHouses();
-  renderCharacters();
   playEraSound(era.id);
-  renderMapMarkers();
 }
 
 function setActiveLocation(id, opts = {}) {
@@ -392,6 +520,230 @@ function ensureAudio() {
   state.gain.gain.value = 0.04;
   state.gain.connect(state.music.destination);
   return true;
+}
+
+function fadeBgMusicVolume(target, duration = 2000) {
+  if (!state.bgMusic) return;
+  if (state.bgFadeTimer) { clearInterval(state.bgFadeTimer); state.bgFadeTimer = null; }
+  const start = state.bgMusic.volume;
+  const delta = target - start;
+  const startTime = performance.now();
+  state.bgFadeTimer = setInterval(() => {
+    const elapsed = performance.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    state.bgMusic.volume = Math.max(0, Math.min(1, start + delta * progress));
+    if (progress >= 1) {
+      clearInterval(state.bgFadeTimer);
+      state.bgFadeTimer = null;
+      if (target === 0 && state.bgMusic && !state.bgMusic.paused) {
+        state.bgMusic.pause();
+        state.bgPlaying = false;
+        updateBgPlayerUI();
+      }
+    }
+  }, 50);
+}
+
+function updateBgPlayerUI() {
+  const player = document.getElementById('musicPlayer');
+  const status = document.getElementById('musicPlayerStatus');
+  const note = document.getElementById('musicPlayerNote');
+  const playButton = document.getElementById('musicPlayButton');
+  const pauseButton = document.getElementById('musicPauseButton');
+  const muteButton = document.getElementById('musicMuteButton');
+
+  if (!player || !status || !playButton || !pauseButton || !muteButton || !note) return;
+  player.classList.toggle('playing', state.bgPlaying);
+  status.textContent = state.bgPlaying ? 'Playing' : 'Paused';
+  playButton.disabled = state.bgPlaying;
+  pauseButton.disabled = !state.bgPlaying;
+  muteButton.textContent = state.bgMuted ? '🔈 Unmute' : '🔇 Mute';
+  note.textContent = state.bgReady ? 'Use the controls to play or pause the soundtrack.' : 'Tap, click, or scroll to start the soundtrack.';
+}
+
+function showBgMusicError(message) {
+  const status = document.getElementById('musicPlayerStatus');
+  const note = document.getElementById('musicPlayerNote');
+  const playButton = document.getElementById('musicPlayButton');
+  const pauseButton = document.getElementById('musicPauseButton');
+  const muteButton = document.getElementById('musicMuteButton');
+  if (status) status.textContent = 'Audio unavailable';
+  if (note) note.textContent = message;
+  [playButton, pauseButton, muteButton].forEach(btn => { if (btn) btn.disabled = true; });
+}
+
+function initBgMusic() {
+  if (state.bgMusic) return;
+  const audio = document.createElement('audio');
+  audio.id = 'bgMusic';
+  audio.loop = true;
+  audio.preload = 'none';
+  audio.volume = state.bgVolume;
+  audio.muted = state.bgMuted;
+  audio.crossOrigin = 'anonymous';
+
+  const mp3 = document.createElement('source');
+  mp3.src = 'assets/audio/fantasy-theme.mp3';
+  mp3.type = 'audio/mpeg';
+  audio.appendChild(mp3);
+  const ogg = document.createElement('source');
+  ogg.src = 'assets/audio/fantasy-theme.ogg';
+  ogg.type = 'audio/ogg';
+  audio.appendChild(ogg);
+  const wav = document.createElement('source');
+  wav.src = 'assets/audio/fantasy-theme.wav';
+  wav.type = 'audio/wav';
+  audio.appendChild(wav);
+
+  audio.addEventListener('canplay', () => {
+    state.bgReady = true;
+    updateBgPlayerUI();
+  });
+  audio.addEventListener('playing', () => {
+    state.bgPlaying = true;
+    updateBgPlayerUI();
+  });
+  audio.addEventListener('pause', () => {
+    if (!audio.seeking && audio.currentTime !== 0) {
+      state.bgPlaying = false;
+      updateBgPlayerUI();
+    }
+  });
+  audio.addEventListener('error', () => {
+    showBgMusicError('Place assets/audio/fantasy-theme.mp3 in the project and refresh.');
+  });
+
+  audio.style.display = 'none';
+  document.body.appendChild(audio);
+  state.bgMusic = audio;
+}
+
+function loadBgMusic() {
+  initBgMusic();
+  if (!state.bgMusic) return;
+  if (state.bgMusic.preload !== 'auto') {
+    state.bgMusic.preload = 'auto';
+  }
+  try {
+    state.bgMusic.load();
+  } catch (e) {
+    console.warn('Background music load failed', e);
+  }
+}
+
+function attemptPlayBgMusic() {
+  if (!state.bgMusic) initBgMusic();
+  if (!state.bgMusic) return;
+  state.bgAutoplayAttempted = true;
+  state.bgMusic.volume = 0;
+  if (state.bgMuted) state.bgMusic.muted = true;
+  const playPromise = state.bgMusic.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      state.bgPlaying = true;
+      state.bgMusic.muted = false;
+      fadeBgMusicVolume(state.bgVolume, 2000);
+      updateBgPlayerUI();
+    }).catch(() => {
+      state.bgPlaying = false;
+      updateBgPlayerUI();
+    });
+  }
+}
+
+function fadeOutBgMusic() {
+  if (!state.bgMusic) return;
+  fadeBgMusicVolume(0, 2000);
+}
+
+function toggleBgMusicPlay() {
+  if (!state.bgMusic) initBgMusic();
+  if (!state.bgMusic) return;
+  if (state.bgPlaying) {
+    fadeOutBgMusic();
+  } else {
+    if (!state.bgAutoplayAttempted) {
+      loadBgMusic();
+      state.bgAutoplayAttempted = true;
+    }
+    state.bgMusic.currentTime = state.bgMusic.currentTime || 0;
+    attemptPlayBgMusic();
+  }
+}
+
+function setBgMusicVolume(value) {
+  state.bgVolume = Number(value);
+  if (state.bgMusic) {
+    state.bgMusic.volume = state.bgVolume;
+    if (state.bgVolume > 0 && state.bgMuted) {
+      state.bgMuted = false;
+      state.bgMusic.muted = false;
+    }
+  }
+  localStorage.setItem('gotFantasyMusicVolume', state.bgVolume.toString());
+  updateBgPlayerUI();
+}
+
+function toggleBgMusicMute() {
+  state.bgMuted = !state.bgMuted;
+  if (state.bgMusic) {
+    state.bgMusic.muted = state.bgMuted;
+  }
+  updateBgPlayerUI();
+}
+
+function bindBackgroundMusic() {
+  const volume = document.getElementById('musicVolume');
+  const playButton = document.getElementById('musicPlayButton');
+  const pauseButton = document.getElementById('musicPauseButton');
+  const muteButton = document.getElementById('musicMuteButton');
+  const player = document.getElementById('musicPlayer');
+  const storedVolume = localStorage.getItem('gotFantasyMusicVolume');
+  if (storedVolume !== null) {
+    state.bgVolume = Number(storedVolume);
+    if (volume) volume.value = state.bgVolume;
+  }
+  updateBgPlayerUI();
+
+  const userGestureStart = () => {
+    loadBgMusic();
+    attemptPlayBgMusic();
+  };
+
+  ['click','keydown','scroll'].forEach(eventName => {
+    window.addEventListener(eventName, userGestureStart, { once:true, passive:true });
+  });
+
+  if (playButton) {
+    playButton.addEventListener('click', () => {
+      if (!state.bgReady) loadBgMusic();
+      attemptPlayBgMusic();
+    });
+  }
+  if (pauseButton) {
+    pauseButton.addEventListener('click', () => {
+      fadeOutBgMusic();
+    });
+  }
+  if (muteButton) {
+    muteButton.addEventListener('click', () => {
+      toggleBgMusicMute();
+    });
+  }
+  if (volume) {
+    volume.addEventListener('input', e => {
+      setBgMusicVolume(e.target.value);
+    });
+  }
+
+  if (player) {
+    player.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const target = e.target;
+        if (target instanceof HTMLButtonElement) target.click();
+      }
+    });
+  }
 }
 
 function clearTheme() {
@@ -522,6 +874,7 @@ function bindEvents() {
     searchInput.addEventListener('input', e => {
       const q = e.target.value.trim().toLowerCase();
       const out = document.getElementById('searchResults');
+      filterEncyclopediaCards(q);
       if (!q) { out.innerHTML=''; return; }
 
       const all = [
@@ -531,7 +884,7 @@ function bindEvents() {
         ...state.data.battles.map(x=>({...x,_type:'Battle'})),
         ...state.data.castles.map(x=>({...x,_type:'Castle'})),
         ...state.data.locations.map(x=>({...x,_type:'Location'})),
-      ].filter(x => x.name.toLowerCase().includes(q));
+      ].filter(x => x.name.toLowerCase().includes(q) || (x.house||'').toLowerCase().includes(q) || (x.region||'').toLowerCase().includes(q));
 
       out.innerHTML = all.slice(0,10).map(x => `
         <div class="search-result">

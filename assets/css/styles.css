@@ -268,6 +268,83 @@ body.loading main {
   background:transparent; border-color:rgba(255,255,255,0.22); color:var(--text);
 }
 
+.visually-hidden {
+  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+.music-player {
+  position:fixed; right:1rem; bottom:1rem; width:min(340px,calc(100vw - 2rem));
+  padding:1rem 1.1rem 0.95rem; border-radius:28px;
+  background:rgba(10,12,20,0.88); border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(18px); box-shadow:0 28px 80px rgba(0,0,0,0.32);
+  color:#f5f1e9; z-index:1500;
+  display:grid; gap:0.85rem;
+}
+.music-player.playing {
+  box-shadow:0 28px 90px rgba(95,57,22,0.38), 0 0 30px rgba(196,131,45,0.12);
+}
+.music-player-top {
+  display:flex; align-items:center; gap:0.85rem;
+}
+.music-player-icon {
+  width:46px; height:46px; border-radius:50%; display:grid; place-items:center;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+  font-size:1.35rem;
+}
+.music-player.playing .music-player-icon {
+  animation:musicPulse 1.8s ease-in-out infinite;
+}
+.music-player-title {
+  font-size:0.95rem; letter-spacing:0.03em; text-transform:uppercase; color:#ffe9b8;
+}
+.music-player-status {
+  font-size:0.82rem; color:#c8c0b5;
+}
+.music-player-controls {
+  display:flex; gap:0.6rem; flex-wrap:wrap;
+}
+.music-btn { min-width:0; padding:0.7rem 0.95rem; font-size:0.88rem; }
+.music-volume {
+  width:100%; margin-top:0.4rem; appearance:none; background:rgba(255,255,255,0.08);
+  height:8px; border-radius:999px; outline:none;
+}
+.music-volume::-webkit-slider-thumb,
+.music-volume::-moz-range-thumb {
+  width:18px; height:18px; border-radius:50%; background:linear-gradient(135deg,#f0c45e,#cca24a);
+  border:1px solid rgba(255,255,255,0.32); cursor:pointer;
+}
+.music-eq {
+  display:flex; gap:0.35rem; justify-content:flex-start;
+}
+.music-bar {
+  width:6px; min-height:18px; border-radius:999px;
+  background:rgba(255,255,255,0.16);
+  transform-origin:center bottom;
+}
+.music-player.playing .music-bar {
+  animation:musicBars 1.1s infinite ease-in-out;
+}
+.music-bar.bar-1 { animation-delay:0s; }
+.music-bar.bar-2 { animation-delay:0.12s; }
+.music-bar.bar-3 { animation-delay:0.22s; }
+.music-bar.bar-4 { animation-delay:0.08s; }
+.music-player-note {
+  font-size:0.82rem; color:#aaa093; line-height:1.45;
+}
+.music-player button:focus-visible,
+.music-player input:focus-visible {
+  outline:none; box-shadow:0 0 0 3px rgba(196,131,45,0.24);
+}
+@keyframes musicPulse {
+  0%,100% { transform:scale(1); }
+  50% { transform:scale(1.06); }
+}
+@keyframes musicBars {
+  0%,100% { transform:scaleY(0.7); opacity:0.65; }
+  50% { transform:scaleY(1.5); opacity:1; }
+}
+
 /* ====================================================================
    HERO
    ==================================================================== */
@@ -480,6 +557,17 @@ body.loading main {
    ==================================================================== */
 .cards-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
 
+.section-search { margin-bottom:1.2rem; }
+.section-search input {
+  width:100%; padding:0.9rem 1.2rem; border-radius:24px;
+  border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05);
+  color:var(--text); outline:none; font:inherit; font-size:1rem;
+  transition:border-color 0.22s, box-shadow 0.22s;
+}
+.section-search input:focus {
+  border-color:rgba(196,131,45,0.5);
+  box-shadow:0 0 0 3px rgba(196,131,45,0.12);
+}
 .card {
   padding:1.1rem; border-radius:20px;
   background:rgba(10,12,20,0.92); border:1px solid var(--border);
@@ -498,6 +586,9 @@ body.loading main {
 }
 .list { padding-left:1rem; margin:0.5rem 0 0; color:#c8b07a; line-height:1.75; font-size:0.93rem; }
 .list li strong { color:var(--text); }
+.card-footer { margin-top:1rem; display:flex; justify-content:flex-start; }
+.card-button { font-size:0.85rem; padding:0.65rem 1rem; border-radius:999px; }
+.card-button.disabled { opacity:0.45; cursor:not-allowed; }
 
 /* ====================================================================
    HOUSE SIGIL
