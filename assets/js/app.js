@@ -72,9 +72,8 @@ async function init() {
   bindEvents();
   bindSectionSearch();
   bindBackgroundMusic();
-  if (state.data.timeline?.length)    setActiveEra(0);
+  if (state.data.timeline?.length)    setActiveEra(0, { silent:true });
   if (state.data.locations?.length)   setActiveLocation(state.data.locations[0].id, { silent:true });
-  setSectionTheme('home');
 }
 
 /* ====================================================================
@@ -460,7 +459,7 @@ function closeMapPopup() {
 /* ====================================================================
    STATE SETTERS
    ==================================================================== */
-function setActiveEra(idx) {
+function setActiveEra(idx, opts = {}) {
   state.currentEra = idx;
   const era = state.data.timeline[idx];
   document.getElementById('timelineSlider').value = idx;
@@ -479,7 +478,7 @@ function setActiveEra(idx) {
     panel.classList.remove('era-fade');
   }, 200);
 
-  playEraSound(era.id);
+  if (!opts.silent) playEraSound(era.id);
 }
 
 function setActiveLocation(id, opts = {}) {
