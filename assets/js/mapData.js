@@ -4,7 +4,7 @@
    of publicly known storylines. No text is copied from HBO, Wikipedia,
    Fandom/wikis, or any other source.
    ===================================================================== */
-console.log("Music and map data loaded successfully.");
+
 const mapData = {
   houses: [
     { id: 'house-stark', name: 'House Stark', words: 'Winter Is Coming', region: 'The North', seat: 'Winterfell', ruler: 'House Stark', allegiance: 'The North', description: 'A great northern house sworn to defending the realm against threats from beyond the Wall.', links:[{url:'https://awoiaf.westeros.org/index.php/House_Stark', label:'View Image'}] },
