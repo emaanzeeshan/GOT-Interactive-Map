@@ -33,6 +33,23 @@
         <a href="castles.html">Castles</a>
         <a href="search.html">Search</a>
       </nav>
+      <div class="auth-area">
+
+    <img id="profile" width="36" style="border-radius:50%;">
+
+    <span id="username"></span>
+
+    <button id="loginBtn" onclick="login()">
+        Continue with Google
+    </button>
+
+    <button id="logoutBtn" onclick="logout()" style="display:none">
+        Logout
+    </button>
+
+</div>
+
+<button class="audio-toggle" id="audioToggle">🔊</button>
       <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
     </header>
     <!-- ═══ CINEMATIC FIXED BACKGROUND ═══ -->
@@ -100,5 +117,6 @@
 <script src="assets/js/mapPanel.js"></script>
 <script src="assets/js/mapMarkers.js"></script>
 <script src="assets/js/mapInit.js"></script>
+<script type="module" src="assets/js/firebase.js"></script>
   </body>
 </html>

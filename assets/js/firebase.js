@@ -9,12 +9,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
+    apiKey: "AIzaSyBmdqhWE2ig3hVBKlSwgrhzL_jjugzSsZ0",
     authDomain: "got-interactive-map.firebaseapp.com",
     projectId: "got-interactive-map",
     storageBucket: "got-interactive-map.firebasestorage.app",
     messagingSenderId: "58309078925",
-    appId: "YOUR_APP_ID"
+    appId: "1:583090078925:web:8d6425ec41bbf4361f1584",
 };
 
 const app = initializeApp(firebaseConfig);
