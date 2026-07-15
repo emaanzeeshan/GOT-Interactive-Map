@@ -40,10 +40,27 @@
       </section>
     </main>
 
+    <button id="loginBtn" onclick="login()">
+    Sign in with Google
+</button>
+
+<button id="logoutBtn" onclick="logout()" style="display:none;">
+    Logout
+</button>
+
+<img id="profile" width="60">
+
+<h3 id="username"></h3>
+
+<p id="email"></p>
+
     <script src="assets/js/mapData.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/mapPanel.js"></script>
     <script src="assets/js/mapMarkers.js"></script>
     <script src="assets/js/mapInit.js"></script>
+
+<script type="module" src="firebase.js"></script>
+
   </body>
 </html>
