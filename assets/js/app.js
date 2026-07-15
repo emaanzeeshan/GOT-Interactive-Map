@@ -1,7 +1,6 @@
 /* =====================================================================
    THE HISTORY OF WESTEROS — app.js
    ===================================================================== */
-
 const state = {
   data: null,
   currentEra: 0,
@@ -48,6 +47,13 @@ function getFallbackData() {
 }
 
 async function init() {
+  const hasIntro = !!document.getElementById('startJourney');
+  if (hasIntro) {
+    document.body.classList.add('loading');
+  } else {
+    document.body.classList.remove('loading');
+  }
+
   bindStartJourney();
   initCinematicBackground();
   initDragonVideos();
@@ -154,7 +160,9 @@ function initCinematicBackground() {
    RENDER FUNCTIONS
    ==================================================================== */
 function renderFilters() {
-  document.getElementById('filterList').innerHTML = filterOptions.map(f =>
+  const filterList = document.getElementById('filterList');
+  if (!filterList) return;
+  filterList.innerHTML = filterOptions.map(f =>
     `<button class="filter-chip ${f===state.currentFilter?'active':''}" data-filter="${f}">${f==='all'?'All':f}</button>`
   ).join('');
 }
@@ -199,6 +207,8 @@ function renderTimeline() {
   const timeline = Array.isArray(state.data.timeline) ? state.data.timeline : [];
   const labels = document.getElementById('timelineLabels');
   const slider = document.getElementById('timelineSlider');
+
+  if (!labels) return;
 
   if (!timeline.length) {
     labels.innerHTML = '<span>No timeline data available.</span>';
@@ -252,6 +262,7 @@ function bindSectionSearch() {
 
 function renderHouses() {
   const grid = document.getElementById('housesGrid');
+  if (!grid) return;
   const houses = Array.isArray(state.data.houses) ? state.data.houses : [];
   if (!houses.length) {
     grid.innerHTML = '';
@@ -276,6 +287,7 @@ function renderHouses() {
 
 function renderCharacters() {
   const grid = document.getElementById('charactersGrid');
+  if (!grid) return;
   const characters = Array.isArray(state.data.characters) ? state.data.characters : [];
   if (!characters.length) {
     grid.innerHTML = '';
@@ -312,6 +324,7 @@ function renderCharacters() {
 
 function renderDragons() {
   const grid = document.getElementById('dragonsGrid');
+  if (!grid) return;
   const dragons = Array.isArray(state.data.dragons) ? state.data.dragons : [];
   if (!dragons.length) {
     grid.innerHTML = '';
@@ -340,6 +353,7 @@ function renderDragons() {
 
 function renderBattles() {
   const grid = document.getElementById('battlesGrid');
+  if (!grid) return;
   const battles = Array.isArray(state.data.battles) ? state.data.battles : [];
   if (!battles.length) {
     grid.innerHTML = '';
@@ -364,6 +378,7 @@ function renderBattles() {
 
 function renderCastles() {
   const grid = document.getElementById('castlesGrid');
+  if (!grid) return;
   const castles = Array.isArray(state.data.castles) ? state.data.castles : [];
   if (!castles.length) {
     grid.innerHTML = '';
@@ -387,12 +402,14 @@ function renderCastles() {
 }
 
 function renderSearch() {
-  document.getElementById('searchResults').innerHTML = '';
+  const results = document.getElementById('searchResults');
+  if (results) results.innerHTML = '';
 }
 
 /* ---- MAP MARKERS (pin + hover label; click opens popup + sidebar) ---- */
 function renderMapMarkers() {
   const container = document.getElementById('mapMarkers');
+  if (!container || !state.data?.locations) return;
   container.innerHTML = '';
   state.activePopupEl = null;
 
@@ -462,9 +479,11 @@ function closeMapPopup() {
 function setActiveEra(idx, opts = {}) {
   state.currentEra = idx;
   const era = state.data.timeline[idx];
-  document.getElementById('timelineSlider').value = idx;
+  const slider = document.getElementById('timelineSlider');
+  if (slider) slider.value = idx;
 
   const panel = document.getElementById('timelinePanel');
+  if (!panel) return;
   panel.classList.add('era-fade');
   setTimeout(() => {
     panel.innerHTML = `
@@ -487,6 +506,7 @@ function setActiveLocation(id, opts = {}) {
   if (!loc) return;
 
   const panel = document.getElementById('mapPanel');
+  if (!panel) return;
   panel.classList.add('era-fade');
   setTimeout(() => {
     panel.innerHTML = `
@@ -837,14 +857,41 @@ function bindStartJourney() {
   });
 }
 
+function toggleAudioPlayback() {
+  if (!state.bgMusic) initBgMusic();
+  if (!state.bgMusic) return;
+
+  if (state.audioEnabled) {
+    state.audioEnabled = false;
+    fadeOutBgMusic();
+  } else {
+    state.audioEnabled = true;
+    if (!state.bgAutoplayAttempted) {
+      loadBgMusic();
+      state.bgAutoplayAttempted = true;
+    }
+    if (!state.bgPlaying) {
+      attemptPlayBgMusic();
+    }
+  }
+
+  const audioBtn = document.getElementById('audioToggle');
+  if (audioBtn) {
+    audioBtn.textContent = state.audioEnabled ? '🔊' : '🔈';
+  }
+}
+
 function bindEvents() {
-  document.getElementById('filterList').addEventListener('click', e => {
-    const chip = e.target.closest('.filter-chip');
-    if (!chip) return;
-    state.currentFilter = chip.dataset.filter;
-    renderFilters();
-    renderMapMarkers();
-  });
+  const filterList = document.getElementById('filterList');
+  if (filterList) {
+    filterList.addEventListener('click', e => {
+      const chip = e.target.closest('.filter-chip');
+      if (!chip) return;
+      state.currentFilter = chip.dataset.filter;
+      renderFilters();
+      renderMapMarkers();
+    });
+  }
 
   document.querySelectorAll('[data-zoom]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -864,7 +911,11 @@ function bindEvents() {
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.addEventListener('click', () => {
       menu?.classList.remove('open');
-      setSectionTheme(a.getAttribute('href').slice(1));
+      const href = a.getAttribute('href') || '';
+      const hash = href.includes('#') ? href.split('#')[1] : '';
+      const pageName = href.split('/').pop().split('.')[0] || '';
+      const themeKey = hash || pageName || 'home';
+      setSectionTheme(themeKey);
     });
   });
 
@@ -897,13 +948,9 @@ function bindEvents() {
   const audioBtn = document.getElementById('audioToggle');
   if (audioBtn) {
     audioBtn.addEventListener('click', () => {
-      state.audioEnabled = !state.audioEnabled;
-      audioBtn.textContent = state.audioEnabled ? '🔊' : '🔈';
-      if (state.audioEnabled) {
-        if (!state.themeStarted) playTheme('home');
-        if (state.gain) state.gain.gain.setTargetAtTime(0.04, state.music.currentTime, 0.1);
-      } else if (state.gain) {
-        state.gain.gain.setTargetAtTime(0, state.music.currentTime, 0.1);
+      toggleAudioPlayback();
+      if (state.audioEnabled && !state.themeStarted) {
+        playTheme('home');
       }
     });
   }

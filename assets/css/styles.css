@@ -193,8 +193,14 @@ main { position:relative; z-index:2; }
 /* ====================================================================
    LOADING SCREEN
    ==================================================================== */
+body.loading .top-nav,
 body.loading main {
   visibility: hidden;
+}
+
+body:not(.loading) .top-nav,
+body:not(.loading) main {
+  visibility: visible;
 }
 
 .loading-screen {

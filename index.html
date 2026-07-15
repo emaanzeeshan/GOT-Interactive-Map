@@ -18,7 +18,23 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
    <link rel="stylesheet" href="assets/css/mapEnhancements.css">
   </head>
-  <body class="loading">
+  <body>
+    <header class="top-nav">
+      <a class="brand" href="index.html">The History of Westeros</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+      <nav class="nav-links" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="map.html">Map</a>
+        <a href="timeline.html">Timeline</a>
+        <a href="houses.html">Houses</a>
+        <a href="characters.html">Characters</a>
+        <a href="dragons.html">Dragons</a>
+        <a href="battles.html">Battles</a>
+        <a href="castles.html">Castles</a>
+        <a href="search.html">Search</a>
+      </nav>
+      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
+    </header>
     <!-- ═══ CINEMATIC FIXED BACKGROUND ═══ -->
     <div class="cinematic-scene" id="cinematicScene" aria-hidden="true">
         <div class="cinematic-bg"></div>
@@ -50,27 +66,7 @@
       </div>
     </div>
 
-    <!-- ═══ NAV ═══ -->
-    <header class="top-nav">
-      <a class="brand" href="#home">The History of Westeros</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
-      <nav class="nav-links" id="navMenu">
-        <a href="#home">Home</a>
-        <a href="#map">Map</a>
-        <a href="#timeline">Timeline</a>
-        <a href="#houses">Houses</a>
-        <a href="#characters">Characters</a>
-        <a href="#dragons">Dragons</a>
-        <a href="#battles">Battles</a>
-        <a href="#castles">Castles</a>
-        <a href="#search">Search</a>
-      </nav>
-      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
-    </header>
-
     <main id="mainContent">
-
-      <!-- ── HERO ── -->
       <section class="hero section" id="home">
         <div class="hero-backdrop"></div>
         <div class="stars"></div>
@@ -84,8 +80,8 @@
             the reign of fire, and the wars that shaped the realm.
           </p>
           <div class="hero-actions">
-            <a href="#map" class="btn primary">Enter the Map</a>
-            <a href="#timeline" class="btn ghost">Read the Timeline</a>
+            <a href="map.html" class="btn primary">Enter the Map</a>
+            <a href="timeline.html" class="btn ghost">Read the Timeline</a>
           </div>
         </div>
         <div class="hero-side-card">
@@ -97,152 +93,7 @@
           </ul>
         </div>
       </section>
-
-      <!-- ── MAP ── -->
-      <section class="section" id="map">
-        <div class="section-heading">
-          <p class="section-kicker">Interactive experience</p>
-          <h2>Interactive Map of Westeros &amp; Essos</h2>
-          <p>Click each kingdom, city, and landmark to read its story — and hear the echoes of battle.</p>
-        </div>
-        <div class="toolbar">
-          <div class="filter-list" id="filterList"></div>
-          <div class="map-controls">
-            <button data-zoom="out" class="icon-btn">−</button>
-            <button data-zoom="reset" class="icon-btn">⟲</button>
-            <button data-zoom="in" class="icon-btn">+</button>
-          </div>
-        </div>
-        <div class="map-layout">
-          <div class="map-stage" id="mapStage">
-            <img src="assets/images/map.svg" alt="Stylised map of Westeros and Essos" class="map-image" />
-            <div class="map-markers" id="mapMarkers"></div>
-          </div>
-          <aside class="info-panel" id="mapPanel">
-            <p style="color:var(--muted);font-size:0.9rem;margin:0">
-              Click a glowing marker on the map to read the lore of that location.
-            </p>
-          </aside>
-        </div>
-      </section>
-
-      <!-- ── TIMELINE ── -->
-      <section class="section" id="timeline">
-        <div class="section-heading">
-          <p class="section-kicker">Chronicles</p>
-          <h2>Historical Timeline</h2>
-          <p>Drag the slider through the ages — houses rise, dragons fall, and the realm transforms.</p>
-        </div>
-        <div class="timeline-shell">
-          <input type="range" min="0" max="8" value="0" id="timelineSlider" />
-          <div class="timeline-labels" id="timelineLabels"></div>
-          <div class="timeline-panel" id="timelinePanel"></div>
-        </div>
-      </section>
-
-      <!-- ── HOUSES ── -->
-      <section class="section" id="houses">
-        <div class="section-heading">
-          <p class="section-kicker">Noble bloodlines</p>
-          <h2>Great Houses</h2>
-          <p>Discover the realm’s great houses, their seats, allegiances, and legendary sigils.</p>
-        </div>
-        <div class="section-search">
-          <input type="search" class="section-search-input" data-section="houses" placeholder="Search houses — e.g. Stark, Lannister, Targaryen…" />
-        </div>
-        <div class="cards-grid" id="housesGrid"></div>
-      </section>
-
-      <!-- ── CHARACTERS ── -->
-      <section class="section" id="characters">
-        <div class="section-heading">
-          <p class="section-kicker">Living legends</p>
-          <h2>Characters</h2>
-          <p>Meet heroes, schemers, and icons from across Westeros and beyond.</p>
-        </div>
-        <div class="section-search">
-          <input type="search" class="section-search-input" data-section="characters" placeholder="Search characters — e.g. Jon Snow, Cersei, Arya…" />
-        </div>
-        <div class="cards-grid" id="charactersGrid"></div>
-      </section>
-
-      <!-- ── DRAGONS ── -->
-      <section class="section" id="dragons">
-        <div class="section-heading">
-          <p class="section-kicker">Fire and blood</p>
-          <h2>Dragons</h2>
-          <p>Explore the dragons of House Targaryen and the ancient wyrms of legend.</p>
-        </div>
-        <div class="section-search">
-          <input type="search" class="section-search-input" data-section="dragons" placeholder="Search dragons — e.g. Drogon, Vhagar, Balerion…" />
-        </div>
-        <div class="cards-grid" id="dragonsGrid"></div>
-      </section>
-
-      <!-- ── BATTLES ── -->
-      <section class="section" id="battles">
-        <div class="section-heading">
-          <p class="section-kicker">War and conquest</p>
-          <h2>Battles</h2>
-          <p>Review the major conflicts that decided the fate of kingdoms and claims.</p>
-        </div>
-        <div class="section-search">
-          <input type="search" class="section-search-input" data-section="battles" placeholder="Search battles — e.g. Blackwater, Bastards, Winterfell…" />
-        </div>
-        <div class="cards-grid" id="battlesGrid"></div>
-      </section>
-
-      <!-- ── CASTLES ── -->
-      <section class="section" id="castles">
-        <div class="section-heading">
-          <p class="section-kicker">Stone and steel</p>
-          <h2>Castles</h2>
-          <p>Visit the strongholds, palaces, and seats of power that define Westeros.</p>
-        </div>
-        <div class="section-search">
-          <input type="search" class="section-search-input" data-section="castles" placeholder="Search castles — e.g. Winterfell, Dragonstone, Pyke…" />
-        </div>
-        <div class="cards-grid" id="castlesGrid"></div>
-      </section>
-
-      <!-- ── SEARCH ── -->
-      <section class="section" id="search">
-        <div class="section-heading">
-          <p class="section-kicker">Seek the realm</p>
-          <h2>Search the Archive</h2>
-          <p>Search for characters, houses, dragons, battles, castles, and cities.</p>
-        </div>
-        <div class="search-shell">
-          <input type="search" id="searchInput" placeholder="Search the realm — e.g. Stark, Drogon, Winterfell…" />
-          <div class="search-results" id="searchResults"></div>
-        </div>
-      </section>
-
     </main>
-
-    <div id="musicPlayer" class="music-player" aria-label="Background music player" role="complementary">
-      <div class="music-player-top">
-        <div class="music-player-icon" aria-hidden="true">🎵</div>
-        <div>
-          <div class="music-player-title">Fantasy Soundtrack</div>
-          <div class="music-player-status" id="musicPlayerStatus">Paused</div>
-        </div>
-      </div>
-      <div class="music-player-controls">
-        <button id="musicPlayButton" class="btn ghost music-btn" type="button" aria-label="Play background music">▶ Play</button>
-        <button id="musicPauseButton" class="btn ghost music-btn" type="button" aria-label="Pause background music">⏸ Pause</button>
-        <button id="musicMuteButton" class="btn ghost music-btn" type="button" aria-label="Mute background music">🔇 Mute</button>
-      </div>
-      <label for="musicVolume" class="visually-hidden">Background music volume</label>
-      <input id="musicVolume" class="music-volume" type="range" min="0" max="1" step="0.01" value="0.4" aria-label="Background music volume" />
-      <div class="music-eq" aria-hidden="true">
-        <span class="music-bar bar-1"></span>
-        <span class="music-bar bar-2"></span>
-        <span class="music-bar bar-3"></span>
-        <span class="music-bar bar-4"></span>
-      </div>
-      <div class="music-player-note" id="musicPlayerNote">Tap, click, or scroll to start the soundtrack.</div>
-    </div>
 
 <script src="assets/js/mapData.js"></script>
 <script src="assets/js/app.js"></script>

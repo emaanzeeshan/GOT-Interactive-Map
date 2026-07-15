@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search | The History of Westeros</title>
+    <meta name="description" content="Search the Westeros archive for characters, houses, battles, and castles." />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/mapEnhancements.css" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <a class="brand" href="index.html">The History of Westeros</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+      <nav class="nav-links" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="map.html">Map</a>
+        <a href="timeline.html">Timeline</a>
+        <a href="houses.html">Houses</a>
+        <a href="characters.html">Characters</a>
+        <a href="dragons.html">Dragons</a>
+        <a href="battles.html">Battles</a>
+        <a href="castles.html">Castles</a>
+        <a href="search.html" class="active">Search</a>
+      </nav>
+      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
+    </header>
+
+    <main>
+      <section class="section" id="search">
+        <div class="section-heading">
+          <p class="section-kicker">Seek the realm</p>
+          <h2>Search the Archive</h2>
+          <p>Search for characters, houses, dragons, battles, castles, and cities.</p>
+        </div>
+        <div class="search-shell">
+          <input type="search" id="searchInput" placeholder="Search the realm — e.g. Stark, Drogon, Winterfell…" />
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/js/mapData.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/mapPanel.js"></script>
+    <script src="assets/js/mapMarkers.js"></script>
+    <script src="assets/js/mapInit.js"></script>
+  </body>
+</html>
