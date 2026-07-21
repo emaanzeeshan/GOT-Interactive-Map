@@ -98,11 +98,19 @@ function setActiveLocationV2(id, opts = {}) {
   if (!loc) return;
 
   const panel = document.getElementById("mapPanel");
-  panel.classList.add("era-fade");
-  setTimeout(() => {
-    panel.innerHTML = buildLocationPanelHTML(loc, state.currentFilter);
-    panel.classList.remove("era-fade");
-  }, 160);
+  const html = buildLocationPanelHTML(loc, state.currentFilter);
+  
+  // Use smooth transition function
+  if (typeof updateInfoPanelWithTransition === "function") {
+    updateInfoPanelWithTransition(html);
+  } else {
+    // Fallback to original behavior
+    panel.classList.add("era-fade");
+    setTimeout(() => {
+      panel.innerHTML = html;
+      panel.classList.remove("era-fade");
+    }, 160);
+  }
 
   document.querySelectorAll(".map-marker").forEach(m =>
     m.classList.toggle("active", m.dataset.location === id)

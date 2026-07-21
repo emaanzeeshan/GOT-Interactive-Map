@@ -190,6 +190,24 @@ function buildLocationPanelHTML(loc, filter) {
   return `<div class="panel-scroll">${header}${body}</div>`;
 }
 
+/**
+ * Updates the info panel with smooth transition
+ */
+function updateInfoPanelWithTransition(html) {
+  const panel = document.getElementById('mapPanel');
+  if (!panel) return;
+  
+  // Add updating class for fade effect
+  panel.classList.add('updating');
+  
+  // Update content after short delay
+  setTimeout(() => {
+    panel.innerHTML = html;
+    panel.scrollTop = 0; // Reset scroll to top
+    panel.classList.remove('updating');
+  }, 150);
+}
+
 function renderEmptyPanel() {
   return `<p style="color:var(--muted);font-size:0.9rem;margin:0">
     Click a glowing marker on the map to read the lore of that location.
