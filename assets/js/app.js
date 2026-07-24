@@ -1,5 +1,5 @@
 /* =====================================================================
-   THE HISTORY OF WESTEROS — app.js
+   THE HISTORY OF WESTEROS — app.js (Modern Encyclopedia & Interactive Map)
    ===================================================================== */
 const state = {
   data: null,
@@ -11,31 +11,52 @@ const state = {
   activePopupEl: null,
 };
 
-const filterOptions = ['all','Battles','Houses','Dragons','Castles','Characters','Coronations','Events'];
+const filterOptions = [
+  { id: 'all', label: 'All', icon: '✨' },
+  { id: 'Battles', label: 'Battles', icon: '⚔️' },
+  { id: 'Houses', label: 'Houses', icon: '🛡️' },
+  { id: 'Dragons', label: 'Dragons', icon: '🐉' },
+  { id: 'Castles', label: 'Castles', icon: '🏰' },
+  { id: 'Characters', label: 'Characters', icon: '👤' },
+  { id: 'Coronations', label: 'Coronations', icon: '👑' },
+  { id: 'Events', label: 'Events', icon: '📜' },
+];
+
+function getCategoryIcon(type) {
+  switch ((type || '').toLowerCase()) {
+    case 'castles': case 'castle': return '🏰';
+    case 'battles': case 'battle': return '⚔️';
+    case 'dragons': case 'dragon': return '🐉';
+    case 'characters': case 'character': return '👤';
+    case 'houses': case 'house': return '🛡️';
+    case 'coronations': case 'coronation': return '👑';
+    case 'events': case 'event': return '📜';
+    default: return '📍';
+  }
+}
 
 function getFallbackData() {
   return {
-    timeline:[{id:'intro',title:'The Realm',years:'Ancient',description:'The tale begins here.',events:[],politicalShift:'The realm is awakening.'}],
-    houses:[],characters:[],dragons:[],battles:[],castles:[],
-    locations:[
-      { id:'winterfell',    name:"Winterfell",     x:16.5, y:24.7, type:'Castles', description:"Ancient seat of House Stark, fortress of the North.", ruler:"House Stark", events:[], characters:[] },
-      { id:'the-wall',      name:"The Wall",        x:22.3, y:16.4, type:'Castles', description:"A colossal wall of ice guarding the realms of men.", ruler:"Night's Watch", events:[], characters:[] },
-      { id:"king's-landing",name:"King's Landing", x:28.3, y:53.8, type:'Castles', description:"Capital of the Seven Kingdoms and seat of the Iron Throne.", ruler:"House Baratheon / House Targaryen", events:[], characters:[] },
-      { id:'dragonstone',   name:"Dragonstone",     x:37.3, y:56.6, type:'Castles', description:"Ancestral island seat of House Targaryen.", ruler:"House Targaryen", events:[], characters:[] },
-      { id:'casterly-rock', name:"Casterly Rock",   x:8.1,  y:55.9, type:'Castles', description:"Stronghold of House Lannister, carved into the coastal rock.", ruler:"House Lannister", events:[], characters:[] },
-      { id:'highgarden',    name:"Highgarden",      x:12.1, y:63.8, type:'Castles', description:"Garden capital of the Reach, seat of House Tyrell.", ruler:"House Tyrell", events:[], characters:[] },
-      { id:'sunspear',      name:"Sunspear",        x:15.2, y:73.8, type:'Castles', description:"Sun-baked capital of Dorne, seat of House Martell.", ruler:"House Martell", events:[], characters:[] },
-      { id:'braavos',       name:"Braavos",         x:55.4, y:42.5, type:'Events',  description:"A proud free city across the narrow sea.", ruler:"The Sealord", events:[], characters:[] },
-      { id:'pentos',        name:"Pentos",          x:60.4, y:46.6, type:'Events',  description:"The free city closest to Westeros' shores.", ruler:"Magister", events:[], characters:[] },
-      { id:'volantis',      name:"Volantis",        x:66.7, y:63.4, type:'Events',  description:"Oldest and once-mightiest of the Free Cities.", ruler:"Triarchs", events:[], characters:[] },
-      { id:'meereen',       name:"Meereen",         x:82.7, y:71.6, type:'Events',  description:"A great city of Slaver's Bay.", ruler:"Varies", events:[], characters:[] },
-      { id:'vaes-dothrak',  name:"Vaes Dothrak",    x:81.0, y:53.4, type:'Events',  description:"The sacred city of the Dothraki horselords.", ruler:"Dosh khaleen", events:[], characters:[] },
+    timeline: [{ id: 'intro', title: 'The Realm', years: 'Ancient', description: 'The tale begins here.', events: [], politicalShift: 'The realm is awakening.' }],
+    houses: [], characters: [], dragons: [], battles: [], castles: [],
+    locations: [
+      { id: 'winterfell', name: "Winterfell", x: 16.5, y: 24.7, type: 'Castles', description: "Ancient seat of House Stark, fortress of the North.", ruler: "House Stark", events: ["Battle of the Bastards", "The Long Night"], characters: ["Jon Snow", "Sansa Stark", "Arya Stark"] },
+      { id: 'the-wall', name: "The Wall", x: 22.3, y: 16.4, type: 'Castles', description: "A colossal wall of ice guarding the realms of men.", ruler: "Night's Watch", events: ["Battle of Castle Black"], characters: ["Jon Snow", "Jeor Mormont"] },
+      { id: "king's-landing", name: "King's Landing", x: 28.3, y: 53.8, type: 'Castles', description: "Capital of the Seven Kingdoms and seat of the Iron Throne.", ruler: "House Baratheon / House Targaryen", events: ["Battle of Blackwater", "Sack of King's Landing"], characters: ["Cersei Lannister", "Tyrion Lannister"] },
+      { id: 'dragonstone', name: "Dragonstone", x: 37.3, y: 56.6, type: 'Castles', description: "Ancestral island seat of House Targaryen.", ruler: "House Targaryen", events: ["War of the Five Kings planning"], characters: ["Daenerys Targaryen", "Stannis Baratheon"] },
+      { id: 'casterly-rock', name: "Casterly Rock", x: 8.1, y: 55.9, type: 'Castles', description: "Stronghold of House Lannister, carved into the coastal rock.", ruler: "House Lannister", events: ["Lannister Infiltration"], characters: ["Tywin Lannister", "Jaime Lannister"] },
+      { id: 'highgarden', name: "Highgarden", x: 12.1, y: 63.8, type: 'Castles', description: "Garden capital of the Reach, seat of House Tyrell.", ruler: "House Tyrell", events: ["Sack of Highgarden"], characters: ["Olenna Tyrell", "Margaery Tyrell"] },
+      { id: 'sunspear', name: "Sunspear", x: 15.2, y: 73.8, type: 'Castles', description: "Sun-baked capital of Dorne, seat of House Martell.", ruler: "House Martell", events: ["Unbowed Unbroken Unbroken"], characters: ["Oberyn Martell", "Doran Martell"] },
+      { id: 'braavos', name: "Braavos", x: 55.4, y: 42.5, type: 'Events', description: "A proud free city across the narrow sea.", ruler: "The Sealord", events: ["Arya's Training"], characters: ["Arya Stark", "Jaqen H'ghar"] },
+      { id: 'pentos', name: "Pentos", x: 60.4, y: 46.6, type: 'Events', description: "The free city closest to Westeros' shores.", ruler: "Magister", events: ["Targaryen Exile"], characters: ["Illyrio Mopatis"] },
+      { id: 'volantis', name: "Volantis", x: 66.7, y: 63.4, type: 'Events', description: "Oldest and once-mightiest of the Free Cities.", ruler: "Triarchs", events: ["Red Temple Gathering"], characters: ["Kinvara"] },
+      { id: 'meereen', name: "Meereen", x: 82.7, y: 71.6, type: 'Events', description: "A great city of Slaver's Bay.", ruler: "House Targaryen", events: ["Siege of Meereen"], characters: ["Daenerys Targaryen", "Barristan Selmy"] },
+      { id: 'vaes-dothrak', name: "Vaes Dothrak", x: 81.0, y: 53.4, type: 'Events', description: "The sacred city of the Dothraki horselords.", ruler: "Dosh khaleen", events: ["Gathering of the Khals"], characters: ["Daenerys Targaryen"] },
     ],
   };
 }
 
 async function init() {
-  // Initialize cinematic loading screen
   const loadingScreen = document.getElementById('loadingScreen');
   if (loadingScreen) {
     document.body.classList.add('loading');
@@ -56,30 +77,26 @@ async function init() {
       ...(typeof mapData !== 'undefined' ? mapData : {}),
       ...fetched,
     };
-  } catch(e) {
+  } catch (e) {
     console.warn('Using fallback data.', e);
     state.data = typeof mapData !== 'undefined' ? mapData : getFallbackData();
   }
+
   renderFilters();
   renderTimeline();
   ensureEncyclopediaData();
   renderSections();
   bindEvents();
   bindSectionSearch();
-  if (state.data.timeline?.length)    setActiveEra(0, { silent:true });
-  if (state.data.locations?.length)   setActiveLocation(state.data.locations[0].id, { silent:true });
+
+  if (state.data.timeline?.length) setActiveEra(0, { silent: true });
+  if (state.data.locations?.length) setActiveLocation(state.data.locations[0].id, { silent: true });
 }
 
-/* ====================================================================
-   DRAGON VIDEO LOOP
-   ==================================================================== */
 function initDragonVideos() {
   document.querySelectorAll('.flying-dragon').forEach(video => {
     video.addEventListener('ended', () => {
       video.currentTime = 0;
-      video.play();
-    });
-    video.addEventListener('pause', () => {
       video.play();
     });
     video.play().catch(() => {
@@ -88,30 +105,24 @@ function initDragonVideos() {
   });
 }
 
-/* ====================================================================
-   CINEMATIC SNOW + PARALLAX
-   ==================================================================== */
 function initCinematicBackground() {
   const canvas = document.getElementById('snowCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const layers = Array.from(document.querySelectorAll('.cinematic-layer'));
-  let W=0, H=0, flakes=[];
+  let W = 0, H = 0, flakes = [];
 
   function resize() {
     const dpr = window.devicePixelRatio || 1;
     W = window.innerWidth; H = window.innerHeight;
-    canvas.width  = W * dpr; canvas.height = H * dpr;
-    canvas.style.width = W+'px'; canvas.style.height = H+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    flakes = Array.from({length:120}, () => ({
-      x: Math.random()*W,
-      y: Math.random()*H,
-      size: Math.random()*2.6+0.6,
-      speed: Math.random()*1.1+0.3,
-      opacity: Math.random()*0.55+0.25,
-      drift: Math.random()*0.5+0.15,
-      phase: Math.random()*Math.PI*2,
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    flakes = Array.from({ length: 120 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      size: Math.random() * 2.6 + 0.6, speed: Math.random() * 1.1 + 0.3,
+      opacity: Math.random() * 0.55 + 0.25, drift: Math.random() * 0.5 + 0.15,
+      phase: Math.random() * Math.PI * 2,
     }));
   }
 
@@ -119,39 +130,37 @@ function initCinematicBackground() {
     const scrollY = window.scrollY;
     layers.forEach(l => {
       const f = Number(l.dataset.parallax || 0.12);
-      l.style.setProperty('--parallax-offset', `${scrollY*f}px`);
+      l.style.setProperty('--parallax-offset', `${scrollY * f}px`);
     });
   }
 
   function tick() {
-    ctx.clearRect(0,0,W,H);
+    ctx.clearRect(0, 0, W, H);
     flakes.forEach(f => {
       f.y += f.speed;
-      f.x += Math.sin((f.y/35) + f.phase) * 0.18;
-      if (f.y > H+10) { f.y=-10; f.x=Math.random()*W; }
+      f.x += Math.sin((f.y / 35) + f.phase) * 0.18;
+      if (f.y > H + 10) { f.y = -10; f.x = Math.random() * W; }
       ctx.beginPath();
-      ctx.arc(f.x, f.y, f.size, 0, Math.PI*2);
+      ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${f.opacity})`;
       ctx.fill();
     });
     state.snowAnimId = requestAnimationFrame(tick);
   }
 
-  resize();
-  parallax();
-  tick();
+  resize(); parallax(); tick();
   window.addEventListener('resize', resize);
-  window.addEventListener('scroll', parallax, {passive:true});
+  window.addEventListener('scroll', parallax, { passive: true });
 }
 
-/* ====================================================================
-   RENDER FUNCTIONS
-   ==================================================================== */
 function renderFilters() {
   const filterList = document.getElementById('filterList');
   if (!filterList) return;
   filterList.innerHTML = filterOptions.map(f =>
-    `<button class="filter-chip ${f===state.currentFilter?'active':''}" data-filter="${f}">${f==='all'?'All':f}</button>`
+    `<button class="filter-chip ${f.id === state.currentFilter ? 'active' : ''}" data-filter="${f.id}">
+      <span class="chip-icon">${f.icon}</span>
+      <span>${f.label}</span>
+    </button>`
   ).join('');
 }
 
@@ -163,18 +172,9 @@ function createSourceButton(links = []) {
   return `<div class="card-footer"><button class="btn ghost card-button disabled" disabled>View Image</button></div>`;
 }
 
-function createSourceLinks(links = []) {
-  if (!links.length) return '';
-  return `<div class="card-footer">${links.map(link =>
-    `<a class="info-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`
-  ).join('')}</div>`;
-}
-
 function ensureEncyclopediaData() {
   ['houses', 'characters', 'dragons', 'battles', 'castles'].forEach(key => {
-    if (!Array.isArray(state.data[key])) {
-      state.data[key] = [];
-    }
+    if (!Array.isArray(state.data[key])) state.data[key] = [];
   });
 }
 
@@ -182,12 +182,7 @@ function filterEncyclopediaCards(query) {
   const cards = document.querySelectorAll('#housesGrid article, #charactersGrid article, #dragonsGrid article, #battlesGrid article, #castlesGrid article');
   const terms = query.trim().toLowerCase();
   cards.forEach(card => {
-    if (!terms) {
-      card.hidden = false;
-      return;
-    }
-    const text = card.textContent.toLowerCase();
-    card.hidden = !text.includes(terms);
+    card.hidden = terms ? !card.textContent.toLowerCase().includes(terms) : false;
   });
 }
 
@@ -195,16 +190,11 @@ function renderTimeline() {
   const timeline = Array.isArray(state.data.timeline) ? state.data.timeline : [];
   const labels = document.getElementById('timelineLabels');
   const slider = document.getElementById('timelineSlider');
-
   if (!labels) return;
 
   if (!timeline.length) {
     labels.innerHTML = '<span>No timeline data available.</span>';
-    if (slider) {
-      slider.max = 0;
-      slider.value = 0;
-      slider.disabled = true;
-    }
+    if (slider) slider.disabled = true;
     return;
   }
 
@@ -230,20 +220,14 @@ function filterSectionCards(section, query) {
   if (!grid) return;
   const terms = query.trim().toLowerCase();
   grid.querySelectorAll('article').forEach(card => {
-    if (!terms) {
-      card.hidden = false;
-      return;
-    }
-    const text = card.textContent.toLowerCase();
-    card.hidden = !text.includes(terms);
+    card.hidden = terms ? !card.textContent.toLowerCase().includes(terms) : false;
   });
 }
 
 function bindSectionSearch() {
   document.querySelectorAll('.section-search-input').forEach(input => {
     input.addEventListener('input', e => {
-      const section = e.target.dataset.section;
-      filterSectionCards(section, e.target.value);
+      filterSectionCards(e.target.dataset.section, e.target.value);
     });
   });
 }
@@ -252,15 +236,11 @@ function renderHouses() {
   const grid = document.getElementById('housesGrid');
   if (!grid) return;
   const houses = Array.isArray(state.data.houses) ? state.data.houses : [];
-  if (!houses.length) {
-    grid.innerHTML = '';
-    return;
-  }
+  if (!houses.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = houses.map(h => `
     <article class="card">
-      <div class="card-image"></div>
-      <span class="badge">${h.words || ''}</span>
+      <span class="badge">${h.words || 'House Sigil'}</span>
       <h3>${h.name}</h3>
       <p>${h.region || ''}</p>
       <ul class="list">
@@ -277,23 +257,12 @@ function renderCharacters() {
   const grid = document.getElementById('charactersGrid');
   if (!grid) return;
   const characters = Array.isArray(state.data.characters) ? state.data.characters : [];
-  if (!characters.length) {
-    grid.innerHTML = '';
-    return;
-  }
+  if (!characters.length) { grid.innerHTML = ''; return; }
+
   grid.innerHTML = characters.map(c => {
     const alive = typeof c.status === 'string' && c.status.toLowerCase().includes('alive');
     return `<article class="card char-card">
-      <div class="card-image"></div>
-      <div class="avatar-wrap">
-        <div class="avatar avatar-breathe">${c.initials || ''}</div>
-        <div class="avatar-eyes">
-          <span class="eye eye-left"></span>
-          <span class="eye eye-right"></span>
-        </div>
-        <div class="status-dot ${alive ? 'alive' : 'dead'}"></div>
-      </div>
-      <span class="badge">${c.house || ''}</span>
+      <span class="badge">${c.house || 'Westeros'}</span>
       <h3>${c.name}</h3>
       <p>${c.bio || ''}</p>
       <ul class="list">
@@ -304,29 +273,17 @@ function renderCharacters() {
       ${createSourceButton(c.links || [])}
     </article>`;
   }).join('');
-
-  document.querySelectorAll('.eye').forEach((el, i) => {
-    el.style.animationDelay = `${(i*1.3)%4}s`;
-  });
 }
 
 function renderDragons() {
   const grid = document.getElementById('dragonsGrid');
   if (!grid) return;
   const dragons = Array.isArray(state.data.dragons) ? state.data.dragons : [];
-  if (!dragons.length) {
-    grid.innerHTML = '';
-    return;
-  }
+  if (!dragons.length) { grid.innerHTML = ''; return; }
 
-  grid.innerHTML = dragons.map((d, i) => `
+  grid.innerHTML = dragons.map((d) => `
     <article class="card dragon-card">
-      <div class="card-image"></div>
-      <div class="dragon-icon-wrap">
-        <div class="dragon-icon dragon-icon-${i%3}">🐉</div>
-        <div class="dragon-fire"></div>
-      </div>
-      <span class="badge">${d.colour || ''}</span>
+      <span class="badge">${d.colour || 'Fire & Blood'}</span>
       <h3>${d.name}</h3>
       <p>${d.description || ''}</p>
       <ul class="list">
@@ -343,21 +300,16 @@ function renderBattles() {
   const grid = document.getElementById('battlesGrid');
   if (!grid) return;
   const battles = Array.isArray(state.data.battles) ? state.data.battles : [];
-  if (!battles.length) {
-    grid.innerHTML = '';
-    return;
-  }
+  if (!battles.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = battles.map(b => `
     <article class="card">
-      <div class="card-image"></div>
-      <span class="badge">${b.location || ''}</span>
+      <span class="badge">${b.location || 'War'}</span>
       <h3>${b.name}</h3>
       <p>${b.summary || ''}</p>
       <ul class="list">
         <li><strong>Participants:</strong> ${(b.participants || b.commanders || []).join(', ')}</li>
         <li><strong>Winner:</strong> ${b.winner || 'Unknown'}</li>
-        <li><strong>Consequences:</strong> ${b.consequences || 'Unknown'}</li>
       </ul>
       ${createSourceButton(b.links || [])}
     </article>
@@ -368,21 +320,16 @@ function renderCastles() {
   const grid = document.getElementById('castlesGrid');
   if (!grid) return;
   const castles = Array.isArray(state.data.castles) ? state.data.castles : [];
-  if (!castles.length) {
-    grid.innerHTML = '';
-    return;
-  }
+  if (!castles.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = castles.map(c => `
     <article class="card">
-      <div class="card-image"></div>
-      <span class="badge">${c.region || ''}</span>
+      <span class="badge">${c.region || 'Fortress'}</span>
       <h3>${c.name}</h3>
       <p>${c.description || ''}</p>
       <ul class="list">
         <li><strong>House:</strong> ${c.house || 'Unknown'}</li>
         <li><strong>Architecture:</strong> ${c.architecture || 'Unknown'}</li>
-        <li><strong>Importance:</strong> ${c.importance || 'Unknown'}</li>
       </ul>
       ${createSourceButton(c.links || [])}
     </article>
@@ -394,7 +341,9 @@ function renderSearch() {
   if (results) results.innerHTML = '';
 }
 
-/* ---- MAP MARKERS (pin + hover label; click opens popup + sidebar) ---- */
+/* ====================================================================
+   MAP MARKER RENDERING & POPUPS
+   ==================================================================== */
 function renderMapMarkers() {
   const container = document.getElementById('mapMarkers');
   if (!container || !state.data?.locations) return;
@@ -402,20 +351,26 @@ function renderMapMarkers() {
   state.activePopupEl = null;
 
   state.data.locations.forEach(loc => {
-    const visible = state.currentFilter==='all'
-      || loc.type===state.currentFilter
-      || (state.currentFilter==='Events' && loc.category==='event')
-      || (state.currentFilter==='Coronations' && loc.category==='coronation');
+    const visible = state.currentFilter === 'all'
+      || loc.type === state.currentFilter
+      || (state.currentFilter === 'Events' && loc.category === 'event')
+      || (state.currentFilter === 'Coronations' && loc.category === 'coronation');
+
+    const catClass = `cat-${(loc.type || 'events').toLowerCase().replace(/[^a-z0-9]/g, '')}`;
 
     const marker = document.createElement('button');
     marker.type = 'button';
-    marker.className = `map-marker ${loc.id===state.currentLocation?'active':''}`;
+    marker.className = `map-marker ${catClass} ${loc.id === state.currentLocation ? 'active' : ''}`;
     marker.style.left = `${loc.x}%`;
     marker.style.top = `${loc.y}%`;
     marker.title = loc.name;
     if (!visible) marker.hidden = true;
     marker.dataset.location = loc.id;
-    marker.innerHTML = `<span class="pin-dot"></span><span class="pin-label">${loc.name}</span>`;
+
+    marker.innerHTML = `
+      <span class="pin-dot"></span>
+      <span class="pin-label">${loc.name}</span>
+    `;
 
     marker.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -427,26 +382,50 @@ function renderMapMarkers() {
   });
 }
 
-/* popup card that appears directly above the clicked marker */
 function showMapPopup(loc, markerEl) {
   const container = document.getElementById('mapMarkers');
-  if (state.activePopupEl) { state.activePopupEl.remove(); state.activePopupEl = null; }
+  if (state.activePopupEl) {
+    state.activePopupEl.remove();
+    state.activePopupEl = null;
+  }
 
   const popup = document.createElement('div');
   popup.className = 'map-popup';
   popup.style.left = `${loc.x}%`;
   popup.style.top = `${loc.y}%`;
+
+  const thumbHtml = (loc.image || loc.thumbnail)
+    ? `<div class="popup-thumb"><img src="${loc.image || loc.thumbnail}" alt="${loc.name}" loading="lazy" /></div>`
+    : '';
+
+  const icon = getCategoryIcon(loc.type);
+
   popup.innerHTML = `
-    <span class="popup-close">✕</span>
-    <h4>${loc.name}</h4>
-    <p>${loc.description}</p>
+    <button class="popup-close" aria-label="Close popup">✕</button>
+    ${thumbHtml}
+    <div class="popup-content">
+      <span class="popup-badge">${icon} ${loc.type || 'Location'}</span>
+      <h4 class="popup-title">${loc.name}</h4>
+      <p class="popup-desc">${loc.description}</p>
+      <button class="popup-view-btn">View Details →</button>
+    </div>
   `;
+
   popup.querySelector('.popup-close').addEventListener('click', (e) => {
     e.stopPropagation();
-    popup.remove();
-    state.activePopupEl = null;
-    markerEl.classList.remove('active');
+    closeMapPopup();
   });
+
+  const viewBtn = popup.querySelector('.popup-view-btn');
+  if (viewBtn) {
+    viewBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setActiveLocation(loc.id);
+      closeMapPopup();
+      const panel = document.getElementById('mapPanel');
+      if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 
   container.appendChild(popup);
   state.activePopupEl = popup;
@@ -462,8 +441,95 @@ function closeMapPopup() {
 }
 
 /* ====================================================================
-   STATE SETTERS
+   SET ACTIVE LOCATION — MODERN ENCYCLOPEDIA LAYOUT
    ==================================================================== */
+function setActiveLocation(id, opts = {}) {
+  state.currentLocation = id;
+  const loc = state.data.locations.find(l => l.id === id);
+  if (!loc) return;
+
+  const panel = document.getElementById('mapPanel');
+  if (!panel) return;
+
+  panel.classList.add('updating');
+
+  setTimeout(() => {
+    const icon = getCategoryIcon(loc.type);
+    const eventsList = Array.isArray(loc.events) && loc.events.length
+      ? loc.events.map(ev => `<li class="wiki-event-item">${ev}</li>`).join('')
+      : `<li class="wiki-event-item">No major conflicts recorded in current archives.</li>`;
+
+    const charactersList = Array.isArray(loc.characters) && loc.characters.length
+      ? loc.characters.map(ch => `<span class="wiki-tag">👤 ${ch}</span>`).join('')
+      : `<span class="wiki-tag">👤 Unknown / Unlisted</span>`;
+
+    panel.innerHTML = `
+      <div class="wiki-container">
+        <div class="wiki-header-banner">
+          <span class="wiki-type-badge">${icon} ${loc.type || 'Location'}</span>
+          <h3 class="wiki-title">${loc.name}</h3>
+        </div>
+
+        <div class="wiki-body">
+          <div class="wiki-infobox">
+            <div class="wiki-infobox-header">Quick Facts</div>
+            <div class="wiki-stat-row">
+              <span class="wiki-stat-label">👑 Ruling Faction</span>
+              <span class="wiki-stat-value">${loc.ruler || 'Unknown'}</span>
+            </div>
+            <div class="wiki-stat-row">
+              <span class="wiki-stat-label">📍 Region Coordinates</span>
+              <span class="wiki-stat-value">${loc.x}% X / ${loc.y}% Y</span>
+            </div>
+            <div class="wiki-stat-row">
+              <span class="wiki-stat-label">🏛️ Classification</span>
+              <span class="wiki-stat-value">${loc.type || 'Landmark'}</span>
+            </div>
+          </div>
+
+          <div class="wiki-section">
+            <h4 class="wiki-section-title">📖 History & Lore</h4>
+            <p class="wiki-description">${loc.description}</p>
+          </div>
+
+          <div class="wiki-section">
+            <h4 class="wiki-section-title">👥 Associated Figures</h4>
+            <div class="wiki-tags">${charactersList}</div>
+          </div>
+
+          <div class="wiki-section">
+            <h4 class="wiki-section-title">⚔️ Chronicle Events</h4>
+            <ul class="wiki-events-list">${eventsList}</ul>
+          </div>
+        </div>
+
+        <div class="wiki-actions">
+          <button class="btn primary" id="wikiFocusBtn" style="width: 100%;">
+            📍 Focus Map Location
+          </button>
+        </div>
+      </div>
+    `;
+
+    panel.classList.remove('updating');
+
+    const focusBtn = panel.querySelector('#wikiFocusBtn');
+    if (focusBtn) {
+      focusBtn.addEventListener('click', () => {
+        const marker = document.querySelector(`.map-marker[data-location="${loc.id}"]`);
+        if (marker) {
+          showMapPopup(loc, marker);
+          marker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+  }, 180);
+
+  document.querySelectorAll('.map-marker').forEach(m =>
+    m.classList.toggle('active', m.dataset.location === id)
+  );
+}
+
 function setActiveEra(idx, opts = {}) {
   state.currentEra = idx;
   const era = state.data.timeline[idx];
@@ -479,96 +545,26 @@ function setActiveEra(idx, opts = {}) {
       <p>${era.description}</p>
       <ul class="list">
         <li><strong>Years:</strong> ${era.years}</li>
-        <li><strong>Events:</strong> ${era.events.join(', ')}</li>
+        <li><strong>Events:</strong> ${(era.events || []).join(', ')}</li>
         <li><strong>Political Shift:</strong> ${era.politicalShift}</li>
       </ul>`;
     panel.classList.remove('era-fade');
   }, 200);
-
-  if (!opts.silent) playEraSound(era.id);
 }
 
-function setActiveLocation(id, opts = {}) {
-  state.currentLocation = id;
-  const loc = state.data.locations.find(l => l.id===id);
-  if (!loc) return;
+function initCinematicLoading() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (!loadingScreen) return;
 
-  const panel = document.getElementById('mapPanel');
-  if (!panel) return;
-  panel.classList.add('era-fade');
   setTimeout(() => {
-    panel.innerHTML = `
-      <h3>${loc.name}</h3>
-      <p>${loc.description}</p>
-      <ul class="list">
-        <li><strong>Ruler:</strong> ${loc.ruler}</li>
-        <li><strong>Events:</strong> ${loc.events.join(', ')}</li>
-        <li><strong>Characters:</strong> ${loc.characters.join(', ')}</li>
-      </ul>`;
-    panel.classList.remove('era-fade');
-  }, 180);
-
-  document.querySelectorAll('.map-marker').forEach(m =>
-    m.classList.toggle('active', m.dataset.location === id)
-  );
+    loadingScreen.classList.add('hidden');
+    document.body.classList.remove('loading');
+  }, 2500);
 }
 
 /* ====================================================================
-   EVENT BINDING
+   SEARCH FUNCTIONALITY WITH CATEGORY ICONS & DROPDOWN SELECTION
    ==================================================================== */
-
-/* ── Cinematic Loading Screen Logic ── */
-function initCinematicLoading() {
-  const loadingScreen = document.getElementById('loadingScreen');
-  const loadingText = document.getElementById('loadingText');
-  if (!loadingScreen) return;
-
-  // Wait for all critical assets to load
-  const assetsToLoad = [
-    'assets/images/map.png',
-    'assets/images/dragon1.mp4',
-    'assets/images/dragon2.mp4',
-    'assets/images/dragon3.mp4'
-  ];
-
-  let loadedCount = 0;
-  const totalAssets = assetsToLoad.length;
-
-  // Track asset loading
-  assetsToLoad.forEach(src => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.onload = img.onerror = () => {
-      loadedCount++;
-      // Update loading text based on progress
-      if (loadingText) {
-        const progress = Math.round((loadedCount / totalAssets) * 100);
-        if (progress < 100) {
-          loadingText.innerHTML = `Loading the Realm... ${progress}%<span class="loading-dots"></span>`;
-        } else {
-          loadingText.innerHTML = `Ready<span class="loading-dots"></span>`;
-        }
-      }
-    };
-  });
-
-  // Also wait for document to be fully loaded
-  if (document.readyState === 'complete') {
-    hideLoadingScreen();
-  } else {
-    window.addEventListener('load', hideLoadingScreen);
-  }
-
-  function hideLoadingScreen() {
-    // Wait for minimum display time to show animations (3 seconds)
-    setTimeout(() => {
-      loadingScreen.classList.add('hidden');
-      document.body.classList.remove('loading');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }, 3000);
-  }
-}
-
 function bindEvents() {
   const filterList = document.getElementById('filterList');
   if (filterList) {
@@ -584,71 +580,75 @@ function bindEvents() {
   document.querySelectorAll('[data-zoom]').forEach(btn => {
     btn.addEventListener('click', () => {
       const a = btn.dataset.zoom;
-      if (a==='in')    state.zoom = Math.min(2.2, state.zoom+0.2);
-      if (a==='out')   state.zoom = Math.max(0.6, state.zoom-0.2);
-      if (a==='reset') state.zoom = 1;
+      if (a === 'in') state.zoom = Math.min(2.2, state.zoom + 0.2);
+      if (a === 'out') state.zoom = Math.max(0.6, state.zoom - 0.2);
+      if (a === 'reset') state.zoom = 1;
       const img = document.querySelector('.map-image');
       if (img) img.style.transform = `scale(${state.zoom})`;
     });
   });
 
   const toggle = document.getElementById('navToggle');
-  const menu   = document.getElementById('navMenu');
+  const menu = document.getElementById('navMenu');
   if (toggle && menu) toggle.addEventListener('click', () => menu.classList.toggle('open'));
-
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu?.classList.remove('open');
-      const href = a.getAttribute('href') || '';
-      const hash = href.includes('#') ? href.split('#')[1] : '';
-      const pageName = href.split('/').pop().split('.')[0] || '';
-      const themeKey = hash || pageName || 'home';
-      setSectionTheme(themeKey);
-    });
-  });
 
   const searchInput = document.getElementById('searchInput');
   if (searchInput) {
+    searchInput.placeholder = "Search locations, houses, dragons...";
     searchInput.addEventListener('input', e => {
       const q = e.target.value.trim().toLowerCase();
       const out = document.getElementById('searchResults');
       filterEncyclopediaCards(q);
-      if (!q) { out.innerHTML=''; return; }
+      if (!q) { out.innerHTML = ''; return; }
 
       const all = [
-        ...state.data.characters.map(x=>({...x,_type:'Character'})),
-        ...state.data.houses.map(x=>({...x,_type:'House'})),
-        ...state.data.dragons.map(x=>({...x,_type:'Dragon'})),
-        ...state.data.battles.map(x=>({...x,_type:'Battle'})),
-        ...state.data.castles.map(x=>({...x,_type:'Castle'})),
-        ...state.data.locations.map(x=>({...x,_type:'Location'})),
-      ].filter(x => x.name.toLowerCase().includes(q) || (x.house||'').toLowerCase().includes(q) || (x.region||'').toLowerCase().includes(q));
+        ...state.data.characters.map(x => ({ ...x, _type: 'Character' })),
+        ...state.data.houses.map(x => ({ ...x, _type: 'House' })),
+        ...state.data.dragons.map(x => ({ ...x, _type: 'Dragon' })),
+        ...state.data.battles.map(x => ({ ...x, _type: 'Battle' })),
+        ...state.data.castles.map(x => ({ ...x, _type: 'Castle' })),
+        ...state.data.locations.map(x => ({ ...x, _type: 'Location' })),
+      ].filter(x => x.name.toLowerCase().includes(q) || (x.house || '').toLowerCase().includes(q));
 
-      out.innerHTML = all.slice(0,10).map(x => `
-        <div class="search-result">
-          <span class="badge" style="margin-bottom:0.3rem">${x._type}</span>
-          <strong>${x.name}</strong>
-          <p>${x.description||x.summary||x.territory||x.bio||''}</p>
-        </div>`).join('');
+      out.innerHTML = all.slice(0, 8).map(x => {
+        const typeStr = x._type || x.type || 'Location';
+        const icon = getCategoryIcon(typeStr);
+        return `
+          <div class="search-result" data-id="${x.id || ''}">
+            <div class="search-result-left">
+              <span class="search-result-icon">${icon}</span>
+              <span class="search-result-name">${x.name}</span>
+            </div>
+            <span class="search-result-badge">${typeStr}</span>
+          </div>`;
+      }).join('');
+
+      out.querySelectorAll('.search-result').forEach(item => {
+        item.addEventListener('click', () => {
+          const id = item.dataset.id;
+          if (id) {
+            setActiveLocation(id);
+            const marker = document.querySelector(`.map-marker[data-location="${id}"]`);
+            if (marker) {
+              const locObj = state.data.locations.find(l => l.id === id);
+              if (locObj) showMapPopup(locObj, marker);
+            }
+          }
+          out.innerHTML = '';
+        });
+      });
     });
   }
 
-  // clicking anywhere outside a marker/popup closes the open popup
-  document.addEventListener('click', () => closeMapPopup());
-
-  window.addEventListener('scroll', () => {
-    const offset = window.scrollY + 130;
-    document.querySelectorAll('section').forEach(sec => {
-      if (offset >= sec.offsetTop && offset < sec.offsetTop + sec.offsetHeight) {
-        document.querySelectorAll('.nav-links a').forEach(a =>
-          a.classList.toggle('active', a.getAttribute('href') === `#${sec.id}`)
-        );
-      }
-    });
-  }, {passive:true});
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#searchInput') && !e.target.closest('#searchResults')) {
+      const out = document.getElementById('searchResults');
+      if (out) out.innerHTML = '';
+    }
+    closeMapPopup();
+  });
 }
 
-/* ── Entry point ── */
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
