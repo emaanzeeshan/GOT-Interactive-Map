@@ -179,13 +179,13 @@ main { position:relative; z-index:2; }
   transition:opacity 0.2s, color 0.2s; font-size:0.92rem;
 }
 .nav-links a:hover, .nav-links a.active { opacity:1; color:#ffd57d; }
-.audio-toggle, .nav-toggle, .icon-btn {
+.nav-toggle, .icon-btn {
   background:rgba(255,255,255,0.06);
   color:var(--text); border:1px solid rgba(255,255,255,0.14);
   border-radius:999px; padding:0.55rem 0.75rem; cursor:pointer;
   transition:background 0.2s;
 }
-.audio-toggle:hover, .nav-toggle:hover, .icon-btn:hover {
+.nav-toggle:hover, .icon-btn:hover {
   background:rgba(255,255,255,0.12);
 }
 .nav-toggle { display:none; }
@@ -458,7 +458,7 @@ body:not(.loading) main {
 .map-controls { display:flex; gap:0.4rem; }
 
 /* ====================================================================
-   MAP  (updated: aspect-ratio locked to the map.svg viewBox so that
+   MAP  (updated: aspect-ratio locked to the map.png dimensions so that
    percentage-based marker positions always line up with the artwork)
    ==================================================================== */
 .map-layout {
@@ -466,23 +466,30 @@ body:not(.loading) main {
   grid-template-columns:1.5fr 0.75fr;
   gap:1rem;
   align-items:stretch;
-  min-height:400px;
+  height: auto;
 }
 
 .map-stage {
   position:relative;
   width:100%;
-  aspect-ratio: 2400 / 1600;   /* matches assets/images/map.svg viewBox */
+  height:100%;
+  min-height:400px;
+  max-height:70vh;
   border-radius:22px; overflow:hidden;
   border:1px solid var(--border);
   background:linear-gradient(180deg,rgba(20,26,42,0.9),rgba(4,5,10,0.97));
   box-shadow:var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .map-image {
-  width:100%; height:100%;
-  object-fit:contain;   /* contain (not cover) keeps % marker math accurate */
-  transform-origin:center; transition:transform 0.35s ease;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  transform-origin:center;
+  transition:transform 0.35s ease;
 }
 
 .map-markers { position:absolute; inset:0; }
@@ -530,7 +537,7 @@ body:not(.loading) main {
   padding:0.8rem 0.95rem;
   box-shadow:0 12px 34px rgba(0,0,0,0.55);
   transform:translate(-50%, -128%);
-  z-index:10;
+  z-index:100;
   opacity:0; pointer-events:none;
   transition:opacity 0.18s ease, transform 0.18s ease, top 0.2s ease, left 0.2s ease;
 }
@@ -568,6 +575,7 @@ body:not(.loading) main {
   background:rgba(10,12,20,0.94); border:1px solid var(--border);
   box-shadow:var(--shadow);
   height:100%;
+  min-height:400px;
   max-height:70vh;
   overflow-y:auto;
   overflow-x:hidden;
@@ -1522,7 +1530,19 @@ body:not(.loading) main {
    RESPONSIVE
    ==================================================================== */
 @media (max-width: 960px) {
-  .map-layout { grid-template-columns:1fr; }
+  .map-layout {
+    grid-template-columns:1fr;
+    min-height:auto;
+  }
+  
+  .map-stage {
+    min-height:300px;
+  }
+  
+  .info-panel {
+    max-height:50vh;
+  }
+  
   .cards-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .hero-side-card { position:relative; right:auto; bottom:auto; margin-top:1rem; max-width:none; }
   .auth-cards-grid { grid-template-columns:repeat(2,1fr); gap:1.5rem; }

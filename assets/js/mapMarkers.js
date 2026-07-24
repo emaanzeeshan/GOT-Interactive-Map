@@ -88,7 +88,53 @@ function showMapPopupV2(loc, markerEl) {
 
   container.appendChild(popup);
   state.activePopupEl = popup;
-  requestAnimationFrame(() => popup.classList.add("show"));
+  
+  // Smart positioning to keep popup in viewport
+  requestAnimationFrame(() => {
+    positionPopupInViewport(popup, loc.x, loc.y);
+    popup.classList.add("show");
+  });
+}
+
+/**
+ * Smart popup positioning to keep popups inside the map viewport
+ */
+function positionPopupInViewport(popup, xPercent, yPercent) {
+  const mapStage = document.getElementById("mapStage");
+  if (!mapStage) return;
+  
+  const mapRect = mapStage.getBoundingClientRect();
+  const popupRect = popup.getBoundingClientRect();
+  
+  // Calculate popup position relative to map
+  const popupTop = (yPercent / 100) * mapRect.height - popupRect.height - 15;
+  const popupBottom = (yPercent / 100) * mapRect.height + 15;
+  const popupLeft = (xPercent / 100) * mapRect.width - popupRect.width / 2;
+  const popupRight = (xPercent / 100) * mapRect.width + popupRect.width / 2;
+  
+  // Remove all position classes
+  popup.classList.remove('popup-below', 'popup-left', 'popup-right');
+  
+  // Check if popup would overflow top
+  if (popupTop < 0) {
+    // Position below marker instead
+    popup.style.top = `${yPercent}%`;
+    popup.classList.add('popup-below');
+  }
+  
+  // Check if popup would overflow left side
+  if (popupLeft < 0) {
+    // Position to the right of marker
+    popup.style.left = `${xPercent + 5}%`;
+    popup.classList.add('popup-left');
+  }
+  
+  // Check if popup would overflow right side
+  if (popupRight > mapRect.width) {
+    // Position to the left of marker
+    popup.style.left = `${xPercent - 5}%`;
+    popup.classList.add('popup-right');
+  }
 }
 
 /* Overrides app.js's setActiveLocation to use the rich data + panel builder */
@@ -115,8 +161,4 @@ function setActiveLocationV2(id, opts = {}) {
   document.querySelectorAll(".map-marker").forEach(m =>
     m.classList.toggle("active", m.dataset.location === id)
   );
-
-  if (!opts.silent && typeof playLocationSound === "function") {
-    try { playLocationSound(loc); } catch (e) { /* audio is best-effort */ }
-  }
 }
