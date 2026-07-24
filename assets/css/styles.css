@@ -475,13 +475,15 @@ body:not(.loading) main {
   height:100%;
   min-height:400px;
   max-height:70vh;
-  border-radius:22px; overflow:hidden;
+  border-radius:22px;
+  overflow:visible;
   border:1px solid var(--border);
   background:linear-gradient(180deg,rgba(20,26,42,0.9),rgba(4,5,10,0.97));
   box-shadow:var(--shadow);
   display:flex;
   align-items:center;
   justify-content:center;
+  z-index:10;
 }
 
 .map-image {
@@ -490,9 +492,10 @@ body:not(.loading) main {
   object-fit:contain;
   transform-origin:center;
   transition:transform 0.35s ease;
+  border-radius:20px;
 }
 
-.map-markers { position:absolute; inset:0; }
+.map-markers { position:absolute; inset:0; z-index:20; pointer-events:none; }
 
 /* ---- marker pin (teardrop style) ---- */
 .map-marker {
@@ -502,6 +505,7 @@ body:not(.loading) main {
   cursor:pointer;
   z-index:5;
   background:none; border:none; padding:0;
+  pointer-events:auto;
 }
 .map-marker .pin-dot {
   width:16px; height:16px; border-radius:50% 50% 50% 0;
@@ -527,31 +531,42 @@ body:not(.loading) main {
 .map-marker:hover .pin-label,
 .map-marker.active .pin-label { opacity:1; }
 
-/* ---- popup card that appears above the clicked marker ---- */
+/* ---- popup card that appears near the clicked marker ---- */
 .map-popup {
   position:absolute;
-  max-width:220px;
+  max-width:240px;
+  width:max-content;
   background:var(--panel);
   border:1px solid var(--accent);
   border-radius:12px;
   padding:0.8rem 0.95rem;
-  box-shadow:0 12px 34px rgba(0,0,0,0.55);
-  transform:translate(-50%, -128%);
-  z-index:100;
+  box-shadow:0 12px 34px rgba(0,0,0,0.75), 0 0 18px rgba(196,131,45,0.25);
+  transform:translate(-50%, -100%) translateY(-18px);
+  z-index:9999;
   opacity:0; pointer-events:none;
   transition:opacity 0.18s ease, transform 0.18s ease, top 0.2s ease, left 0.2s ease;
 }
 .map-popup.show {
   opacity:1; pointer-events:auto;
-  transform:translate(-50%, -142%);
+  transform:translate(-50%, -100%) translateY(-18px);
+}
+.map-popup.popup-below.show {
+  transform:translate(-50%, 20px);
+}
+.map-popup.popup-left.show {
+  transform:translate(calc(-100% - 18px), -50%);
+}
+.map-popup.popup-right.show {
+  transform:translate(18px, -50%);
 }
 .map-popup::after {
   content:''; position:absolute; left:50%; bottom:-8px;
   transform:translateX(-50%);
   border:8px solid transparent; border-top-color:var(--accent);
+  pointer-events:none;
 }
 .map-popup.popup-below::after {
-  top:-8px; bottom:auto;
+  top:-8px; bottom:auto; left:50%; right:auto;
   transform:translateX(-50%) rotate(180deg);
 }
 .map-popup.popup-left::after {
@@ -559,7 +574,7 @@ body:not(.loading) main {
   transform:translateY(-50%) rotate(-90deg);
 }
 .map-popup.popup-right::after {
-  left:-8px; top:50%; bottom:auto;
+  left:-8px; right:auto; top:50%; bottom:auto;
   transform:translateY(-50%) rotate(90deg);
 }
 .map-popup h4 { margin:0 0 0.3rem; font-size:0.95rem; color:#ffd57d; }

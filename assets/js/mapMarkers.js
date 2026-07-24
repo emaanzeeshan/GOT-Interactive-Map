@@ -106,34 +106,35 @@ function positionPopupInViewport(popup, xPercent, yPercent) {
   const mapRect = mapStage.getBoundingClientRect();
   const popupRect = popup.getBoundingClientRect();
   
-  // Calculate popup position relative to map
-  const popupTop = (yPercent / 100) * mapRect.height - popupRect.height - 15;
-  const popupBottom = (yPercent / 100) * mapRect.height + 15;
-  const popupLeft = (xPercent / 100) * mapRect.width - popupRect.width / 2;
-  const popupRight = (xPercent / 100) * mapRect.width + popupRect.width / 2;
+  const markerX = (xPercent / 100) * mapRect.width;
+  const markerY = (yPercent / 100) * mapRect.height;
   
-  // Remove all position classes
+  // Space above marker vs height needed for popup
+  const spaceAbove = markerY;
+  const neededAbove = popupRect.height + 25;
+  
+  // Clear directional classes
   popup.classList.remove('popup-below', 'popup-left', 'popup-right');
   
-  // Check if popup would overflow top
-  if (popupTop < 0) {
-    // Position below marker instead
-    popup.style.top = `${yPercent}%`;
+  popup.style.top = `${yPercent}%`;
+  popup.style.left = `${xPercent}%`;
+  
+  // Check top constraint
+  if (spaceAbove < neededAbove) {
     popup.classList.add('popup-below');
   }
   
-  // Check if popup would overflow left side
-  if (popupLeft < 0) {
-    // Position to the right of marker
-    popup.style.left = `${xPercent + 5}%`;
-    popup.classList.add('popup-left');
-  }
+  // Check side constraints
+  const halfWidth = popupRect.width / 2;
+  const popupLeft = markerX - halfWidth;
+  const popupRight = markerX + halfWidth;
   
-  // Check if popup would overflow right side
-  if (popupRight > mapRect.width) {
-    // Position to the left of marker
-    popup.style.left = `${xPercent - 5}%`;
+  if (popupLeft < 10) {
+    popup.classList.remove('popup-below');
     popup.classList.add('popup-right');
+  } else if (popupRight > mapRect.width - 10) {
+    popup.classList.remove('popup-below');
+    popup.classList.add('popup-left');
   }
 }
 
