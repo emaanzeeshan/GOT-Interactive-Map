@@ -201,6 +201,18 @@ body.loading main {
 body:not(.loading) .top-nav,
 body:not(.loading) main {
   visibility: visible;
+  animation:contentFadeIn 1.2s ease-out;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 .loading-screen {
@@ -220,13 +232,104 @@ body:not(.loading) main {
   background:rgba(4,5,10,0.7); backdrop-filter:blur(12px);
   box-shadow:0 0 60px rgba(196,131,45,0.14), var(--shadow);
 }
-.loading-label {
-  letter-spacing:0.5em; text-transform:uppercase; color:var(--muted); font-size:0.82rem;
-}
-.loading-content h1 {
-  font-size:clamp(2rem,5vw,3.8rem); margin:0.5rem 0 1.4rem;
+
+/* Cinematic title animations */
+.loading-title {
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  margin:0;
+  color:#ffd57d;
   text-shadow:0 0 20px rgba(196,131,45,0.55), 0 0 60px rgba(196,131,45,0.22);
   letter-spacing:0.04em;
+  font-family:'Cinzel', serif;
+  opacity:0;
+  transform:scale(0.9);
+  animation:titleFadeIn 1.5s ease-out 0.3s forwards;
+}
+
+.loading-subtitle {
+  font-size:clamp(1.2rem,3vw,2rem);
+  margin:0.5rem 0 1.5rem;
+  color:#d9c79a;
+  letter-spacing:0.02em;
+  font-family:'Cinzel', serif;
+  opacity:0;
+  transform:translateY(20px);
+  animation:subtitleFadeIn 1.2s ease-out 1.2s forwards;
+}
+
+.loading-tagline {
+  font-size:clamp(0.9rem,2vw,1.2rem);
+  margin:0 0 2rem;
+  color:var(--muted);
+  letter-spacing:0.01em;
+  opacity:0;
+  animation:taglineFadeIn 1s ease-out 1.8s forwards;
+}
+
+.loading-text {
+  font-size:1rem;
+  color:var(--accent);
+  letter-spacing:0.05em;
+  opacity:0;
+  animation:loadingTextFadeIn 0.8s ease-out 2.2s forwards;
+}
+
+.loading-dots::after {
+  content:'';
+  animation:dots 1.5s infinite;
+}
+
+/* Animation keyframes */
+@keyframes titleFadeIn {
+  to {
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+@keyframes subtitleFadeIn {
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes taglineFadeIn {
+  to {
+    opacity:1;
+  }
+}
+
+@keyframes loadingTextFadeIn {
+  to {
+    opacity:1;
+  }
+}
+
+@keyframes dots {
+  0%,20% { content:'.'; }
+  40% { content:'..'; }
+  60%,100% { content:'...'; }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .loading-title,
+  .loading-subtitle,
+  .loading-tagline,
+  .loading-text {
+    animation:none;
+    opacity:1;
+    transform:none;
+  }
+  .loading-dots::after {
+    animation:none;
+    content:'...';
+  }
+  body:not(.loading) .top-nav,
+  body:not(.loading) main {
+    animation:none;
+  }
 }
 
 .loading-embers {

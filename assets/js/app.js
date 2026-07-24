@@ -35,14 +35,15 @@ function getFallbackData() {
 }
 
 async function init() {
-  const hasIntro = !!document.getElementById('startJourney');
-  if (hasIntro) {
+  // Initialize cinematic loading screen
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen) {
     document.body.classList.add('loading');
+    initCinematicLoading();
   } else {
     document.body.classList.remove('loading');
   }
 
-  bindStartJourney();
   initCinematicBackground();
   initDragonVideos();
 
@@ -515,15 +516,57 @@ function setActiveLocation(id, opts = {}) {
 /* ====================================================================
    EVENT BINDING
    ==================================================================== */
-function bindStartJourney() {
-  const btn = document.getElementById('startJourney');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    const screen = document.getElementById('loadingScreen');
-    if (screen) screen.classList.add('hidden');
-    document.body.classList.remove('loading');
-    window.scrollTo({top:0,behavior:'smooth'});
+
+/* ── Cinematic Loading Screen Logic ── */
+function initCinematicLoading() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  const loadingText = document.getElementById('loadingText');
+  if (!loadingScreen) return;
+
+  // Wait for all critical assets to load
+  const assetsToLoad = [
+    'assets/images/map.png',
+    'assets/images/dragon1.mp4',
+    'assets/images/dragon2.mp4',
+    'assets/images/dragon3.mp4'
+  ];
+
+  let loadedCount = 0;
+  const totalAssets = assetsToLoad.length;
+
+  // Track asset loading
+  assetsToLoad.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.onload = img.onerror = () => {
+      loadedCount++;
+      // Update loading text based on progress
+      if (loadingText) {
+        const progress = Math.round((loadedCount / totalAssets) * 100);
+        if (progress < 100) {
+          loadingText.innerHTML = `Loading the Realm... ${progress}%<span class="loading-dots"></span>`;
+        } else {
+          loadingText.innerHTML = `Ready<span class="loading-dots"></span>`;
+        }
+      }
+    };
   });
+
+  // Also wait for document to be fully loaded
+  if (document.readyState === 'complete') {
+    hideLoadingScreen();
+  } else {
+    window.addEventListener('load', hideLoadingScreen);
+  }
+
+  function hideLoadingScreen() {
+    // Wait for minimum display time to show animations (3 seconds)
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+      document.body.classList.remove('loading');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }, 3000);
+  }
 }
 
 function bindEvents() {
