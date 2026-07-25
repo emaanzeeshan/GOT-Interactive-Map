@@ -9,6 +9,13 @@ const state = {
   zoom: 1,
   snowAnimId: null,
   activePopupEl: null,
+  panX: 0,
+  panY: 0,
+  isDragging: false,
+  dragStartX: 0,
+  dragStartY: 0,
+  initialPanX: 0,
+  initialPanY: 0,
 };
 
 const filterOptions = [
@@ -568,6 +575,144 @@ function initCinematicLoading() {
 }
 
 /* ====================================================================
+   MAP INTERACTION - ZOOM, PAN, DRAG
+   ==================================================================== */
+function updateMapTransform() {
+  const img = document.querySelector('.map-image');
+  const markers = document.querySelector('.map-markers');
+  const mapStage = document.querySelector('.map-stage');
+  
+  if (!img || !markers || !mapStage) return;
+  
+  const transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+  img.style.transform = transform;
+  markers.style.transform = transform;
+  
+  // Update cursor based on zoom level and drag state
+  if (state.zoom > 1) {
+    mapStage.style.cursor = state.isDragging ? 'grabbing' : 'grab';
+  } else {
+    mapStage.style.cursor = 'default';
+  }
+}
+
+function initMapInteraction() {
+  const mapStage = document.querySelector('.map-stage');
+  if (!mapStage) return;
+  
+  // Prevent default image dragging
+  const mapImage = document.querySelector('.map-image');
+  if (mapImage) {
+    mapImage.draggable = false;
+    mapImage.style.userSelect = 'none';
+    mapImage.style.webkitUserDrag = 'none';
+  }
+  
+  // Mouse events for desktop
+  mapStage.addEventListener('mousedown', handleDragStart);
+  document.addEventListener('mousemove', handleDragMove);
+  document.addEventListener('mouseup', handleDragEnd);
+  
+  // Touch events for mobile
+  mapStage.addEventListener('touchstart', handleTouchStart, { passive: false });
+  mapStage.addEventListener('touchmove', handleTouchMove, { passive: false });
+  mapStage.addEventListener('touchend', handleTouchEnd);
+  
+  // Prevent context menu on right-click
+  mapStage.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+function canDrag() {
+  return state.zoom > 1;
+}
+
+function handleDragStart(e) {
+  if (!canDrag()) return;
+  if (e.button !== 0) return; // Only left click
+  
+  state.isDragging = true;
+  state.dragStartX = e.clientX;
+  state.dragStartY = e.clientY;
+  state.initialPanX = state.panX;
+  state.initialPanY = state.panY;
+  
+  updateMapTransform();
+}
+
+function handleDragMove(e) {
+  if (!state.isDragging) return;
+  
+  e.preventDefault();
+  
+  const deltaX = e.clientX - state.dragStartX;
+  const deltaY = e.clientY - state.dragStartY;
+  
+  state.panX = state.initialPanX + deltaX;
+  state.panY = state.initialPanY + deltaY;
+  
+  updateMapTransform();
+}
+
+function handleDragEnd() {
+  if (state.isDragging) {
+    state.isDragging = false;
+    updateMapTransform();
+  }
+}
+
+// Touch support
+let touchStartDistance = 0;
+let touchStartZoom = 1;
+
+function handleTouchStart(e) {
+  if (e.touches.length === 1) {
+    // Single touch - prepare for panning
+    if (canDrag()) {
+      state.isDragging = true;
+      state.dragStartX = e.touches[0].clientX;
+      state.dragStartY = e.touches[0].clientY;
+      state.initialPanX = state.panX;
+      state.initialPanY = state.panY;
+    }
+  } else if (e.touches.length === 2) {
+    // Two touches - prepare for pinch zoom
+    touchStartDistance = getTouchDistance(e.touches);
+    touchStartZoom = state.zoom;
+    e.preventDefault();
+  }
+}
+
+function handleTouchMove(e) {
+  if (e.touches.length === 1 && state.isDragging) {
+    // Single touch - panning
+    e.preventDefault();
+    const deltaX = e.touches[0].clientX - state.dragStartX;
+    const deltaY = e.touches[0].clientY - state.dragStartY;
+    state.panX = state.initialPanX + deltaX;
+    state.panY = state.initialPanY + deltaY;
+    updateMapTransform();
+  } else if (e.touches.length === 2) {
+    // Two touches - pinch zoom
+    e.preventDefault();
+    const currentDistance = getTouchDistance(e.touches);
+    const scale = currentDistance / touchStartDistance;
+    state.zoom = Math.max(0.6, Math.min(2.2, touchStartZoom * scale));
+    updateMapTransform();
+  }
+}
+
+function handleTouchEnd() {
+  state.isDragging = false;
+  updateMapTransform();
+}
+
+function getTouchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+/* ====================================================================
    SEARCH FUNCTIONALITY WITH CATEGORY ICONS & DROPDOWN SELECTION
    ==================================================================== */
 function bindEvents() {
@@ -587,9 +732,12 @@ function bindEvents() {
       const a = btn.dataset.zoom;
       if (a === 'in') state.zoom = Math.min(2.2, state.zoom + 0.2);
       if (a === 'out') state.zoom = Math.max(0.6, state.zoom - 0.2);
-      if (a === 'reset') state.zoom = 1;
-      const img = document.querySelector('.map-image');
-      if (img) img.style.transform = `scale(${state.zoom})`;
+      if (a === 'reset') {
+        state.zoom = 1;
+        state.panX = 0;
+        state.panY = 0;
+      }
+      updateMapTransform();
     });
   });
 
