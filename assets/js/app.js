@@ -429,7 +429,12 @@ function showMapPopup(loc, markerEl) {
 
   container.appendChild(popup);
   state.activePopupEl = popup;
-  requestAnimationFrame(() => popup.classList.add('show'));
+  requestAnimationFrame(() => {
+    if (typeof positionPopupInViewport === 'function') {
+      positionPopupInViewport(popup, loc.x, loc.y);
+    }
+    popup.classList.add('show');
+  });
 }
 
 function closeMapPopup() {
