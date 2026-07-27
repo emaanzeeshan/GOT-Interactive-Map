@@ -200,6 +200,7 @@ const mapData = {
       id: 'age-of-heroes',
       title: 'Age of Heroes',
       years: 'Ancient',
+      image: 'assets/images/timeline/age-of-heroes.jpg',
       description: 'The earliest era of Westeros, when legendary houses were founded and the Wall was raised to hold back the long night.',
       events: ['Founding of Winterfell', 'Construction of the Wall'],
       politicalShift: 'The realm coalesces around the first great houses and the old gods retain their power.',
@@ -334,6 +335,7 @@ const mapData = {
       id: 'roberts-rebellion',
       title: "Robert's Rebellion",
       years: '282-283 AC',
+      image: 'assets/images/timeline/roberts-rebellion.jpg',
       description: 'A rebellion ignites after the fall of a king, reshaping the ruling houses and setting the stage for a new throne.',
       events: ['Battle of the Trident', 'Sack of King’s Landing'],
       politicalShift: 'The Targaryen dynasty ends and House Baratheon takes the crown.',
@@ -391,6 +393,7 @@ const mapData = {
       id: 'war-of-the-five-kings',
       title: 'War of the Five Kings',
       years: '298-300 AC',
+      image: 'assets/images/timeline/war-of-five-kings.jpg',
       description: 'Noble houses battle for control of the throne, plunging Westeros into widespread chaos and betrayal.',
       events: ['Red Wedding', 'Battle of the Bastards'],
       politicalShift: 'The realm fractures as claimants rise and the old order begins to crumble.',
@@ -448,6 +451,7 @@ const mapData = {
       id: 'game-of-thrones',
       title: 'Game of Thrones',
       years: '300-305 AC',
+      image: 'assets/images/timeline/long-night.jpg',
       description: 'The final struggle for power concludes with dragonfire, betrayal, and the birth of a new political order.',
       events: ['Battle of Winterfell', 'Fall of King’s Landing'],
       politicalShift: 'A new council is formed and the surviving kingdoms seek a fragile peace.',
@@ -1446,3 +1450,11 @@ const CATEGORY_META = {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { mapData, CATEGORY_META };
 }
+
+// Expose mapData to window for timeline.js
+if (typeof window !== "undefined") {
+  window.mapData = mapData;
+}
+
+
+

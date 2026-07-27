@@ -23,7 +23,8 @@
   border: 2px solid rgba(255, 255, 255, 0.88);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65);
   transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
-  animation: markerPulse 3s ease-in-out infinite;
+  animation: markerPulse 2.5s ease-in-out infinite;
+  will-change: transform, box-shadow;
 }
 
 /* --------------------------------------------------------------------
@@ -66,13 +67,15 @@
 .map-marker:hover,
 .map-marker.active {
   z-index: 100;
-  transform: translate(-50%, -115%) scale(1.35);
+  transform: translate(-50%, -115%) scale(1.4);
+  will-change: transform;
 }
 
 .map-marker:hover .pin-dot,
 .map-marker.active .pin-dot {
-  transform: rotate(-45deg) scale(1.22);
-  box-shadow: 0 0 22px rgba(255, 215, 120, 0.95), 0 0 48px rgba(255, 195, 80, 0.45);
+  transform: rotate(-45deg) scale(1.25);
+  box-shadow: 0 0 28px rgba(255, 215, 120, 0.95), 0 0 56px rgba(255, 195, 80, 0.5);
+  animation: none; /* Stop pulse when hovered or selected */
 }
 
 /* --------------------------------------------------------------------
@@ -80,10 +83,11 @@
    -------------------------------------------------------------------- */
 .map-marker.active::after {
   content: ''; position: absolute; top: 50%; left: 50%;
-  width: 38px; height: 38px; transform: translate(-50%, -50%);
+  width: 42px; height: 42px; transform: translate(-50%, -50%);
   border: 2px dashed #f0c45e; border-radius: 50%;
-  animation: activeRingRotate 6s linear infinite;
+  animation: activeRingRotate 5s linear infinite;
   pointer-events: none;
+  will-change: transform;
 }
 
 /* --------------------------------------------------------------------

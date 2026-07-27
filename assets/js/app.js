@@ -9,6 +9,25 @@ const state = {
   zoom: 1,
   snowAnimId: null,
   activePopupEl: null,
+  panX: 0,
+  panY: 0,
+  isDragging: false,
+  dragStartX: 0,
+  dragStartY: 0,
+  initialPanX: 0,
+  initialPanY: 0,
+  dragDistance: 0,
+  velocityX: 0,
+  velocityY: 0,
+  lastDragTime: 0,
+  lastDragX: 0,
+  lastDragY: 0,
+  isAnimating: false,
+  targetPanX: 0,
+  targetPanY: 0,
+  targetZoom: 1,
+  isInitialLoad: true,
+  prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 };
 
 const filterOptions = [
@@ -20,6 +39,7 @@ const filterOptions = [
   { id: 'Characters', label: 'Characters', icon: '👤' },
   { id: 'Coronations', label: 'Coronations', icon: '👑' },
   { id: 'Events', label: 'Events', icon: '📜' },
+  { id: 'journeys', label: 'Character Journeys', icon: '🛤' },
 ];
 
 function getCategoryIcon(type) {
@@ -88,6 +108,7 @@ async function init() {
   renderSections();
   bindEvents();
   bindSectionSearch();
+  initMapInteraction();
 
   if (state.data.timeline?.length) setActiveEra(0, { silent: true });
   if (state.data.locations?.length) setActiveLocation(state.data.locations[0].id, { silent: true });
@@ -568,6 +589,322 @@ function initCinematicLoading() {
 }
 
 /* ====================================================================
+   MAP INTERACTION - ZOOM, PAN, DRAG
+   ==================================================================== */
+function updateMapTransform() {
+  const img = document.querySelector('.map-image');
+  const markers = document.querySelector('.map-markers');
+  const mapStage = document.querySelector('.map-stage');
+  
+  if (!img || !markers || !mapStage) return;
+  
+  const transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+  img.style.transform = transform;
+  markers.style.transform = transform;
+  
+  // Update cursor based on zoom level and drag state
+  if (state.zoom > 1) {
+    mapStage.style.cursor = state.isDragging ? 'grabbing' : 'grab';
+  } else {
+    mapStage.style.cursor = 'default';
+  }
+}
+
+function animateToTarget() {
+  if (!state.isAnimating) return;
+  
+  const easing = 0.1;
+  const threshold = 0.5;
+  
+  // Interpolate pan
+  const panDiffX = state.targetPanX - state.panX;
+  const panDiffY = state.targetPanY - state.panY;
+  
+  if (Math.abs(panDiffX) > threshold || Math.abs(panDiffY) > threshold) {
+    state.panX += panDiffX * easing;
+    state.panY += panDiffY * easing;
+  } else {
+    state.panX = state.targetPanX;
+    state.panY = state.targetPanY;
+  }
+  
+  // Interpolate zoom
+  const zoomDiff = state.targetZoom - state.zoom;
+  if (Math.abs(zoomDiff) > 0.01) {
+    state.zoom += zoomDiff * easing;
+  } else {
+    state.zoom = state.targetZoom;
+  }
+  
+  updateMapTransform();
+  
+  // Continue animation if not at target
+  if (Math.abs(panDiffX) > threshold || Math.abs(panDiffY) > threshold || Math.abs(zoomDiff) > 0.01) {
+    requestAnimationFrame(animateToTarget);
+  } else {
+    state.isAnimating = false;
+  }
+}
+
+function startAnimation(targetPanX, targetPanY, targetZoom) {
+  state.targetPanX = targetPanX;
+  state.targetPanY = targetPanY;
+  state.targetZoom = targetZoom;
+  state.isAnimating = true;
+  requestAnimationFrame(animateToTarget);
+}
+
+function applyMapBounds() {
+  const mapStage = document.querySelector('.map-stage');
+  if (!mapStage) return;
+  
+  const rect = mapStage.getBoundingClientRect();
+  const mapWidth = rect.width;
+  const mapHeight = rect.height;
+  
+  // Calculate how much of the map is visible at current zoom
+  const visibleWidth = mapWidth / state.zoom;
+  const visibleHeight = mapHeight / state.zoom;
+  
+  // Allow some margin so map can be partially dragged off-screen
+  const margin = 0.2; // 20% of the map can be off-screen
+  const maxPanX = (mapWidth - visibleWidth) * (0.5 + margin);
+  const maxPanY = (mapHeight - visibleHeight) * (0.5 + margin);
+  
+  // Clamp pan values
+  state.panX = Math.max(-maxPanX, Math.min(maxPanX, state.panX));
+  state.panY = Math.max(-maxPanY, Math.min(maxPanY, state.panY));
+}
+
+function initMapInteraction() {
+  const mapStage = document.querySelector('.map-stage');
+  if (!mapStage) return;
+  
+  // Prevent default image dragging
+  const mapImage = document.querySelector('.map-image');
+  if (mapImage) {
+    mapImage.draggable = false;
+    mapImage.style.userSelect = 'none';
+    mapImage.style.webkitUserDrag = 'none';
+  }
+  
+  // Mouse events for desktop
+  mapStage.addEventListener('mousedown', handleDragStart);
+  document.addEventListener('mousemove', handleDragMove);
+  document.addEventListener('mouseup', handleDragEnd);
+  
+  // Mouse wheel zoom
+  mapStage.addEventListener('wheel', handleWheelZoom, { passive: false });
+  
+  // Touch events for mobile
+  mapStage.addEventListener('touchstart', handleTouchStart, { passive: false });
+  mapStage.addEventListener('touchmove', handleTouchMove, { passive: false });
+  mapStage.addEventListener('touchend', handleTouchEnd);
+  
+  // Prevent context menu on right-click
+  mapStage.addEventListener('contextmenu', (e) => e.preventDefault());
+  
+  // Initial cursor state
+  updateMapTransform();
+  
+  // Initial zoom animation if not reduced motion
+  if (state.isInitialLoad && !state.prefersReducedMotion) {
+    state.zoom = 0.85;
+    updateMapTransform();
+    setTimeout(() => {
+      startAnimation(0, 0, 1);
+      state.isInitialLoad = false;
+    }, 300);
+  } else {
+    state.isInitialLoad = false;
+  }
+}
+
+function canDrag() {
+  return state.zoom > 1;
+}
+
+function handleDragStart(e) {
+  if (!canDrag()) return;
+  if (e.button !== 0) return; // Only left click
+  
+  state.isDragging = true;
+  state.dragStartX = e.clientX;
+  state.dragStartY = e.clientY;
+  state.initialPanX = state.panX;
+  state.initialPanY = state.panY;
+  state.dragDistance = 0;
+  state.velocityX = 0;
+  state.velocityY = 0;
+  state.lastDragTime = performance.now();
+  state.lastDragX = e.clientX;
+  state.lastDragY = e.clientY;
+  
+  // Stop any ongoing animation
+  state.isAnimating = false;
+  
+  updateMapTransform();
+}
+
+function handleDragMove(e) {
+  if (!state.isDragging) return;
+  
+  e.preventDefault();
+  
+  const deltaX = e.clientX - state.dragStartX;
+  const deltaY = e.clientY - state.dragStartY;
+  
+  state.panX = state.initialPanX + deltaX;
+  state.panY = state.initialPanY + deltaY;
+  
+  // Track total drag distance to distinguish clicks from drags
+  state.dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  
+  // Calculate velocity for inertia
+  const now = performance.now();
+  const dt = now - state.lastDragTime;
+  
+  if (dt > 0) {
+    state.velocityX = (e.clientX - state.lastDragX) / dt;
+    state.velocityY = (e.clientY - state.lastDragY) / dt;
+  }
+  
+  state.lastDragTime = now;
+  state.lastDragX = e.clientX;
+  state.lastDragY = e.clientY;
+  
+  // Apply bounds during drag
+  applyMapBounds();
+  
+  updateMapTransform();
+}
+
+function handleDragEnd() {
+  if (state.isDragging) {
+    state.isDragging = false;
+    state.dragDistance = 0;
+    
+    // Apply inertia if velocity is significant
+    const inertiaThreshold = 0.5;
+    if (Math.abs(state.velocityX) > inertiaThreshold || Math.abs(state.velocityY) > inertiaThreshold) {
+      // Calculate target position with inertia
+      const inertiaFactor = 15; // How far the map will glide
+      const targetPanX = state.panX + state.velocityX * inertiaFactor;
+      const targetPanY = state.panY + state.velocityY * inertiaFactor;
+      
+      // Apply bounds to target
+      const originalPanX = state.panX;
+      const originalPanY = state.panY;
+      state.panX = targetPanX;
+      state.panY = targetPanY;
+      applyMapBounds();
+      state.targetPanX = state.panX;
+      state.targetPanY = state.panY;
+      state.panX = originalPanX;
+      state.panY = originalPanY;
+      
+      // Start animation
+      state.targetZoom = state.zoom;
+      state.isAnimating = true;
+      requestAnimationFrame(animateToTarget);
+    } else {
+      updateMapTransform();
+    }
+  }
+}
+
+function handleWheelZoom(e) {
+  e.preventDefault();
+  
+  const delta = e.deltaY > 0 ? -0.1 : 0.1;
+  const newZoom = Math.max(0.6, Math.min(2.2, state.zoom + delta));
+  
+  if (newZoom === state.zoom) return;
+  
+  // Calculate zoom centered on cursor
+  const mapStage = document.querySelector('.map-stage');
+  const rect = mapStage.getBoundingClientRect();
+  
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  
+  const zoomRatio = newZoom / state.zoom;
+  
+  // Adjust pan to keep cursor position stable
+  const targetPanX = centerX - (centerX - state.panX) * zoomRatio + (mouseX - centerX) * (1 - zoomRatio);
+  const targetPanY = centerY - (centerY - state.panY) * zoomRatio + (mouseY - centerY) * (1 - zoomRatio);
+  
+  // Apply bounds
+  const originalPanX = state.panX;
+  const originalPanY = state.panY;
+  state.panX = targetPanX;
+  state.panY = targetPanY;
+  applyMapBounds();
+  const boundedTargetPanX = state.panX;
+  const boundedTargetPanY = state.panY;
+  state.panX = originalPanX;
+  state.panY = originalPanY;
+  
+  // Start smooth animation
+  startAnimation(boundedTargetPanX, boundedTargetPanY, newZoom);
+}
+
+// Touch support
+let touchStartDistance = 0;
+let touchStartZoom = 1;
+
+function handleTouchStart(e) {
+  if (e.touches.length === 1) {
+    // Single touch - prepare for panning
+    if (canDrag()) {
+      state.isDragging = true;
+      state.dragStartX = e.touches[0].clientX;
+      state.dragStartY = e.touches[0].clientY;
+      state.initialPanX = state.panX;
+      state.initialPanY = state.panY;
+    }
+  } else if (e.touches.length === 2) {
+    // Two touches - prepare for pinch zoom
+    touchStartDistance = getTouchDistance(e.touches);
+    touchStartZoom = state.zoom;
+    e.preventDefault();
+  }
+}
+
+function handleTouchMove(e) {
+  if (e.touches.length === 1 && state.isDragging) {
+    // Single touch - panning
+    e.preventDefault();
+    const deltaX = e.touches[0].clientX - state.dragStartX;
+    const deltaY = e.touches[0].clientY - state.dragStartY;
+    state.panX = state.initialPanX + deltaX;
+    state.panY = state.initialPanY + deltaY;
+    updateMapTransform();
+  } else if (e.touches.length === 2) {
+    // Two touches - pinch zoom
+    e.preventDefault();
+    const currentDistance = getTouchDistance(e.touches);
+    const scale = currentDistance / touchStartDistance;
+    state.zoom = Math.max(0.6, Math.min(2.2, touchStartZoom * scale));
+    updateMapTransform();
+  }
+}
+
+function handleTouchEnd() {
+  state.isDragging = false;
+  updateMapTransform();
+}
+
+function getTouchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+/* ====================================================================
    SEARCH FUNCTIONALITY WITH CATEGORY ICONS & DROPDOWN SELECTION
    ==================================================================== */
 function bindEvents() {
@@ -585,11 +922,19 @@ function bindEvents() {
   document.querySelectorAll('[data-zoom]').forEach(btn => {
     btn.addEventListener('click', () => {
       const a = btn.dataset.zoom;
-      if (a === 'in') state.zoom = Math.min(2.2, state.zoom + 0.2);
-      if (a === 'out') state.zoom = Math.max(0.6, state.zoom - 0.2);
-      if (a === 'reset') state.zoom = 1;
-      const img = document.querySelector('.map-image');
-      if (img) img.style.transform = `scale(${state.zoom})`;
+      let targetZoom = state.zoom;
+      let targetPanX = state.panX;
+      let targetPanY = state.panY;
+      
+      if (a === 'in') targetZoom = Math.min(2.2, state.zoom + 0.2);
+      if (a === 'out') targetZoom = Math.max(0.6, state.zoom - 0.2);
+      if (a === 'reset') {
+        targetZoom = 1;
+        targetPanX = 0;
+        targetPanY = 0;
+      }
+      
+      startAnimation(targetPanX, targetPanY, targetZoom);
     });
   });
 
