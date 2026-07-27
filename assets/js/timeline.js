@@ -28,33 +28,11 @@
     // Add timeline page class to body
     document.body.classList.add('timeline-page');
     
-    // Create dust particles
-    createDustParticles();
-    
     // Load timeline data
     if (typeof window.mapData !== 'undefined' && window.mapData.timeline) {
       timelineState.timeline = window.mapData.timeline;
       renderTimelineNavigation();
       renderEraContent(timelineState.currentEra);
-    }
-  }
-
-  /**
-   * Create dust particles effect
-   */
-  function createDustParticles() {
-    const dustContainer = document.createElement('div');
-    dustContainer.className = 'dust-particles';
-    document.body.appendChild(dustContainer);
-
-    // Create 20 dust particles
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'dust-particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 20 + 's';
-      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-      dustContainer.appendChild(particle);
     }
   }
 

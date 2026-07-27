@@ -22,12 +22,15 @@
    <link rel="stylesheet" href="assets/css/mapEnhancements.css">
   </head>
   <body>
+    <div class="cinematic-bg"></div>
+    <div class="wolf-left-img"></div>
+    <canvas id="snowCanvas"></canvas>
+    
     <header class="top-nav">
       <a class="brand" href="index.html">The History of Westeros</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
       <nav class="nav-links" id="navMenu">
-        <a href="index.html">Home</a>
-        <a href="map.html">Map</a>
+        <a href="map.html">Interactive Map</a>
         <a href="timeline.html">Timeline</a>
         <a href="houses.html">Houses</a>
         <a href="characters.html">Characters</a>
@@ -37,44 +40,9 @@
         <a href="search.html">Search</a>
       </nav>
     </header>
-    <!-- ═══ CINEMATIC FIXED BACKGROUND ═══ -->
-    <div class="cinematic-scene" id="cinematicScene" aria-hidden="true">
-        <div class="cinematic-bg"></div>
-        <canvas id="snowCanvas"></canvas>
-        <div class="wolf-left-img"></div>
-        <video class="flying-dragon dragon-fly-1" autoplay loop muted playsinline>
-  <source src="assets/images/dragon1.mp4" type="video/mp4">
-</video>
-<video class="flying-dragon dragon-fly-2" autoplay loop muted playsinline>
-  <source src="assets/images/dragon2.mp4" type="video/mp4">
-</video>
-<video class="flying-dragon dragon-fly-3" autoplay loop muted playsinline>
-  <source src="assets/images/dragon3.mp4" type="video/mp4">
-</video>
-        <div class="cinematic-layer fog-layer" data-parallax="0.26"></div>
-        <div class="cinematic-layer fog-layer fog-layer-2" data-parallax="0.30"></div>
-        <div class="cinematic-layer overlay"></div>
-    </div>
-
-    <!-- ═══ LOADING / INTRO SCREEN ═══ -->
-    <div class="loading-screen" id="loadingScreen">
-      <div class="loading-embers"></div>
-      <div class="loading-dragon">🐉</div>
-      <div class="loading-dragon loading-dragon-2">🐉</div>
-      <div class="loading-content">
-        <h1 class="loading-title">GAME OF THRONES</h1>
-        <h2 class="loading-subtitle">Interactive Atlas</h2>
-        <p class="loading-tagline">Explore the Seven Kingdoms, Essos, and beyond.</p>
-        <p class="loading-text" id="loadingText">Loading the Realm<span class="loading-dots"></span></p>
-      </div>
-    </div>
 
     <main id="mainContent">
       <section class="hero section" id="home">
-        <div class="hero-backdrop"></div>
-        <div class="stars"></div>
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
         <div class="hero-content">
           <p class="section-kicker">Ancient archive · Legend and lore</p>
           <h1>The History of Westeros</h1>
@@ -86,11 +54,6 @@
             <a href="map.html" class="btn primary">Enter the Map</a>
             <a href="timeline.html" class="btn ghost">Read the Timeline</a>
           </div>
-        </div>
-        
-        <div class="hero-scroll-indicator">
-          <div class="scroll-arrow">▼</div>
-          <span>Scroll</span>
         </div>
       </section>
       

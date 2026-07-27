@@ -77,16 +77,7 @@ function getFallbackData() {
 }
 
 async function init() {
-  const loadingScreen = document.getElementById('loadingScreen');
-  if (loadingScreen) {
-    document.body.classList.add('loading');
-    initCinematicLoading();
-  } else {
-    document.body.classList.remove('loading');
-  }
-
-  initCinematicBackground();
-  initDragonVideos();
+  initSnowEffect();
 
   try {
     const r = await fetch('assets/data/content.json');
@@ -114,23 +105,10 @@ async function init() {
   if (state.data.locations?.length) setActiveLocation(state.data.locations[0].id, { silent: true });
 }
 
-function initDragonVideos() {
-  document.querySelectorAll('.flying-dragon').forEach(video => {
-    video.addEventListener('ended', () => {
-      video.currentTime = 0;
-      video.play();
-    });
-    video.play().catch(() => {
-      document.addEventListener('click', () => video.play(), { once: true });
-    });
-  });
-}
-
-function initCinematicBackground() {
+function initSnowEffect() {
   const canvas = document.getElementById('snowCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const layers = Array.from(document.querySelectorAll('.cinematic-layer'));
   let W = 0, H = 0, flakes = [];
 
   function resize() {
@@ -147,14 +125,6 @@ function initCinematicBackground() {
     }));
   }
 
-  function parallax() {
-    const scrollY = window.scrollY;
-    layers.forEach(l => {
-      const f = Number(l.dataset.parallax || 0.12);
-      l.style.setProperty('--parallax-offset', `${scrollY * f}px`);
-    });
-  }
-
   function tick() {
     ctx.clearRect(0, 0, W, H);
     flakes.forEach(f => {
@@ -169,9 +139,8 @@ function initCinematicBackground() {
     state.snowAnimId = requestAnimationFrame(tick);
   }
 
-  resize(); parallax(); tick();
+  resize(); tick();
   window.addEventListener('resize', resize);
-  window.addEventListener('scroll', parallax, { passive: true });
 }
 
 function renderFilters() {
@@ -576,16 +545,6 @@ function setActiveEra(idx, opts = {}) {
       </ul>`;
     panel.classList.remove('era-fade');
   }, 200);
-}
-
-function initCinematicLoading() {
-  const loadingScreen = document.getElementById('loadingScreen');
-  if (!loadingScreen) return;
-
-  setTimeout(() => {
-    loadingScreen.classList.add('hidden');
-    document.body.classList.remove('loading');
-  }, 2500);
 }
 
 /* ====================================================================
