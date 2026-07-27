@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="assets/css/mapEnhancements.css" />
   </head>
   <body>
+    <div class="map-loading-overlay" id="mapLoadingOverlay">
+      <div class="map-loading-content">
+        <div class="map-loading-spinner"></div>
+        <p class="map-loading-text">Drawing the Realm...</p>
+      </div>
+    </div>
     <header class="top-nav">
       <a class="brand" href="index.html">The History of Westeros</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
@@ -34,16 +40,16 @@
         </div>
         <div class="toolbar">
           <div class="filter-list" id="filterList"></div>
-          <div class="map-controls">
-            <button data-zoom="out" class="icon-btn">−</button>
-            <button data-zoom="reset" class="icon-btn">⟲</button>
-            <button data-zoom="in" class="icon-btn">+</button>
-          </div>
         </div>
         <div class="map-layout">
           <div class="map-stage" id="mapStage">
             <img src="assets/images/map.png" alt="Stylised map of Westeros and Essos" class="map-image" />
             <div class="map-markers" id="mapMarkers"></div>
+            <div class="floating-map-controls">
+              <button class="floating-zoom-btn" data-zoom="in" data-tooltip="Zoom In" aria-label="Zoom in">+</button>
+              <button class="floating-zoom-btn" data-zoom="reset" data-tooltip="Reset View" aria-label="Reset view">⟲</button>
+              <button class="floating-zoom-btn" data-zoom="out" data-tooltip="Zoom Out" aria-label="Zoom out">−</button>
+            </div>
           </div>
           <aside class="info-panel" id="mapPanel">
             <p style="color:var(--muted);font-size:0.9rem;margin:0">
@@ -55,9 +61,13 @@
     </main>
 
     <script src="assets/js/mapData.js"></script>
+    <script src="assets/js/loreData.js"></script>
+    <script src="assets/js/characterProfiles.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/mapPanel.js"></script>
     <script src="assets/js/mapMarkers.js"></script>
+    <script src="assets/js/journeyData.js"></script>
+    <script src="assets/js/journeyMode.js"></script>
     <script src="assets/js/mapInit.js"></script>
   </body>
 </html>

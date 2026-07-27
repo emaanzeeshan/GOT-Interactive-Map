@@ -23,28 +23,33 @@
         <a href="castles.html">Castles</a>
         <a href="search.html">Search</a>
       </nav>
-      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">🔊</button>
     </header>
 
     <main>
-      <section class="section" id="timeline">
-        <div class="section-heading">
-          <p class="section-kicker">Chronicles</p>
-          <h2>Historical Timeline</h2>
-          <p>Step through the ages of Westeros and discover how the realm changed over time.</p>
+      <!-- Hero Section -->
+      <section class="timeline-hero">
+        <div class="timeline-hero-overlay"></div>
+        <div class="timeline-hero-content">
+          <span class="timeline-hero-label">Chronicles</span>
+          <h1 class="timeline-hero-title">The History of Westeros</h1>
+          <p class="timeline-hero-subtitle">Travel through the ages of Westeros and discover how kingdoms rose, wars reshaped the realm, and legends were born.</p>
+          <div class="timeline-hero-divider"></div>
         </div>
-        <div class="timeline-shell">
-          <input type="range" min="0" max="8" value="0" id="timelineSlider" />
-          <div class="timeline-labels" id="timelineLabels"></div>
-          <div class="timeline-panel" id="timelinePanel"></div>
-        </div>
+      </section>
+
+      <!-- Timeline Navigation -->
+      <section class="timeline-navigation-section">
+        <div class="timeline-navigation" id="timelineNavigation"></div>
+      </section>
+
+      <!-- Era Content -->
+      <section class="era-section">
+        <div class="era-container" id="eraContainer"></div>
       </section>
     </main>
 
     <script src="assets/js/mapData.js"></script>
     <script src="assets/js/app.js"></script>
-    <script src="assets/js/mapPanel.js"></script>
-    <script src="assets/js/mapMarkers.js"></script>
-    <script src="assets/js/mapInit.js"></script>
+    <script src="assets/js/timeline.js"></script>
   </body>
 </html>

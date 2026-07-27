@@ -23,6 +23,14 @@
       setActiveLocationV2(mapData.locations[0].id, { silent: true });
     }
     injectMapSearch();
+    
+    // Hide loading overlay
+    const loadingOverlay = document.getElementById('mapLoadingOverlay');
+    if (loadingOverlay) {
+      setTimeout(() => {
+        loadingOverlay.classList.add('hidden');
+      }, 800);
+    }
   }
   firstPaint();
 
@@ -58,14 +66,45 @@
         (loc.coronations || []).forEach(c => { if (c.crowned.toLowerCase().includes(q)) hits.push({ loc, label: c.crowned, type: "Coronation" }); });
       });
 
-      results.innerHTML = hits.slice(0, 8).map(h => `
-        <div class="map-search-hit" data-loc="${h.loc.id}">
-          <span class="badge">${h.type}</span>
-          <strong>${h.label}</strong>
-          <span class="map-search-hit-sub">${h.loc.name}</span>
-        </div>`).join("") || `<div class="map-search-hit map-search-hit--empty">No matches found.</div>`;
+      // Also search character profiles
+      if (typeof characterProfiles !== 'undefined') {
+        Object.values(characterProfiles).forEach(profile => {
+          if (profile.name.toLowerCase().includes(q)) {
+            hits.push({ profile, label: profile.name, type: "Character Profile" });
+          }
+        });
+      }
+
+      results.innerHTML = hits.slice(0, 8).map(h => {
+        if (h.type === "Character Profile") {
+          return `
+            <div class="map-search-hit" data-character="${h.profile.id}">
+              <span class="badge">${h.type}</span>
+              <strong>${h.label}</strong>
+            </div>`;
+        }
+        return `
+          <div class="map-search-hit" data-loc="${h.loc.id}">
+            <span class="badge">${h.type}</span>
+            <strong>${h.label}</strong>
+            <span class="map-search-hit-sub">${h.loc.name}</span>
+          </div>`;
+      }).join("") || `<div class="map-search-hit map-search-hit--empty">No matches found.</div>`;
       results.classList.add("show");
 
+      // Handle character profile clicks
+      results.querySelectorAll(".map-search-hit[data-character]").forEach(el => {
+        el.addEventListener("click", () => {
+          const characterId = el.dataset.character;
+          if (typeof characterProfiles !== 'undefined' && characterProfiles[characterId]) {
+            showCharacterProfile(characterProfiles[characterId]);
+          }
+          results.classList.remove("show");
+          input.value = "";
+        });
+      });
+
+      // Handle location clicks
       results.querySelectorAll(".map-search-hit[data-loc]").forEach(el => {
         el.addEventListener("click", () => {
           const loc = mapData.locations.find(l => l.id === el.dataset.loc);

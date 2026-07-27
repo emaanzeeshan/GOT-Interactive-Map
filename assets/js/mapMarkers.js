@@ -38,7 +38,9 @@ function renderMapMarkersV2() {
   container.innerHTML = "";
   state.activePopupEl = null;
 
-  mapData.locations.forEach(loc => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  mapData.locations.forEach((loc, index) => {
     const visible = mm_hasCategory(loc, state.currentFilter);
 
     const marker = document.createElement("button");
@@ -57,10 +59,28 @@ function renderMapMarkersV2() {
     `;
 
     marker.addEventListener("click", (e) => {
+      // Prevent marker clicks if user was dragging the map
+      if (state.dragDistance > 5) return;
+      
       e.stopPropagation();
       setActiveLocationV2(loc.id);
       showMapPopupV2(loc, marker);
     });
+
+    // Staggered animation
+    if (!prefersReducedMotion) {
+      marker.style.opacity = '0';
+      marker.style.transform = 'translate(-50%, -100%) scale(0)';
+      const delay = Math.min(index * 30, 800); // Cap at 800ms total delay
+      marker.style.transition = `opacity 0.4s ease ${delay}ms, transform 0.4s ease ${delay}ms`;
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          marker.style.opacity = '1';
+          marker.style.transform = 'translate(-50%, -100%) scale(1)';
+        });
+      });
+    }
 
     container.appendChild(marker);
   });
