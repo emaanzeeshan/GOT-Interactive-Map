@@ -162,8 +162,8 @@ function renderOverviewBlock(loc) {
  * by the currently active category ("all" shows everything available).
  */
 function buildLocationPanelHTML(loc, filter) {
-  // Get lore data
-  const loreData = getLoreData(loc.name);
+  // Get lore data safely
+  const loreData = typeof getLoreData === 'function' ? getLoreData(loc.name) : null;
   
   // Breadcrumb Navigation
   const breadcrumb = renderBreadcrumb(loreData);

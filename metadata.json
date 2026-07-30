@@ -1,0 +1,8 @@
+{
+  "name": "The History of Westeros",
+  "description": "An interactive map, timeline, and encyclopedia for the History of Westeros and Essos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

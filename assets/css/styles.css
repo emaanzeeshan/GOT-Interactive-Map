@@ -3463,7 +3463,7 @@ body:not(.loading) main {
   z-index: 2;
   text-align: center;
   max-width: 900px;
-  animation: heroFadeIn 1.2s ease-out;
+  animation: none;
 }
 
 @keyframes heroFadeIn {
@@ -3589,12 +3589,12 @@ body:not(.loading) main {
 }
 
 .timeline-era-checkpoint:hover {
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .timeline-era-checkpoint:hover .timeline-era-icon {
-  background: rgba(196, 131, 45, 0.4);
-  border-color: rgba(196, 131, 45, 0.6);
+  background: rgba(10, 13, 22, 0.8);
+  border-color: rgba(196, 131, 45, 0.4);
 }
 
 .timeline-era-checkpoint.active .timeline-era-icon {
@@ -3652,9 +3652,7 @@ body:not(.loading) main {
   grid-template-columns: 1fr 1.2fr;
   gap: 3rem;
   align-items: start;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: eraSlideIn 0.8s ease-out forwards;
+  opacity: 1;
 }
 
 @keyframes eraSlideIn {
@@ -3670,8 +3668,7 @@ body:not(.loading) main {
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(196, 131, 45, 0.2);
-  opacity: 0;
-  animation: eraImageFadeIn 0.6s ease-out 0.2s forwards;
+  opacity: 1;
 }
 
 .era-image-placeholder {
@@ -3690,12 +3687,10 @@ body:not(.loading) main {
 
 @keyframes eraImageFadeIn {
   from {
-    opacity: 0;
-    transform: scale(0.95);
+    opacity: 1;
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -3705,11 +3700,10 @@ body:not(.loading) main {
   aspect-ratio: 6/3;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
 }
 
 .era-image-wrapper:hover .era-image {
-  transform: scale(1.03);
+  transform: none;
 }
 
 .era-image-overlay {
@@ -3728,18 +3722,15 @@ body:not(.loading) main {
 .era-header {
   border-bottom: 1px solid rgba(196, 131, 45, 0.2);
   padding-bottom: 1.5rem;
-  opacity: 0;
-  animation: eraTextSlideIn 0.6s ease-out 0.4s forwards;
+  opacity: 1;
 }
 
 @keyframes eraTextSlideIn {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -3778,8 +3769,7 @@ body:not(.loading) main {
   font-family: 'Cinzel', serif;
   margin: 0 0 1rem 0;
   letter-spacing: 0.02em;
-  opacity: 0;
-  animation: eraTextSlideIn 0.6s ease-out 0.5s forwards;
+  opacity: 1;
 }
 
 .era-section-content {
@@ -3787,8 +3777,7 @@ body:not(.loading) main {
   font-size: 0.95rem;
   line-height: 1.7;
   margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: eraTextSlideIn 0.6s ease-out 0.6s forwards;
+  opacity: 1;
 }
 
 /* Event Cards */
@@ -3988,4 +3977,42 @@ body.timeline-page::before {
   .era-description {
     font-size: 0.95rem;
   }
+}
+
+/* Disable timeline content transition & entrance animations */
+.timeline-hero,
+.timeline-hero *,
+.timeline-hero-content,
+.timeline-hero-content *,
+.timeline-hero-title,
+.timeline-hero-subtitle,
+.timeline-hero-label,
+.timeline-navigation-section,
+.timeline-navigation-section *,
+.timeline-era-checkpoint,
+.timeline-era-checkpoint *,
+#eraContainer,
+#eraContainer *,
+.timeline-content,
+.timeline-content *,
+.timeline-era-content,
+.timeline-era-content *,
+.timeline-detail,
+.timeline-detail *,
+.timeline-details,
+.timeline-details *,
+.era-section,
+.era-section *,
+.era-content,
+.era-content *,
+.era-header,
+.era-header *,
+.era-title,
+.era-description,
+.era-section-title,
+.era-section-content {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
 }

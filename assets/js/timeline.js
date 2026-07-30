@@ -75,18 +75,13 @@
       checkpoint.classList.toggle('active', index === eraIndex);
     });
 
-    // Animate era content transition
+    // Render era content instantly without fade animation
+    renderEraContent(eraIndex);
     const eraContainer = document.getElementById('eraContainer');
     if (eraContainer) {
-      eraContainer.style.opacity = '0';
-      eraContainer.style.transform = 'translateY(20px)';
-      eraContainer.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-      
-      setTimeout(() => {
-        renderEraContent(eraIndex);
-        eraContainer.style.opacity = '1';
-        eraContainer.style.transform = 'translateY(0)';
-      }, 400);
+      eraContainer.style.opacity = '1';
+      eraContainer.style.transform = 'none';
+      eraContainer.style.transition = 'none';
     }
   }
 
