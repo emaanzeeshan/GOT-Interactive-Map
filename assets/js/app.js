@@ -901,6 +901,31 @@ function bindEvents() {
   const menu = document.getElementById('navMenu');
   if (toggle && menu) toggle.addEventListener('click', () => menu.classList.toggle('open'));
 
+  const exploreDropdown = document.getElementById('exploreDropdown');
+  const exploreBtn = document.getElementById('exploreDropdownBtn');
+  if (exploreDropdown && exploreBtn) {
+    exploreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = exploreDropdown.classList.toggle('open');
+      exploreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!exploreDropdown.contains(e.target)) {
+        exploreDropdown.classList.remove('open');
+        exploreBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    exploreDropdown.querySelectorAll('.nav-dropdown-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        exploreDropdown.classList.remove('open');
+        exploreBtn.setAttribute('aria-expanded', 'false');
+        if (menu) menu.classList.remove('open');
+      });
+    });
+  }
+
   const searchInput = document.getElementById('searchInput');
   if (searchInput) {
     searchInput.placeholder = "Search locations, houses, dragons...";

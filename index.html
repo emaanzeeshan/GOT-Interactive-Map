@@ -32,11 +32,18 @@
       <nav class="nav-links" id="navMenu">
         <a href="map.html">Interactive Map</a>
         <a href="timeline.html">Timeline</a>
-        <a href="houses.html">Houses</a>
-        <a href="characters.html">Characters</a>
-        <a href="dragons.html">Dragons</a>
-        <a href="battles.html">Battles</a>
-        <a href="castles.html">Castles</a>
+        <div class="nav-dropdown" id="exploreDropdown">
+          <button class="nav-dropdown-toggle" id="exploreDropdownBtn" type="button" aria-expanded="false">
+            Explore <span class="dropdown-caret">▾</span>
+          </button>
+          <div class="nav-dropdown-menu" id="exploreDropdownMenu">
+            <a href="houses.html">Houses</a>
+            <a href="characters.html">Characters</a>
+            <a href="dragons.html">Dragons</a>
+            <a href="battles.html">Battles</a>
+            <a href="castles.html">Castles</a>
+          </div>
+        </div>
         <a href="search.html">Search</a>
       </nav>
     </header>
