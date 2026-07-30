@@ -160,28 +160,30 @@ function updateAuthUI() {
     const user = auth.currentUser;
     if (user) {
         // Show welcome panel, hide auth cards
-        authCardsContainer.style.display = 'none';
-        welcomePanel.style.display = 'block';
+        if (authCardsContainer) authCardsContainer.style.display = 'none';
+        if (welcomePanel) welcomePanel.style.display = 'block';
         
         // Update welcome panel with user info
         const displayName = user.displayName || 'Traveler';
-        welcomeUserName.textContent = displayName;
-        welcomeUserEmail.textContent = user.email;
-        welcomeDisplayName.textContent = displayName;
-        welcomeEmail.textContent = user.email;
+        if (welcomeUserName) welcomeUserName.textContent = displayName;
+        if (welcomeUserEmail) welcomeUserEmail.textContent = user.email;
+        if (welcomeDisplayName) welcomeDisplayName.textContent = displayName;
+        if (welcomeEmail) welcomeEmail.textContent = user.email;
         
         if (user.photoURL) {
-            welcomeProfileImage.src = user.photoURL;
-            welcomeProfileImage.style.display = 'block';
-            welcomeProfileAvatar.style.display = 'none';
+            if (welcomeProfileImage) {
+                welcomeProfileImage.src = user.photoURL;
+                welcomeProfileImage.style.display = 'block';
+            }
+            if (welcomeProfileAvatar) welcomeProfileAvatar.style.display = 'none';
         } else {
-            welcomeProfileImage.style.display = 'none';
-            welcomeProfileAvatar.style.display = 'grid';
+            if (welcomeProfileImage) welcomeProfileImage.style.display = 'none';
+            if (welcomeProfileAvatar) welcomeProfileAvatar.style.display = 'grid';
         }
     } else {
         // Show auth cards, hide welcome panel
-        authCardsContainer.style.display = 'block';
-        welcomePanel.style.display = 'none';
+        if (authCardsContainer) authCardsContainer.style.display = 'block';
+        if (welcomePanel) welcomePanel.style.display = 'none';
     }
 }
 
@@ -215,13 +217,6 @@ function showGateNotification() {
     
     // Scroll to Join the Realm section
     joinRealmSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    
-    // Focus Google Sign-In button
-    setTimeout(() => {
-        if (googleSignInBtn) {
-            googleSignInBtn.focus();
-        }
-    }, 500);
     
     // Hide notification and remove glow after 3 seconds
     setTimeout(() => {
@@ -457,7 +452,10 @@ document.addEventListener('DOMContentLoaded', setupAuthenticationGate);
 
 // Auth state observer
 onAuthStateChanged(auth, (user) => {
-    updateAuthUI();
+    // Only update auth UI if we're on the homepage
+    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        updateAuthUI();
+    }
     if (user) {
         console.log('User is signed in:', user);
     } else {

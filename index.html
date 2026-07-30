@@ -60,13 +60,10 @@
       <!-- Join the Realm Section -->
       <section class="join-realm-section" id="joinRealm">
         <div class="join-realm-bg"></div>
-        <div class="join-realm-decoration join-realm-candle-left">🕯️</div>
-        <div class="join-realm-decoration join-realm-candle-right">🕯️</div>
-        <div class="join-realm-decoration join-realm-raven">🐦</div>
         
         <!-- Gate Notification -->
         <div class="gate-notification" id="gateNotification">
-          <div class="gate-notification-header">🔒 The Gates of Westeros Are Closed</div>
+          <div class="gate-notification-header">The Gates of Westeros Are Closed</div>
           <p class="gate-notification-message">You must join the realm before exploring the history of Westeros.</p>
         </div>
         
@@ -115,7 +112,12 @@
               
               <!-- Email Card -->
               <div class="auth-card-premium">
-                <div class="auth-card-icon auth-card-icon-email">✉️</div>
+                <div class="auth-card-icon auth-card-icon-email">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
                 <h3 class="auth-card-title">Continue with Email</h3>
                 <p class="auth-card-description">Create an account or sign in using your email.</p>
                 <button class="auth-card-btn auth-card-btn-email" id="emailModalBtn">
@@ -127,25 +129,21 @@
             <!-- Feature Boxes -->
             <div class="feature-boxes-grid">
               <div class="feature-box">
-                <div class="feature-icon">⭐</div>
                 <h4 class="feature-title">Save Favorite Locations</h4>
                 <p class="feature-description">Bookmark castles, cities and battles.</p>
               </div>
               
               <div class="feature-box">
-                <div class="feature-icon">🗺</div>
                 <h4 class="feature-title">Track Your Journey</h4>
                 <p class="feature-description">Keep your exploration synchronized.</p>
               </div>
               
               <div class="feature-box">
-                <div class="feature-icon">📖</div>
                 <h4 class="feature-title">Unlock Lore</h4>
                 <p class="feature-description">Access richer stories and hidden details.</p>
               </div>
               
               <div class="feature-box">
-                <div class="feature-icon">👑</div>
                 <h4 class="feature-title">Personalized Experience</h4>
                 <p class="feature-description">Receive recommendations based on your interests.</p>
               </div>
@@ -162,7 +160,12 @@
             <div class="welcome-profile">
               <div class="welcome-profile-image">
                 <img id="welcomeProfileImage" src="" alt="Profile" style="display: none;">
-                <div class="welcome-profile-avatar" id="welcomeProfileAvatar">👤</div>
+                <div class="welcome-profile-avatar" id="welcomeProfileAvatar">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
               </div>
               
               <div class="welcome-profile-info">
@@ -185,10 +188,19 @@
       <div class="auth-modal" id="authModal" aria-hidden="true">
         <div class="auth-modal-backdrop" id="authModalBackdrop"></div>
         <div class="auth-modal-content">
-          <button class="auth-modal-close" id="authModalClose" aria-label="Close modal">✕</button>
+          <button class="auth-modal-close" id="authModalClose" aria-label="Close modal">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
           
           <div class="auth-modal-header">
-            <div class="auth-modal-icon">🏰</div>
+            <div class="auth-modal-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
             <h2 class="auth-modal-title" id="authModalTitle">Sign In</h2>
           </div>
           

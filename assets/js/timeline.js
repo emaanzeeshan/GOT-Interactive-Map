@@ -132,17 +132,22 @@
             <div>
               <h3 class="era-section-title">Key Events</h3>
               <div class="era-events-grid">
-                ${era.events.map(event => `
-                  <div class="event-card" onclick="toggleEventCard(this)">
+                ${era.events.map(event => {
+                  const eventInfo = era.eventDetails && era.eventDetails[event] ? era.eventDetails[event] : null;
+                  return `
+                  <div class="event-card" onclick="toggleEventCard(this)" data-event-name="${event}">
                     <h4 class="event-card-title">${event}</h4>
-                    <p class="event-card-summary">A pivotal moment in the history of Westeros.</p>
+                    <p class="event-card-summary">${eventInfo ? eventInfo.summary : 'A pivotal moment in the history of Westeros.'}</p>
                     <div class="event-card-details">
+                      ${eventInfo ? `<p>${eventInfo.details}</p>` : `
                       <p>This event marked a significant turning point that shaped the course of Westerosi history.</p>
                       <p>Its consequences were felt across the realm for generations to come.</p>
+                      `}
                     </div>
                     <span class="event-card-read-more">Read More →</span>
                   </div>
-                `).join('')}
+                  `;
+                }).join('')}
               </div>
             </div>
           ` : ''}

@@ -200,9 +200,19 @@ const mapData = {
       id: 'age-of-heroes',
       title: 'Age of Heroes',
       years: 'Ancient',
-      image: 'assets/images/timeline/age-of-heroes.jpg',
-      description: 'The earliest era of Westeros, when legendary houses were founded and the Wall was raised to hold back the long night.',
+      image: 'assets/images/ageOfHeroes.jpg',
+      description: 'A legendary era in Westerosi history when the First Men and the Children of the Forest made peace. Tradition holds that Bran the Builder founded House Stark and raised Winterfell, while the Wall was constructed to defend the realm from threats beyond. Many details of this period survive only in myth and song.',
       events: ['Founding of Winterfell', 'Construction of the Wall'],
+      eventDetails: {
+        'Founding of Winterfell': {
+          summary: 'According to legend, Bran the Builder constructed Winterfell as the seat of House Stark, establishing the northern stronghold that would endure for thousands of years.',
+          details: 'The founding of Winterfell marked the establishment of the North\'s most important fortress. Built over natural hot springs, it provided warmth during harsh winters and became the ancestral home of House Stark. The castle\'s construction is attributed to Bran the Builder, a legendary figure also credited with raising the Wall.'
+        },
+        'Construction of the Wall': {
+          summary: 'The Wall was raised by Bran the Builder and the First Men to defend the realm from threats beyond, establishing the Night\'s Watch as its guardians.',
+          details: 'A massive ice barrier stretching across the northern border of Westeros, the Wall was built to protect the realm from the dangers beyond. The Night\'s Watch was founded to man this fortification, taking vows to hold the Wall and guard the realms of men. The Wall stands as one of the greatest engineering achievements in Westerosi history.'
+        }
+      },
       politicalShift: 'The realm coalesces around the first great houses and the old gods retain their power.',
       houses: [
         {
@@ -266,10 +276,21 @@ const mapData = {
     },
     {
       id: 'aegons-conquest',
-      title: "Aegon’s Conquest",
+      title: "Aegon's Conquest",
       years: '1-60 AC',
-      description: 'Aegon Targaryen conquers the Seven Kingdoms with dragons, binding disparate kingdoms under a single crown.',
+      image: 'assets/images/aegonsConquest.jpg',
+      description: 'Aegon Targaryen, accompanied by his sister-wives Visenya and Rhaenys, invaded Westeros with three dragons. Through conquest and diplomacy, he unified six of the Seven Kingdoms, forged the Iron Throne from the swords of his defeated enemies, and established the Targaryen dynasty that would rule for nearly three centuries.',
       events: ['Aegon lands at Dragonstone', 'The Field of Fire'],
+      eventDetails: {
+        'Aegon lands at Dragonstone': {
+          summary: 'Aegon Targaryen and his sister-wives landed on Dragonstone, using it as their base of operations for the conquest of Westeros.',
+          details: 'Before invading the mainland, Aegon Targaryen established his stronghold on Dragonstone, the ancestral seat of House Targaryen in Westeros. From this volcanic island fortress, he and his sister-wives Visenya and Rhaenys planned their campaign to unite the Seven Kingdoms under dragonfire.'
+        },
+        'The Field of Fire': {
+          summary: 'A decisive battle where Aegon\'s dragons burned the armies of the Reach and the Westerlands, effectively ending major resistance to his conquest.',
+          details: 'The Field of Fire was perhaps the most consequential battle of Aegon\'s Conquest. With all three dragons unleashed, Aegon and his sister-wives incinerated the combined forces of House Gardener and House Lannister. The destruction was so complete that both ruling houses were extinguished in a single day, compelling the remaining kingdoms to submit to Targaryen rule.'
+        }
+      },
       politicalShift: 'Westeros is united under the Iron Throne and royal houses define the realm.',
       houses: [
         {
@@ -335,9 +356,19 @@ const mapData = {
       id: 'roberts-rebellion',
       title: "Robert's Rebellion",
       years: '282-283 AC',
-      image: 'assets/images/timeline/roberts-rebellion.jpg',
-      description: 'A rebellion ignites after the fall of a king, reshaping the ruling houses and setting the stage for a new throne.',
+      image: 'assets/images/RobertsRebellion.jpg',
+      description: 'A rebellion led by Robert Baratheon, supported by Houses Stark, Arryn, and Tully, rose against King Aerys II Targaryen. The conflict ended with the fall of the Targaryen dynasty, the death of the Mad King, and Robert Baratheon ascending to the Iron Throne as the first king from a new royal house.',
       events: ['Battle of the Trident', 'Sack of King’s Landing'],
+      eventDetails: {
+        'Battle of the Trident': {
+          summary: 'Robert Baratheon killed Prince Rhaegar Targaryen in single combat, turning the tide of the rebellion and effectively ending Targaryen hopes of victory.',
+          details: 'The Battle of the Trident was the decisive clash of Robert\'s Rebellion. Robert Baratheon faced Rhaegar Targaryen in the river and struck him down with his warhammer. With the Targaryen heir dead and the rebel forces victorious, the path to King\'s Landing lay open, sealing the fate of the Mad King\'s dynasty.'
+        },
+        'Sack of King’s Landing': {
+          summary: 'Lannister forces entered King\'s Landing during the rebellion, brutally sacking the city and killing King Aerys II Targaryen.',
+          details: 'As rebel forces approached the capital, House Lannister seemingly switched sides and entered King\'s Landing. Instead of defending the city, Lannister troops sacked it, and Jaime Lannister killed King Aerys II in the throne room. The city\'s fall marked the definitive end of Targaryen rule and paved the way for Robert Baratheon\'s coronation.'
+        }
+      },
       politicalShift: 'The Targaryen dynasty ends and House Baratheon takes the crown.',
       houses: [
         {
@@ -393,9 +424,19 @@ const mapData = {
       id: 'war-of-the-five-kings',
       title: 'War of the Five Kings',
       years: '298-300 AC',
-      image: 'assets/images/timeline/war-of-five-kings.jpg',
-      description: 'Noble houses battle for control of the throne, plunging Westeros into widespread chaos and betrayal.',
+      image: 'assets/images/warOfFiveKings.jpg',
+      description: 'Following the death of King Robert Baratheon, five claimants emerged for the Iron Throne: Joffrey Baratheon in King\'s Landing, Stannis and Renly Baratheon, Robb Stark as King in the North, and Balon Greyjoy seeking independence for the Iron Islands. The resulting civil war divided Westeros and caused profound political and military upheaval across the Seven Kingdoms.',
       events: ['Red Wedding', 'Battle of the Bastards'],
+      eventDetails: {
+        'Red Wedding': {
+          summary: 'A massacre at the Twins where Robb Stark and his followers were betrayed and murdered by House Frey, effectively ending the northern independence movement.',
+          details: 'The Red Wedding was one of the most shocking betrayals in Westerosi history. Robb Stark, his mother Catelyn, and many of their bannermen were slaughtered at a wedding feast hosted by House Frey. The betrayal was orchestrated by Walder Frey in alliance with House Bolton and the Lannisters, destroying the Stark army and northern hopes for independence.'
+        },
+        'Battle of the Bastards': {
+          summary: 'Jon Snow and Sansa Stark defeated Ramsay Bolton to retake Winterfell, restoring Stark control over the North.',
+          details: 'The Battle of the Bastards was a desperate fight for Winterfell. Jon Snow faced Ramsay Bolton\'s larger army and was nearly overwhelmed until the arrival of reinforcements from the Vale led by Sansa Stark and Petyr Baelish. The victory ended Bolton rule and restored House Stark to its ancestral seat.'
+        }
+      },
       politicalShift: 'The realm fractures as claimants rise and the old order begins to crumble.',
       houses: [
         {
@@ -451,9 +492,19 @@ const mapData = {
       id: 'game-of-thrones',
       title: 'Game of Thrones',
       years: '300-305 AC',
-      image: 'assets/images/timeline/long-night.jpg',
-      description: 'The final struggle for power concludes with dragonfire, betrayal, and the birth of a new political order.',
+      image: 'assets/images/gameOfThrones.jpg',
+      description: 'The death of Jon Arryn, Hand of the King, set in motion a chain of events that would reshape Westeros. King Robert Baratheon traveled to Winterfell to name Eddard Stark as his new Hand, but the growing tensions between the Stark and Lannister families soon erupted into open conflict that would engulf the realm.',
       events: ['Battle of Winterfell', 'Fall of King’s Landing'],
+      eventDetails: {
+        'Battle of Winterfell': {
+          summary: 'The living forces of Westeros defended Winterfell against the Night King\'s army of the dead in a battle that determined the fate of humanity.',
+          details: 'The Battle of Winterfell was the culmination of millennia of conflict between the living and the dead. Jon Snow, Daenerys Targaryen, and their allies faced the Night King\'s army in a desperate night battle. Arya Stark ultimately defeated the Night King, destroying the army of the dead and ending the threat of the long night.'
+        },
+        'Fall of King’s Landing': {
+          summary: 'Daenerys Targaryen attacked King\'s Landing with dragonfire, destroying much of the city and the Iron Throne in a devastating assault.',
+          details: 'After the bells of surrender rang, Daenerys Targaryen unleashed Drogon upon King\'s Landing, burning the city and its inhabitants. The destruction of the Red Keep and the Iron Throne marked the violent end of centuries of Targaryen rule and the complete collapse of the existing political order.'
+        }
+      },
       politicalShift: 'A new council is formed and the surviving kingdoms seek a fragile peace.',
       houses: [
         {
