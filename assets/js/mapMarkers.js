@@ -134,28 +134,44 @@ function positionPopupInViewport(popup, xPercent, yPercent) {
   const neededAbove = popupRect.height + 25;
   
   // Clear directional classes
-  popup.classList.remove('popup-below', 'popup-left', 'popup-right');
+  popup.classList.remove('popup-below', 'popup-above', 'popup-left', 'popup-right');
   
-  popup.style.top = `${yPercent}%`;
-  popup.style.left = `${xPercent}%`;
+  let targetX = markerX;
+  let targetY = markerY;
   
-  // Check top constraint
+  // Check vertical space
   if (spaceAbove < neededAbove) {
     popup.classList.add('popup-below');
+  } else {
+    popup.classList.add('popup-above');
   }
   
-  // Check side constraints
+  // Check horizontal constraints
   const halfWidth = popupRect.width / 2;
   const popupLeft = markerX - halfWidth;
   const popupRight = markerX + halfWidth;
   
+  const halfHeight = popupRect.height / 2;
+  const canCenterVertically = (markerY - halfHeight >= 10) && (markerY + halfHeight <= mapRect.height - 10);
+  
   if (popupLeft < 10) {
-    popup.classList.remove('popup-below');
-    popup.classList.add('popup-right');
+    if (canCenterVertically) {
+      popup.classList.remove('popup-below', 'popup-above');
+      popup.classList.add('popup-right');
+    } else {
+      targetX = Math.max(halfWidth + 10, markerX);
+    }
   } else if (popupRight > mapRect.width - 10) {
-    popup.classList.remove('popup-below');
-    popup.classList.add('popup-left');
+    if (canCenterVertically) {
+      popup.classList.remove('popup-below', 'popup-above');
+      popup.classList.add('popup-left');
+    } else {
+      targetX = Math.min(mapRect.width - halfWidth - 10, markerX);
+    }
   }
+  
+  popup.style.left = `${(targetX / mapRect.width) * 100}%`;
+  popup.style.top = `${(targetY / mapRect.height) * 100}%`;
 }
 
 /* Overrides app.js's setActiveLocation to use the rich data + panel builder */
