@@ -225,7 +225,7 @@ function bindSectionSearch() {
 function renderHouses() {
   const grid = document.getElementById('housesGrid');
   if (!grid) return;
-  const houses = Array.isArray(state.data.houses) ? state.data.houses : [];
+  const houses = Array.isArray(state.data?.houses) ? state.data.houses : [];
   if (!houses.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = houses.map(h => `
@@ -246,7 +246,7 @@ function renderHouses() {
 function renderCharacters() {
   const grid = document.getElementById('charactersGrid');
   if (!grid) return;
-  const characters = Array.isArray(state.data.characters) ? state.data.characters : [];
+  const characters = Array.isArray(state.data?.characters) ? state.data.characters : [];
   if (!characters.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = characters.map(c => {
@@ -268,10 +268,10 @@ function renderCharacters() {
 function renderDragons() {
   const grid = document.getElementById('dragonsGrid');
   if (!grid) return;
-  const dragons = Array.isArray(state.data.dragons) ? state.data.dragons : [];
+  const dragons = Array.isArray(state.data?.dragons) ? state.data.dragons : [];
   if (!dragons.length) { grid.innerHTML = ''; return; }
 
-  grid.innerHTML = dragons.map((d) => `
+  grid.innerHTML = dragons.map(d => `
     <article class="card dragon-card">
       <span class="badge">${d.colour || 'Fire & Blood'}</span>
       <h3>${d.name}</h3>
@@ -289,7 +289,7 @@ function renderDragons() {
 function renderBattles() {
   const grid = document.getElementById('battlesGrid');
   if (!grid) return;
-  const battles = Array.isArray(state.data.battles) ? state.data.battles : [];
+  const battles = Array.isArray(state.data?.battles) ? state.data.battles : [];
   if (!battles.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = battles.map(b => `
@@ -309,7 +309,7 @@ function renderBattles() {
 function renderCastles() {
   const grid = document.getElementById('castlesGrid');
   if (!grid) return;
-  const castles = Array.isArray(state.data.castles) ? state.data.castles : [];
+  const castles = Array.isArray(state.data?.castles) ? state.data.castles : [];
   if (!castles.length) { grid.innerHTML = ''; return; }
 
   grid.innerHTML = castles.map(c => `
